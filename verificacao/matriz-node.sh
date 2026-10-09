@@ -11,7 +11,7 @@ REPS="${1:-6}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 N22_BIN="${N22_BIN:-$HOME/.nvm/versions/node/v22.15.0/bin}"
 N24_BIN="${N24_BIN:-$(dirname "$(command -v node)")}"
-PROJECTS=("$ROOT/vendas-shopify" "$ROOT/origem-cadastros" "$ROOT/rastreio-envio")
+PROJECTS=("$ROOT/vendas-shopify" "$ROOT/origem-cadastros" "$ROOT/rastreio-envio" "$ROOT/revisao-roteiro" "$ROOT/metricas-redes" "$ROOT/revisao-video" "$ROOT/views-suspeitas")
 [ -n "${DEBUG_REPO:-}" ] && PROJECTS+=("$DEBUG_REPO")
 
 echo "data: $(date -u +%Y-%m-%dT%H:%M:%SZ)  repetições por projeto e versão: $REPS"

@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "verificacao", "mutacao");
 mkdirSync(out, { recursive: true });
-const projects = ["vendas-shopify", "origem-cadastros", "rastreio-envio"];
+const projects = ["vendas-shopify", "origem-cadastros", "rastreio-envio", "revisao-roteiro", "metricas-redes", "revisao-video", "views-suspeitas"];
 const lines = [
   "# Resumo da mutação (Stryker)",
   "",

@@ -1,17 +1,25 @@
-data: 2026-10-09T18:17:26Z  repetições por projeto e versão: 6
+data: 2026-10-09T20:10:19Z  repetições por projeto e versão: 6
 
-== node v22.15.0 (~/.nvm/versions/node/v22.15.0/bin)
-   vendas-shopify         Tests 83 passed (83) | typecheck ok
-   origem-cadastros       Tests 105 passed (105) | typecheck ok
-   rastreio-envio         Tests 127 passed (127) | typecheck ok
+== node v22.15.0 (/Users/dantecosta/.nvm/versions/node/v22.15.0/bin)
+   vendas-shopify         Tests 102 passed (102) | typecheck ok
+   origem-cadastros       Tests 117 passed (117) | typecheck ok
+   rastreio-envio         Tests 245 passed (245) | typecheck ok
+   revisao-roteiro        Tests 97 passed (97) | typecheck ok
+   metricas-redes         Tests 218 passed (218) | typecheck ok
+   revisao-video          Tests 83 passed (83) | typecheck ok
+   views-suspeitas        Tests 147 passed (147) | typecheck ok
    conty-challenge-debug  Tests 46 passed (46) | typecheck ok
-   -> node v22.15.0: 24 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
+   -> node v22.15.0: 48 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
 
 == node v24.7.0 (/opt/homebrew/bin)
-   vendas-shopify         Tests 83 passed (83) | typecheck ok
-   origem-cadastros       Tests 105 passed (105) | typecheck ok
-   rastreio-envio         Tests 127 passed (127) | typecheck ok
+   vendas-shopify         Tests 102 passed (102) | typecheck ok
+   origem-cadastros       Tests 117 passed (117) | typecheck ok
+   rastreio-envio         Tests 245 passed (245) | typecheck ok
+   revisao-roteiro        Tests 97 passed (97) | typecheck ok
+   metricas-redes         Tests 218 passed (218) | typecheck ok
+   revisao-video          Tests 83 passed (83) | typecheck ok
+   views-suspeitas        Tests 147 passed (147) | typecheck ok
    conty-challenge-debug  Tests 46 passed (46) | typecheck ok
-   -> node v24.7.0: 24 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
+   -> node v24.7.0: 48 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
 
-TOTAL: 48 execuções completas, 0 com falha
+TOTAL: 96 execuções completas, 0 com falha
