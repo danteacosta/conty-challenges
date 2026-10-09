@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { AggregatorError } from "../src/aggregator/port.ts";
 import { HttpTrackHubClient } from "../src/aggregator/trackhub/client.ts";
-import { mapTrackHubPayload } from "../src/aggregator/trackhub/mapper.ts";
+import { mapTrackHubPayload, verifyTrackHubEnvelope } from "../src/aggregator/trackhub/mapper.ts";
 import { normalizeEvent } from "../src/domain/normalize.ts";
 import { startFakeTrackHub, type RawTracking } from "./fake-trackhub.ts";
 
@@ -66,8 +66,69 @@ describe("mapper do TrackHub", () => {
     ]);
   });
 
+  describe("datas estritas: nada de data corrigida em silêncio nem de horário que depende do fuso do servidor", () => {
+    const at = (time: unknown) => () => mapTrackHubPayload({ checkpoints: [{ status_code: "10", time }] });
+    it.each<[unknown, string]>([
+      ["2026-02-30T12:00:00.000Z", "30 de fevereiro"],
+      ["2026-02-29T12:00:00Z", "29 de fevereiro em ano comum"],
+      ["2026-04-31T12:00:00Z", "31 de abril"],
+      ["2026-13-01T12:00:00Z", "mês 13"],
+      ["2026-06-01T24:00:00Z", "hora 24"],
+      ["2026-06-01T12:60:00Z", "minuto 60"],
+      ["2026-06-01T12:00:00", "horário sem fuso (dependeria do servidor)"],
+      ["2026-06-01", "só a data"],
+      ["2026-06-01 12:00:00Z", "separador de espaço"],
+      ["1 Jun 2026 12:00 GMT", "formato que o Date.parse aceita mas o contrato não"],
+      [1_780_000_000, "número em vez de texto"],
+    ])("recusa %j (%s)", (time) => {
+      expect(at(time)).toThrowError(expect.objectContaining({ kind: "invalid_payload", message: expect.stringMatching(/data inválida/) }));
+    });
+
+    it("aceita Z, offset e fração, e normaliza para UTC", () => {
+      expect(at("2026-06-01T12:00:00Z")()[0]?.occurredAt).toBe("2026-06-01T12:00:00.000Z");
+      expect(at("2026-06-01T09:00:00-03:00")()[0]?.occurredAt).toBe("2026-06-01T12:00:00.000Z");
+      expect(at("2026-06-01T12:00:00.5Z")()[0]?.occurredAt).toBe("2026-06-01T12:00:00.500Z");
+      expect(at("2024-02-29T12:00:00Z")()[0]?.occurredAt).toBe("2024-02-29T12:00:00.000Z");
+    });
+
+    it("o resultado não depende do fuso do processo", () => {
+      const original = process.env.TZ;
+      try {
+        for (const tz of ["UTC", "America/Sao_Paulo", "Asia/Tokyo"]) {
+          process.env.TZ = tz;
+          expect(at("2026-06-01T12:00:00-03:00")()[0]?.occurredAt).toBe("2026-06-01T15:00:00.000Z");
+        }
+      } finally {
+        if (original === undefined) delete process.env.TZ;
+        else process.env.TZ = original;
+      }
+    });
+
+    it("um lote com UM checkpoint inválido é recusado inteiro: nenhum evento é aproveitado pela metade", () => {
+      expect(() =>
+        mapTrackHubPayload({
+          checkpoints: [
+            { status_code: "10", time: "2026-06-01T12:00:00Z" },
+            { status_code: "20", time: "2026-02-30T12:00:00Z" },
+            { status_code: "30", time: "2026-06-03T12:00:00Z" },
+          ],
+        }),
+      ).toThrowError(expect.objectContaining({ kind: "invalid_payload", message: expect.stringMatching(/checkpoint 1/) }));
+    });
+  });
+
   it("lista vazia de checkpoints é válida (código recém-cadastrado)", () => {
     expect(mapTrackHubPayload({ checkpoints: [] })).toEqual([]);
+  });
+});
+
+describe("verifyTrackHubEnvelope: a identidade do envelope, direto", () => {
+  const expected = { code: "BR1", carrier: "via-rapida" };
+  it.each([[null], ["texto"], [42], [undefined]])("corpo %j não é um objeto: erro tipado, não TypeError", (payload) => {
+    expect(() => verifyTrackHubEnvelope(payload, expected)).toThrowError(expect.objectContaining({ kind: "invalid_payload", message: expect.stringMatching(/não é um objeto/) }));
+  });
+  it("envelope certo passa sem devolver nada", () => {
+    expect(verifyTrackHubEnvelope({ tracking_number: "BR1", courier: "via-rapida" }, expected)).toBeUndefined();
   });
 });
 
@@ -175,6 +236,58 @@ describe("cliente HTTP do TrackHub", () => {
     it("a identidade certa passa, mesmo com caixa e espaços diferentes no código", async () => {
       hub.state.trackings.set("BR1", { tracking_number: " br1 ", courier: "VIA-RAPIDA", checkpoints: [checkpoint] });
       expect(await client.fetchEvents("BR1", "via-rapida")).toHaveLength(1);
+    });
+  });
+
+  describe("falha ao LER o corpo não é o mesmo que JSON inválido", () => {
+    const withBody = (body: ReadableStream<Uint8Array>) =>
+      new HttpTrackHubClient({
+        baseUrl: "http://trackhub.invalid",
+        apiKey: "k",
+        timeoutMs: 80,
+        fetch: (async (_url: unknown, init?: RequestInit) => {
+          void init;
+          return new Response(body, { status: 200, headers: { "content-type": "application/json" } });
+        }) as typeof fetch,
+      });
+
+    it("conexão que cai no meio do corpo é erro de rede (vale tentar de novo), não payload inválido", async () => {
+      const dropped = new ReadableStream<Uint8Array>({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode('{"checkpoints":['));
+          controller.error(new Error("connection reset"));
+        },
+      });
+      await expect(withBody(dropped).fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "network" });
+    });
+
+    it("corpo que não termina de chegar a tempo é timeout", async () => {
+      const stalled = new ReadableStream<Uint8Array>({ start() {} });
+      const client = new HttpTrackHubClient({
+        baseUrl: "http://trackhub.invalid",
+        apiKey: "k",
+        timeoutMs: 60,
+        fetch: (async (_url: unknown, init?: RequestInit) => {
+          const body = new ReadableStream<Uint8Array>({
+            start(controller) {
+              init?.signal?.addEventListener("abort", () => controller.error(init.signal?.reason));
+            },
+          });
+          void stalled;
+          return new Response(body, { status: 200 });
+        }) as typeof fetch,
+      });
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "timeout" });
+    });
+
+    it("corpo que chegou inteiro mas não é JSON continua sendo payload inválido", async () => {
+      const text = new ReadableStream<Uint8Array>({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode("<html>erro</html>"));
+          controller.close();
+        },
+      });
+      await expect(withBody(text).fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload" });
     });
   });
 

@@ -19,6 +19,9 @@ const text = (v: unknown): string | null => (typeof v === "string" && v.trim() !
 
 export function createApp(options: AppOptions) {
   const { db, aggregator, notifier, now, thresholdHours } = options;
+  if (!Number.isFinite(thresholdHours) || thresholdHours <= 0) {
+    throw new Error(`thresholdHours inválido: ${thresholdHours} (esperado um número de horas maior que 0)`);
+  }
   const app = new Hono();
 
   app.onError((error, c) => {

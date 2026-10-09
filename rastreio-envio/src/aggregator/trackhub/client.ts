@@ -26,14 +26,30 @@ export class HttpTrackHubClient implements TrackingAggregator {
     const response = await this.request("GET", `/v1/trackings/${encodeURIComponent(code)}`, undefined, [404]);
     // 404 = o agregador ainda não conhece o código: não há eventos, o que não é um erro.
     if (response.status === 404) return [];
+    // Ler o corpo pode falhar (conexão que cai, tempo que acaba no meio): isso é rede/timeout e vale tentar de novo.
+    // Só um corpo que chegou inteiro e não é JSON é payload inválido.
+    let text: string;
+    try {
+      text = await response.text();
+    } catch (error) {
+      throw this.transportFailure(error);
+    }
     let payload: unknown;
     try {
-      payload = await response.json();
+      payload = JSON.parse(text);
     } catch {
       throw new AggregatorError("invalid_payload", "o TrackHub devolveu um corpo que não é JSON");
     }
     verifyTrackHubEnvelope(payload, { code, carrier });
     return mapTrackHubPayload(payload);
+  }
+
+  /** Falha de transporte (na requisição ou na leitura do corpo): tempo esgotado ou rede. */
+  private transportFailure(error: unknown): AggregatorError {
+    if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
+      return new AggregatorError("timeout", `o TrackHub não respondeu em ${this.timeoutMs} ms`);
+    }
+    return new AggregatorError("network", `não foi possível falar com o TrackHub: ${(error as Error).message}`);
   }
 
   private async request(method: string, path: string, body?: unknown, acceptedStatuses: number[] = []): Promise<Response> {
@@ -46,10 +62,7 @@ export class HttpTrackHubClient implements TrackingAggregator {
         signal: AbortSignal.timeout(this.timeoutMs),
       });
     } catch (error) {
-      if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
-        throw new AggregatorError("timeout", `o TrackHub não respondeu em ${this.timeoutMs} ms`);
-      }
-      throw new AggregatorError("network", `não foi possível falar com o TrackHub: ${(error as Error).message}`);
+      throw this.transportFailure(error);
     }
     if (!response.ok && !acceptedStatuses.includes(response.status)) {
       throw new AggregatorError("http", `o TrackHub respondeu ${response.status}`, response.status);

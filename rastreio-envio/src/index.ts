@@ -2,19 +2,24 @@ import { serve } from "@hono/node-server";
 import { ConsoleNotifier } from "./alerts.ts";
 import { HttpTrackHubClient } from "./aggregator/trackhub/client.ts";
 import { createApp } from "./app.ts";
+import { ConfigError, loadConfig } from "./config.ts";
 import { openDatabase } from "./db.ts";
 
-const port = Number(process.env.PORT ?? 3012);
+let config;
+try {
+  config = loadConfig(process.env);
+} catch (error) {
+  if (!(error instanceof ConfigError)) throw error;
+  console.error(error.message);
+  process.exit(1);
+}
+
 const app = createApp({
-  db: openDatabase(process.env.DB_PATH ?? ":memory:"),
-  aggregator: new HttpTrackHubClient({
-    baseUrl: process.env.TRACKHUB_URL ?? "http://127.0.0.1:4010",
-    apiKey: process.env.TRACKHUB_API_KEY ?? "dev-key",
-    timeoutMs: Number(process.env.TRACKHUB_TIMEOUT_MS ?? 5000),
-  }),
+  db: openDatabase(config.dbPath),
+  aggregator: new HttpTrackHubClient({ baseUrl: config.trackhubUrl, apiKey: config.trackhubApiKey, timeoutMs: config.trackhubTimeoutMs }),
   notifier: new ConsoleNotifier(),
   now: () => new Date(),
-  thresholdHours: Number(process.env.TRANSIT_THRESHOLD_HOURS ?? 168),
+  thresholdHours: config.thresholdHours,
 });
-serve({ fetch: app.fetch, port, hostname: "127.0.0.1" });
-console.log(`rastreio-envio em http://127.0.0.1:${port}`);
+serve({ fetch: app.fetch, port: config.port, hostname: "127.0.0.1" });
+console.log(`rastreio-envio em http://127.0.0.1:${config.port}`);

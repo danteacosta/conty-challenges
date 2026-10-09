@@ -7,6 +7,8 @@
     "src/domain/delay.ts",
     "src/aggregator/trackhub/mapper.ts",
     "src/store.ts",
+    "src/config.ts",
+    "src/instant.ts",
     "src/alerts.ts"
   ],
   "reporters": ["clear-text", "json"],

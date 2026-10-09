@@ -67,6 +67,33 @@ describe("jornada completa por HTTP, com o cliente real do TrackHub", () => {
     expect(jobs.newly_alerted).toBe(0);
   });
 
+  it("lote com um checkpoint de data impossível: 502 e o histórico que já existia fica intacto", async () => {
+    await send("POST", "/shipments", { tracking_code: "BR780", carrier: "via-rapida" });
+    hub.state.trackings.set("BR780", {
+      tracking_number: "BR780",
+      courier: "via-rapida",
+      checkpoints: [{ id: "1", status_code: "10", message: "Postado", time: "2026-06-01T10:00:00Z", city: null }],
+    });
+    expect((await send("POST", "/shipments/BR780/refresh")).status).toBe(200);
+    const before = await (await send("GET", "/shipments/BR780")).json();
+
+    hub.state.trackings.set("BR780", {
+      tracking_number: "BR780",
+      courier: "via-rapida",
+      checkpoints: [
+        { id: "1", status_code: "10", message: "Postado", time: "2026-06-01T10:00:00Z", city: null },
+        { id: "2", status_code: "20", message: "Em trânsito", time: "2026-06-02T10:00:00Z", city: null },
+        { id: "3", status_code: "40", message: "Entregue", time: "2026-02-30T10:00:00Z", city: null },
+      ],
+    });
+    const res = await send("POST", "/shipments/BR780/refresh");
+    expect(res.status).toBe(502);
+    expect(await res.json()).toMatchObject({ error: "aggregator_unavailable", kind: "invalid_payload" });
+    const after = await (await send("GET", "/shipments/BR780")).json();
+    expect(after.history).toEqual(before.history);
+    expect(after.status).toBe("posted");
+  });
+
   it("envelope de outro envio: a API responde 502 e o envio consultado não é alterado", async () => {
     await send("POST", "/shipments", { tracking_code: "BR779", carrier: "via-rapida" });
     hub.state.trackings.set("BR779", {

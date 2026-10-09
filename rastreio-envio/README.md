@@ -4,7 +4,7 @@ Integra com um agregador de rastreio (fictício, "TrackHub"), traduz o dialeto d
 
 ```bash
 npm install
-npm test            # 127 testes: normalização, status, atraso, aviso, API, cliente HTTP, concorrência, migração, e2e
+npm test            # 245 testes: normalização, status, atraso, aviso, API, cliente HTTP, configuração, datas, reinício, concorrência, migração, e2e
 npm run typecheck
 npm run mutation    # Stryker nas regras (relatório em reports/)
 npm start           # http://127.0.0.1:3012
@@ -96,14 +96,38 @@ O resto do código só conhece a interface [`TrackingAggregator`](src/aggregator
 
 O adapter confere, antes de mapear, que a resposta é do envio pedido: `tracking_number` igual ao código consultado e `courier` igual à transportadora cadastrada (sem diferenciar caixa nem espaços). Ausente, de outro tipo ou diferente é `invalid_payload`: a API responde 502 e o envio consultado **não** é alterado. Sem isso, um envelope de outro código ou de uma transportadora desconhecida seria lido com o dialeto do envio consultado (um `40` qualquer viraria entrega). Só o adapter conhece esses campos; a interface recebe a transportadora esperada justamente para poder conferir.
 
+## Configuração validada na subida
+
+`src/config.ts` lê e valida o ambiente. Valor inválido derruba a inicialização com **todos** os problemas numa mensagem, em vez de virar `NaN` e fazer o serviço rodar sem nunca avisar de atraso:
+
+| Variável | Padrão | Aceita |
+|---|---|---|
+| `PORT` | 3012 | inteiro de 1 a 65535 |
+| `TRANSIT_THRESHOLD_HOURS` | 168 | número decimal maior que 0 e até 8760 (um ano); recusa `abc`, `0`, `-1`, `Infinity`, `1e999`, `0x10`, `1e2`, `72h` |
+| `TRACKHUB_TIMEOUT_MS` | 5000 | inteiro de 100 a 120000 |
+| `TRACKHUB_URL` | `http://127.0.0.1:4010` | URL `http` ou `https` |
+| `TRACKHUB_API_KEY` | `dev-key` | texto não vazio |
+| `DB_PATH` | `:memory:` | caminho não vazio |
+
+`createApp` também recusa um `thresholdHours` inválido, mesmo que ele não venha do ambiente.
+
+## Datas estritas na fronteira do agregador
+
+`parseInstant` ([`src/instant.ts`](src/instant.ts)) é o único jeito de ler a data de um checkpoint: ISO-8601 **com fuso** (`Z` ou `±HH:MM`), de uma data que existe. `Date.parse` aceitava `2026-02-30` e o corrigia para março em silêncio, e lia `2026-06-01T12:00:00` (sem fuso) no fuso do servidor, o que dava instantes diferentes em máquinas diferentes. Agora ambos são `invalid_payload`. **Um lote com um checkpoint inválido é recusado inteiro**: a API responde 502 e o histórico que já existia fica intacto (nenhum evento é aproveitado pela metade).
+
+Falha ao **ler** o corpo da resposta (conexão que cai, tempo que acaba no meio) é `network`/`timeout`, que vale tentar de novo; só um corpo que chegou inteiro e não é JSON é `invalid_payload`.
+
+## Persistência e reinício
+
+Com `DB_PATH` apontando para um arquivo, envios, histórico, status e avisos (inclusive o pendente porque o destino estava fora do ar) sobrevivem a reiniciar o processo, e reconsultar depois do reinício não duplica o histórico (`test/restart.test.ts`). **O padrão é SQLite em memória, por escolha explícita**: sem `DB_PATH`, um processo novo começa vazio.
+
 ## Testes
 
 - Normalização, status e atraso como regras puras, com propriedades (fast-check): qualquer ordem de chegada dá o mesmo status; reenviar eventos não muda nada; só existe `delivered` se houve um evento de entrega mapeado.
 - API: cadastro, reconsulta sem duplicar, fora de ordem, status inventado, falha do agregador, aviso de atraso (limite exato, entrega normal, execução repetida, destino que falha).
 - Cliente HTTP contra um servidor TrackHub falso real (porta efêmera): chave de API, 404, 500, JSON malformado, timeout, rede fora do ar.
-- Concorrência: 4 `worker_threads` com conexões separadas consultando os mesmos eventos em ordens diferentes; 4 workers verificando atrasos ao mesmo tempo (cada aviso sai exatamente uma vez).
 - Jornada e2e por HTTP.
-- Mutação (Stryker, incluindo `alerts.ts`): 93,6% (291 de 311; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)). Os sobreviventes vêm de: a `dedupeKey` como último critério do desempate (dentro de um mesmo envio todos os eventos têm a mesma transportadora, então o motivo depende só de haver ou não motivo, e esse critério final não altera nenhum resultado observável); mensagens de erro e o `ConsoleNotifier` (texto de log); e alguns mutantes em `alerts.ts` que o Stryker mantém vivos mas que, aplicados à mão, derrubam os testes (descarte nunca acontecendo, motivo de descarte fixo). Considero o relatório do Stryker conservador nesses pontos e registro a divergência em vez de esconder.
+- Mutação (Stryker): 96,0% (498 de 519; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)): `mapper` 100%, `delay` e `dialects` 100%, `config` 97,9%, `instant` 98,3%, `store` 97,8%, `normalize` 94,7%, `alerts` 90,7%, `status` 83,3%. Os vivos de `status.ts` são a `dedupeKey` como último critério do desempate (dentro de um mesmo envio todos os eventos têm a mesma transportadora, então o motivo depende só de haver ou não motivo, e esse critério final não altera nenhum resultado observável). Em `alerts.ts` o Stryker mantém vivos mutantes que, aplicados à mão, derrubam os testes (descarte nunca acontecendo, motivo de descarte fixo): registro a divergência em vez de esconder. Os demais são texto de mensagem, `ConsoleNotifier` (log) e os 2 equivalentes de `instant.ts` (o ramo do fuso `Z`). Um mutante de `index.ts` (sem `process.exit(1)`) é equivalente: o processo cai logo depois no `TypeError`, com a mesma mensagem e o código 1.
 - Concorrência: 4 workers com conexões separadas ao mesmo arquivo (a ingestão repetida de eventos e a verificação de atrasos **sem barreira de largada**: eles competem, mas não partem no mesmo instante); cada evento entra uma vez e cada aviso é entregue exatamente uma vez. Só o teste de migração abaixo usa uma barreira (`SharedArrayBuffer`) para largar as oito conexões juntas. Trocar `BEGIN IMMEDIATE` por `BEGIN` faz os testes de concorrência falharem mesmo sem barreira (verificado à mão).
 - Migração: oito conexões abrem juntas um banco com o esquema antigo; a inicialização transacional preserva envio, histórico e aviso pendente, e acrescenta as colunas de descarte uma vez. O teste repete a abertura em oito arquivos independentes.
 
@@ -119,7 +143,8 @@ O adapter confere, antes de mapear, que a resposta é do envio pedido: `tracking
 - Webhooks de push do agregador (aqui a atualização é por consulta); autenticação das rotas; assinatura do agregador.
 - Limite por transportadora ou por campanha; reabertura do aviso depois de resolvido.
 - Evento com `occurred_at` no futuro em relação ao relógio local não é tratado de forma especial.
-- `TRANSIT_THRESHOLD_HOURS` não numérico vira `NaN` e nenhum envio é considerado atrasado (sem validação na inicialização); e o padrão é SQLite em memória, então reiniciar sem `DB_PATH` perde os dados.
+- O padrão é SQLite em memória (reiniciar sem `DB_PATH` perde os dados); o arquivo é uma escolha explícita.
+- O mesmo `parseInstant` existe copiado em `origem-cadastros` e `metricas-redes`: cada projeto é independente, e não criei um pacote compartilhado só para isso.
 
 ## Uso de IA
 

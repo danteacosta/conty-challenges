@@ -1,3 +1,4 @@
+import { parseInstant } from "../../instant.ts";
 import { AggregatorError } from "../port.ts";
 import type { CarrierEvent } from "../../domain/types.ts";
 
@@ -32,12 +33,13 @@ export function mapTrackHubPayload(payload: unknown): CarrierEvent[] {
     const checkpoint = (typeof raw === "object" && raw !== null ? raw : {}) as Record<string, unknown>;
     const code = checkpoint.status_code;
     if (typeof code !== "string" || code.trim() === "") throw invalid(`checkpoint ${index} sem status_code`);
-    const time = typeof checkpoint.time === "string" ? Date.parse(checkpoint.time) : Number.NaN;
-    if (Number.isNaN(time)) throw invalid(`checkpoint ${index} com data inválida`);
+    // Estrito: Date.parse corrige 2026-02-30 para março e lê horário sem fuso no fuso do servidor.
+    const occurredAt = parseInstant(checkpoint.time);
+    if (occurredAt === null) throw invalid(`checkpoint ${index} com data inválida (esperado ISO-8601 com fuso, de uma data que existe)`);
     return {
       rawStatus: code,
       description: typeof checkpoint.message === "string" ? checkpoint.message : null,
-      occurredAt: new Date(time).toISOString(),
+      occurredAt,
       location: typeof checkpoint.city === "string" ? checkpoint.city : null,
     };
   });
