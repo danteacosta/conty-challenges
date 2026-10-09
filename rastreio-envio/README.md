@@ -1,0 +1,121 @@
+# Rastreio do produto enviado ao criador
+
+Integra com um agregador de rastreio (fictício, "TrackHub"), traduz o dialeto de cada transportadora para 5 status estáveis e avisa quando um envio passa do tempo limite. O agregador pode repetir eventos e entregá-los fora de ordem; isso não duplica histórico nem faz o status voltar.
+
+```bash
+npm install
+npm test            # 103 testes: normalização, status, atraso, API, cliente HTTP, concorrência, e2e
+npm run typecheck
+npm run mutation    # Stryker nas regras (relatório em reports/)
+npm start           # http://127.0.0.1:3012
+```
+
+Variáveis do `npm start`: `TRACKHUB_URL`, `TRACKHUB_API_KEY`, `TRACKHUB_TIMEOUT_MS` (5000), `TRANSIT_THRESHOLD_HOURS` (168), `DB_PATH`, `PORT`. Node 22+ (usa `node:sqlite`).
+
+## API
+
+| Rota | O que faz |
+|---|---|
+| `POST /shipments` `{tracking_code, carrier, creator_id?, campaign_id?}` | Cadastra o código no agregador e guarda o envio. Idempotente (200 `exists`); transportadora diferente para o mesmo código é 409; transportadora sem dialeto é 400 com a lista das suportadas. |
+| `POST /shipments/:code/refresh` | Consulta o agregador, normaliza e grava só o que é novo. Devolve `{added, duplicates, status}`. Agregador fora do ar: 502 e o estado gravado fica como estava. |
+| `GET /shipments/:code` | Status, histórico (do mais antigo ao mais novo) e a avaliação de atraso. |
+| `POST /jobs/check-delays` | Avalia os envios não entregues e avisa dos atrasados, uma vez só por envio. Pensado para rodar em cron. |
+| `GET /alerts` | Avisos gerados e se já foram entregues ao destino. |
+
+## Status normalizado
+
+`posted` · `in_transit` · `out_for_delivery` · `delivered` · `exception`. Antes do primeiro evento o envio está sem status (`null`, `reason: no_events_yet`).
+
+### Exemplo: payload bruto do agregador → status normalizado
+
+O agregador (TrackHub) devolve, para `GET /v1/trackings/BR123456789`:
+
+```json
+{
+  "tracking_number": "BR123456789",
+  "courier": "via-rapida",
+  "checkpoints": [
+    { "id": "chk_9f2", "status_code": "20", "message": "Objeto em trânsito para o centro de distribuição", "time": "2026-06-02T08:15:00-03:00", "city": "Recife" },
+    { "id": "chk_9f1", "status_code": "10", "message": "Objeto postado", "time": "2026-06-01T16:40:00-03:00", "city": "São Paulo" },
+    { "id": "chk_9f3", "status_code": "SEPARADO_NA_BANCADA", "message": "Em separação", "time": "2026-06-03T09:00:00-03:00", "city": null }
+  ]
+}
+```
+
+O `status_code` está no dialeto da transportadora (`via-rapida`). Depois de normalizado, `GET /shipments/BR123456789` mostra:
+
+```json
+{
+  "status": "exception",
+  "reason": "unmapped_carrier_status",
+  "started_at": "2026-06-01T19:40:00.000Z",
+  "history": [
+    { "status": "posted",     "raw_status": "10",  "occurred_at": "2026-06-01T19:40:00.000Z", "reason": null, "ignored": null },
+    { "status": "in_transit", "raw_status": "20",  "occurred_at": "2026-06-02T11:15:00.000Z", "reason": null, "ignored": null },
+    { "status": "exception",  "raw_status": "SEPARADO_NA_BANCADA", "occurred_at": "2026-06-03T12:00:00.000Z", "reason": "unmapped_carrier_status", "ignored": null }
+  ]
+}
+```
+
+(`description` e `location` também vêm no histórico; omitidos aqui por brevidade.) Esse exemplo é um teste ([`trackhub.test.ts`](test/trackhub.test.ts)), então a documentação não envelhece.
+
+## Regras
+
+**Tradução** ([`src/domain/dialects.ts`](src/domain/dialects.ts), [`normalize.ts`](src/domain/normalize.ts)). Cada transportadora tem uma tabela código bruto → status. Transportadora nova é uma tabela nova. **Código que não está na tabela (ou transportadora desconhecida) nunca vira `delivered`**: vira `exception`, com `reason` (`unmapped_carrier_status` / `unknown_carrier`) e o código bruto preservado no histórico. Prefiro isso a ignorar: um status inventado pode ser "aguardando retirada" e alguém precisa olhar.
+
+**Status atual** ([`status.ts`](src/domain/status.ts)). É calculado sempre do histórico inteiro, não atualizado aos poucos, então a ordem de chegada não importa:
+- vale o evento de maior data de ocorrência (não o de chegada): evento antigo que chega depois não regride nada;
+- empate de horário: `delivered` > `exception` > `out_for_delivery` > `in_transit` > `posted`;
+- `delivered` é terminal: evento posterior à entrega fica no histórico com `ignored: "after_delivered"` e não muda o status;
+- uma `exception` seguida de evento mais novo se recupera (tentativa falha hoje, entrega amanhã). Por isso não uso "maior status vence".
+
+**Sem duplicar** ([`store.ts`](src/store.ts)). A mesma ocorrência = `transportadora | código bruto | instante` (sem depender do id do evento do agregador, que pode mudar entre consultas). `UNIQUE` + `ON CONFLICT DO NOTHING` em `BEGIN IMMEDIATE`; o status é recalculado do histórico na mesma transação. Reconsultar devolve `added: 0, duplicates: N`.
+
+## Como o atraso é detectado sem marcar entrega normal como atraso
+
+[`src/domain/delay.ts`](src/domain/delay.ts). Um envio está atrasado quando **não foi entregue** e `agora − primeiro evento > limite` (estritamente maior: no limite exato ainda está no prazo). O primeiro evento é a postagem; se ainda não há evento, conta-se do cadastro (código que nunca foi postado também é problema).
+
+O erro clássico é comparar "agora" com o início mesmo para pacotes já entregues, o que marca como atrasada, semanas depois, uma entrega que chegou em 2 dias. Aqui:
+- `delivered` nunca está atrasado, não importa quando a verificação rode;
+- entrega que levou mais que o limite aparece só como informação (`delay.delivered_late: true`), sem aviso;
+- `exception` parada passa a contar como atraso quando ultrapassa o limite;
+- o relógio é injetado, e os testes usam data controlada ([`delay.test.ts`](test/delay.test.ts), [`delays.test.ts`](test/delays.test.ts)): limite exato, 1 ms depois, entrega consultada 30 dias depois, exceção parada.
+
+**Aviso uma vez só.** `alerts` tem `UNIQUE(tracking_code, kind)`. O job registra, reserva (`claimed_at`) e só então entrega ao `Notifier`; se o destino falha, a reserva é desfeita e o aviso sai na próxima execução. Entrega é pelo menos uma vez e nunca duplicada em execuções normais; se o processo morrer entre a reserva e o envio, o aviso fica reservado (limitação declarada).
+
+## Trocar o agregador
+
+O resto do código só conhece a interface [`TrackingAggregator`](src/aggregator/port.ts) (`register`, `fetchEvents`) e os `CarrierEvent` internos. O formato do TrackHub vive só em [`src/aggregator/trackhub/`](src/aggregator/trackhub/) (`client.ts` com timeout e erros tipados `http | timeout | network | invalid_payload`, e `mapper.ts`). Um segundo agregador é outra classe que implementa a interface; o teste e2e roda o mesmo fluxo com o cliente HTTP real e com um agregador em memória.
+
+## Testes
+
+- Normalização, status e atraso como regras puras, com propriedades (fast-check): qualquer ordem de chegada dá o mesmo status; reenviar eventos não muda nada; só existe `delivered` se houve um evento de entrega mapeado.
+- API: cadastro, reconsulta sem duplicar, fora de ordem, status inventado, falha do agregador, aviso de atraso (limite exato, entrega normal, execução repetida, destino que falha).
+- Cliente HTTP contra um servidor TrackHub falso real (porta efêmera): chave de API, 404, 500, JSON malformado, timeout, rede fora do ar.
+- Concorrência: 4 `worker_threads` com conexões separadas consultando os mesmos eventos em ordens diferentes; 4 workers verificando atrasos ao mesmo tempo (cada aviso sai exatamente uma vez).
+- Jornada e2e por HTTP.
+- Mutação: 99,0% (199 de 201). Os 2 sobreviventes são equivalentes (`typeof` antes de `Date.parse`, que já devolve `NaN` para `undefined`; e `?.` sobre uma linha que sempre existe).
+
+## Decisões minhas (o enunciado não fixa)
+
+- Status desconhecido vira `exception`, e não é ignorado.
+- O atraso conta da postagem (primeiro evento), com um limite único para todas as transportadoras (`TRANSIT_THRESHOLD_HOURS`, padrão 168).
+- Vale a data de ocorrência informada pela transportadora; não corrijo fuso nem relógio errado dela.
+
+## Fora de escopo
+
+- Os dialetos (`via-rapida`, `correio-norte`) são fictícios; não há integração com transportadora real.
+- Webhooks de push do agregador (aqui a atualização é por consulta); autenticação das rotas; assinatura do agregador.
+- Limite por transportadora ou por campanha; reabertura do aviso depois de resolvido.
+- Evento com `occurred_at` no futuro em relação ao relógio local não é tratado de forma especial.
+
+## Uso de IA
+
+Este projeto foi escrito com o Claude Code (Claude Sonnet 5.5), seguindo plano aprovado por mim: o modelo propôs o desenho, escreveu os testes antes do código, a implementação, o README e rodou a mutação (que apontou testes fracos nos caminhos do `store`, nas mensagens do mapper e na marcação pós-entrega, todos corrigidos).
+
+**Eu (Dante) preciso confirmar antes de enviar** *(marque o que de fato revisou)*:
+
+- [ ] Concordo com "status desconhecido vira exceção" e com a regra de atraso contada da postagem.
+- [ ] Li `src/domain/status.ts`, `src/domain/delay.ts` e `src/store.ts`.
+- [ ] Conferi que nenhum arquivo fora de `src/aggregator/trackhub/` conhece o formato do TrackHub (só `src/index.ts`, que monta a aplicação, escolhe o cliente).
+- [ ] Rodei `npm test` e `npm run mutation` localmente.
