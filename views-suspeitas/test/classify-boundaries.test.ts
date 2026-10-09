@@ -228,3 +228,35 @@ describe("casos adversariais: mais de um episódio, observação curta e série 
     expect(classify(series).classification).not.toBe("suspicious");
   });
 });
+
+describe("vários patamares na mesma série são avaliados cada um por si", () => {
+  const noisy = (series: number[], from: number, to: number) => withRange(series, from, to, (hour) => 4000 * (1 + 0.05 * Math.sin(hour * 2.3)));
+
+  it("um patamar ruidoso longo não esconde um patamar quase fixo menor: o menor é acusado, o longo continua só dúvida", () => {
+    const series = plateau(noisy(steady(336), 40, 75), 200, 211, 3000);
+    const result = classify(series);
+    expect(result.classification).toBe("suspicious");
+    const plateaus = result.signals.filter((s) => s.name === "plateau_then_cliff");
+    expect(plateaus.map((s) => [s.effect, s.from_hour, s.to_hour])).toEqual([
+      ["suspicious", 200, 211],
+      ["weak", 40, 75],
+    ]);
+    expect(result.reason).toMatch(/horas 200 a 211/);
+    expect(result.reason).not.toMatch(/horas 40 a 75/); // a dúvida não entra no motivo de uma acusação
+  });
+
+  it("o patamar ruidoso sozinho continua inconclusivo (não vira acusação por estar perto de outro)", () => {
+    const result = classify(noisy(steady(336), 40, 75));
+    expect(result.classification).toBe("inconclusive");
+    expect(result.signals.filter((s) => s.name === "plateau_then_cliff")).toHaveLength(1);
+  });
+
+  it("o patamar quase fixo menor sozinho continua suspeito, igual com ou sem o outro", () => {
+    expect(classify(plateau(steady(336), 200, 211, 3000)).signals[0]).toMatchObject({ name: "plateau_then_cliff", effect: "suspicious", from_hour: 200, to_hour: 211 });
+  });
+
+  it("os patamares não se sobrepõem: janelas vizinhas da mesma subida viram um sinal só", () => {
+    const result = classify(plateau(steady(168), 60, 77, 6200));
+    expect(result.signals.filter((s) => s.name === "plateau_then_cliff")).toHaveLength(1);
+  });
+});

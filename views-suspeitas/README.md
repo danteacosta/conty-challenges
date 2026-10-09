@@ -6,7 +6,7 @@ Os números de acerto abaixo são medidos **no meu dataset sintético**, gerado 
 
 ```bash
 npm install
-npm test               # 158 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
+npm test               # 166 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
 npm run typecheck
 npm run mutation       # Stryker (relatório em reports/)
 
@@ -159,9 +159,9 @@ Dois pontos para ler esses números:
 ## Como foi verificado
 
 - **Testes primeiro**, vistos falhando pelo motivo certo (módulo inexistente) antes de qualquer código. Os casos óbvios usam séries **montadas à mão** (`test/series.ts`), não o gerador do dataset.
-- **Stryker** nos módulos de regra (`stats`, `signals`, `classify`, `evaluate`, `readme`): 853 de 916 mutantes mortos (93,1%). A primeira rodada deu 73%: os mutantes vivos apontaram testes que faltavam nas bordas de cada limiar e **um defeito real** (um pico menor logo depois de um pico maior reabria o grupo de horas já usado e gerava um sinal falso; corrigido em `findPeaks` e coberto por teste).
+- **Stryker** nos módulos de regra (`stats`, `signals`, `classify`, `evaluate`, `readme`): 881 de 935 mutantes mortos (94,2%). A primeira rodada deu 73%: os mutantes vivos apontaram testes que faltavam nas bordas de cada limiar e **um defeito real** (um pico menor logo depois de um pico maior reabria o grupo de horas já usado e gerava um sinal falso; corrigido em `findPeaks` e coberto por teste).
 - **Mutação manual dos limiares** de `criteria.ts` (cada um para cima e para baixo, 44 mutantes): todos morrem. Vários só morrem por causa da trava do README (mudar um limiar muda a taxa medida e o teste de sincronia falha), o que é uma função útil dela.
-- Os 63 mutantes vivos restantes são, pelo que olhei, de três tipos: bordas de laço (`i < n` contra `i <= n`, que só lê `series[n]` indefinido), igualdade exata de ponto flutuante em limiares (`<` contra `<=` com 1,5 de regularidade) e o texto de algumas frases. Não afirmo que todos são equivalentes: o relatório completo sai de `npm run mutation`.
+- Os 54 mutantes vivos restantes são, pelo que olhei, de três tipos: bordas de laço (`i < n` contra `i <= n`, que só lê `series[n]` indefinido), igualdade exata de ponto flutuante em limiares (`<` contra `<=` com 1,5 de regularidade) e o texto de algumas frases. Não afirmo que todos são equivalentes: o relatório completo sai de `npm run mutation`.
 
 ## Decisões
 
@@ -185,7 +185,7 @@ Dois pontos para ler esses números:
 - Autenticação, limite de requisições e persistência: a API é uma função pura atrás de HTTP.
 - Séries com mais de 60 dias ou menos de 24 horas.
 - Horas sem medição: a série é só a lista de contagens, e `null` é recusado (400) em vez de ser tratado como zero. Uma lacuna real precisaria de timestamps, que este contrato não tem; por isso também não há análise de fuso nem de acumulados.
-- Episódios: os picos e patamares são examinados um a um (um pico orgânico grande não esconde um bloco comprado menor, e as acusações citam só as horas do bloco comprado), mas o limite de repetição é por episódio, não somado entre episódios.
+- Episódios: patamares e picos são examinados um a um, cada um por si (um pico orgânico grande não esconde um bloco comprado menor, e um patamar ruidoso longo não esconde um patamar quase fixo menor: o segundo é acusado e o primeiro continua só dúvida; o motivo cita só o episódio acusado). A repetição mecânica considera a maior repetição da série, não a soma de várias.
 
 ## Uso de IA
 

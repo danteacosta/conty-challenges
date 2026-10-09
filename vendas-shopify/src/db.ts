@@ -53,3 +53,16 @@ export function inTransaction<T>(db: DatabaseSync, fn: () => T): T {
     throw error;
   }
 }
+
+/**
+ * Executa várias leituras como um retrato só do banco: em WAL, o BEGIN fixa o estado no primeiro SELECT, e uma escrita de outra
+ * conexão no meio não é vista. A função tem de ser síncrona (sem `await`) para a transação não ficar aberta por cima de espera.
+ */
+export function readSnapshot<T>(db: DatabaseSync, read: () => T): T {
+  db.exec("BEGIN");
+  try {
+    return read();
+  } finally {
+    db.exec("COMMIT");
+  }
+}

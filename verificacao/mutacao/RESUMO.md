@@ -4,7 +4,7 @@ Gerado por `node verificacao/resumo-mutacao.mjs` a partir de `reports/mutation.j
 (`npm run mutation` dentro da pasta). Os JSON completos estão ao lado deste arquivo. O Stryker não usa semente:
 o resultado depende do código, dos testes e da versão do Node (esta rodada: ver `matriz-node.log`).
 
-## vendas-shopify: 331/377 (87.8%)
+## vendas-shopify: 333/379 (87.9%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
@@ -12,7 +12,7 @@ o resultado depende do código, dos testes e da versão do Node (esta rodada: ve
 | `src/attribution.ts` | 34/34 | 100.0% |
 | `src/money.ts` | 27/28 | 96.4% |
 | `src/refunds.ts` | 8/8 | 100.0% |
-| `src/store.ts` | 116/117 | 99.1% |
+| `src/store.ts` | 118/119 | 99.2% |
 
 Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos são equivalentes):
 
@@ -20,19 +20,19 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 - linha 7 · MethodExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `v`
 - linha 7 · ConditionalExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `true`
-- linha 7 · ConditionalExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `false`
 - linha 7 · StringLiteral · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `"Stryker was here!"`
+- linha 7 · MethodExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `v`
+- linha 7 · ConditionalExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `false`
 - linha 7 · EqualityOperator · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `typeof v !== "number"`
 - linha 7 · LogicalOperator · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `typeof v === "number" || Number.isFinite(v)`
-- linha 7 · MethodExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `v`
 - linha 7 · ConditionalExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `true`
 - linha 7 · StringLiteral · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `""`
-- linha 11 · StringLiteral · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `"Stryker was here!"`
-- linha 22 · ArrowFunction · Survived · `const b = await c.req.json().catch(() => null);` → `() => undefined`
 - linha 11 · ConditionalExpression · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `true`
+- linha 22 · ArrowFunction · Survived · `const b = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 11 · StringLiteral · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `"Stryker was here!"`
 - linha 11 · MethodExpression · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `v`
-- linha 26 · ObjectLiteral · Survived · `if (!id || !coupon || !utm) return c.json({ error: "id, coupon_code e utm_handle são obrigatórios" }, 400);` → `{}`
 - linha 26 · StringLiteral · Survived · `if (!id || !coupon || !utm) return c.json({ error: "id, coupon_code e utm_handle são obrigatórios" }, 400);` → `""`
+- linha 26 · ObjectLiteral · Survived · `if (!id || !coupon || !utm) return c.json({ error: "id, coupon_code e utm_handle são obrigatórios" }, 400);` → `{}`
 - linha 35 · ObjectLiteral · Survived · `if (!id) return c.json({ error: "id é obrigatório (texto ou inteiro seguro)" }, 400);` → `{}`
 - linha 35 · StringLiteral · Survived · `if (!id) return c.json({ error: "id é obrigatório (texto ou inteiro seguro)" }, 400);` → `""`
 - linha 32 · ArrowFunction · Survived · `const b = await c.req.json().catch(() => null);` → `() => undefined`
@@ -42,8 +42,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 36 · OptionalChaining · Survived · `if (b?.currency !== undefined && b?.currency !== null) {` → `b.currency`
 - linha 44 · ArrayDeclaration · Survived · `: [];` → `["Stryker was here"]`
 - linha 43 · OptionalChaining · Survived · `? b.discount_codes.map((d: { code?: unknown }) => str(d?.code)).filter((x: string | null): x is string => !!x)` → `d.code`
-- linha 43 · MethodExpression · Survived · `? b.discount_codes.map((d: { code?: unknown }) => str(d?.code)).filter((x: string | null): x is string => !!x)` → `b.discount_codes.map((d: {   code?: unknown; }) =>`
 - linha 42 · OptionalChaining · Survived · `const codes = Array.isArray(b?.discount_codes)` → `b.discount_codes`
+- linha 43 · MethodExpression · Survived · `? b.discount_codes.map((d: { code?: unknown }) => str(d?.code)).filter((x: string | null): x is string => !!x)` → `b.discount_codes.map((d: {   code?: unknown; }) =>`
 - linha 51 · OptionalChaining · Survived · `financialStatus: str(b?.financial_status) ?? "pending",` → `b.financial_status`
 - linha 52 · OptionalChaining · Survived · `createdAt: str(b?.created_at),` → `b.created_at`
 - linha 53 · OptionalChaining · Survived · `signals: { couponCodes: codes, utmHandle: str(b?.utm_parameters?.utm_content) },` → `b.utm_parameters`
@@ -69,7 +69,7 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/store.ts`**
 
-- linha 189 · ConditionalExpression · Survived · `if (!/integer overflow/i.test(String(error))) throw error;` → `false`
+- linha 194 · ConditionalExpression · Survived · `if (!/integer overflow/i.test(String(error))) throw error;` → `false`
 
 ## origem-cadastros: 334/338 (98.8%)
 
@@ -183,13 +183,13 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/domain/deadline.ts`**
 
+- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
+- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
+- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 8 · StringLiteral · Survived · `const BRAND_ZONE = "America/Sao_Paulo";` → `""`
 - linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
-- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
-- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
-- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 
-## metricas-redes: 599/623 (96.1%)
+## metricas-redes: 615/641 (95.9%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
@@ -198,7 +198,7 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 | `src/domain/retry.ts` | 45/45 | 100.0% |
 | `src/instant.ts` | 114/116 | 98.3% |
 | `src/providers/adapters.ts` | 124/129 | 96.1% |
-| `src/providers/http.ts` | 90/101 | 89.1% |
+| `src/providers/http.ts` | 106/119 | 89.1% |
 | `src/store.ts` | 59/60 | 98.3% |
 | `src/sync.ts` | 64/65 | 98.5% |
 
@@ -230,16 +230,18 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 **`src/providers/http.ts`**
 
 - linha 49 · StringLiteral · Survived · `throw new ProviderError("network", 'não foi possível falar com o provedor: ${(error as Error).message}');` → `''`
-- linha 47 · StringLiteral · Survived · `throw new ProviderError("timeout", 'o provedor não respondeu em ${this.timeoutMs} ms');` → `''`
 - linha 56 · StringLiteral · Survived · `if (response.status === 408) throw new ProviderError("timeout", "o provedor respondeu 408", 408);` → `""`
-- linha 57 · StringLiteral · Survived · `if (response.status >= 500) throw new ProviderError("server", 'o provedor respondeu ${response.status}', respo` → `''`
+- linha 47 · StringLiteral · Survived · `throw new ProviderError("timeout", 'o provedor não respondeu em ${this.timeoutMs} ms');` → `''`
 - linha 54 · StringLiteral · Survived · `throw new ProviderError("rate_limited", "o provedor respondeu 429", 429, retryAfterMs);` → `""`
-- linha 64 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o provedor devolveu um corpo que não é JSON");` → `""`
-- linha 63 · BlockStatement · Survived · `} catch {` → `{}`
+- linha 57 · StringLiteral · Survived · `if (response.status >= 500) throw new ProviderError("server", 'o provedor respondeu ${response.status}', respo` → `''`
 - linha 58 · StringLiteral · Survived · `if (!response.ok) throw new ProviderError("client", 'o provedor respondeu ${response.status}', response.status` → `''`
-- linha 67 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data");` → `""`
-- linha 66 · ConditionalExpression · Survived · `if (typeof body !== "object" || body === null || !Array.isArray((body as { data?: unknown }).data)) {` → `false`
-- linha 71 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "next_cursor não é texto");` → `""`
+- linha 66 · StringLiteral · Survived · `throw new ProviderError("timeout", 'o provedor não terminou de enviar o corpo em ${this.timeoutMs} ms');` → `''`
+- linha 68 · StringLiteral · Survived · `throw new ProviderError("network", 'a conexão com o provedor caiu durante o corpo: ${(error as Error).message}` → `''`
+- linha 73 · BlockStatement · Survived · `} catch {` → `{}`
+- linha 74 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o provedor devolveu um corpo que não é JSON");` → `""`
+- linha 77 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data");` → `""`
+- linha 76 · ConditionalExpression · Survived · `if (typeof body !== "object" || body === null || !Array.isArray((body as { data?: unknown }).data)) {` → `false`
+- linha 81 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "next_cursor não é texto");` → `""`
 
 **`src/store.ts`**
 
@@ -346,13 +348,13 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 287 · StringLiteral · Survived · `return fail("validation_error", { field: "second", message: 'o vídeo tem ${version.duration_seconds} s: o segu` → `''`
 - linha 290 · StringLiteral · Survived · `return fail("validation_error", { field: "second", message: "só o comentário do vídeo é preso a um segundo" })` → `""`
 
-## views-suspeitas: 853/916 (93.1%)
+## views-suspeitas: 881/935 (94.2%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
 | `src/dataset/readme.ts` | 101/102 | 99.0% |
-| `src/domain/classify.ts` | 273/282 | 96.8% |
-| `src/domain/signals.ts` | 390/443 | 88.0% |
+| `src/domain/classify.ts` | 275/281 | 97.9% |
+| `src/domain/signals.ts` | 416/463 | 89.8% |
 | `src/dataset/evaluate.ts` | 55/55 | 100.0% |
 | `src/domain/stats.ts` | 34/34 | 100.0% |
 
@@ -367,18 +369,16 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 26 · ArrayDeclaration · Survived · `const claimed: Array<[number, number]> = [];` → `["Stryker was here"]`
 - linha 27 · EqualityOperator · Survived · `const overlaps = (from: number, to: number) => claimed.some(([a, b]) => from <= b && to >= a);` → `from < b`
 - linha 27 · EqualityOperator · Survived · `const overlaps = (from: number, to: number) => claimed.some(([a, b]) => from <= b && to >= a);` → `to > a`
-- linha 51 · ConditionalExpression · Survived · `add(peakFinding(peak, baseline), peak.kind !== "organic_decay");` → `false`
-- linha 82 · EqualityOperator · Survived · `for (let h = 1; h < series.length; h += 1) if (series[h]! > series[hour]!) hour = h;` → `h <= series.length`
-- linha 102 · EqualityOperator · Survived · `const step = '${found.step! > 0 ? "+" : "-"}${fmt(Math.abs(found.step!))}';` → `found.step! >= 0`
-- linha 112 · EqualityOperator · Survived · `const suspicious = plateau.regularity < T.plateau_regularity_suspicious;` → `plateau.regularity <= T.plateau_regularity_suspici`
-- linha 114 · ArithmeticOperator · Survived · `const std = stdDev(series.slice(plateau.from, plateau.to + 1));` → `plateau.to - 1`
-- linha 150 · StringLiteral · Survived · `signal: { name: "organic_decay", effect: "organic", measured: peak.tail, threshold: T.organic_min_tail_hours, ` → `''`
+- linha 115 · EqualityOperator · Survived · `const suspicious = plateau.regularity < T.plateau_regularity_suspicious;` → `plateau.regularity <= T.plateau_regularity_suspici`
+- linha 117 · ArithmeticOperator · Survived · `const std = stdDev(series.slice(plateau.from, plateau.to + 1));` → `plateau.to - 1`
+- linha 153 · StringLiteral · Survived · `signal: { name: "organic_decay", effect: "organic", measured: peak.tail, threshold: T.organic_min_tail_hours, ` → `''`
 
 **`src/domain/signals.ts`**
 
+- linha 113 · ArithmeticOperator · Survived · `candidates.sort((a, b) => b.to - b.from - (a.to - a.from) || a.from - b.from);` → `a.from + b.from`
 - linha 34 · EqualityOperator · Survived · `for (let i = 0; i < n; ) {` → `i <= n`
-- linha 36 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `j + 1 <= n`
 - linha 36 · ConditionalExpression · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `true`
+- linha 36 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `j + 1 <= n`
 - linha 36 · ArithmeticOperator · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `j - 1`
 - linha 42 · EqualityOperator · Survived · `for (let i = 0; i + 1 < n; ) {` → `i + 1 <= n`
 - linha 42 · ArithmeticOperator · Survived · `for (let i = 0; i + 1 < n; ) {` → `i - 1`
@@ -387,45 +387,38 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 45 · ArithmeticOperator · Survived · `while (j + 1 < n && series[j + 1]! - series[j]! === step) j += 1;` → `j - 1`
 - linha 46 · ConditionalExpression · Survived · `if (step !== 0 && j - i + 1 >= T.progression_min_run && series.slice(i, j + 1).every((v) => v >= min)) take({ ` → `true`
 - linha 46 · MethodExpression · Survived · `if (step !== 0 && j - i + 1 >= T.progression_min_run && series.slice(i, j + 1).every((v) => v >= min)) take({ ` → `series`
-- linha 47 · ConditionalExpression · Survived · `i = step === 0 ? j + 1 : j;` → `false`
 - linha 47 · EqualityOperator · Survived · `i = step === 0 ? j + 1 : j;` → `step !== 0`
 - linha 52 · EqualityOperator · Survived · `for (let i = p; i < n; ) {` → `i <= n`
-- linha 58 · ConditionalExpression · Survived · `while (j + 1 < n && series[j + 1] === series[j + 1 - p]) j += 1;` → `true`
-- linha 58 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1] === series[j + 1 - p]) j += 1;` → `j + 1 <= n`
-- linha 58 · ArithmeticOperator · Survived · `while (j + 1 < n && series[j + 1] === series[j + 1 - p]) j += 1;` → `j - 1`
 - linha 62 · ConditionalExpression · Survived · `if (repeats >= T.cycle_min_repeats && window.every((v) => v >= min) && new Set(window).size > 1) take({ kind: ` → `true`
 - linha 62 · EqualityOperator · Survived · `if (repeats >= T.cycle_min_repeats && window.every((v) => v >= min) && new Set(window).size > 1) take({ kind: ` → `new Set(window).size >= 1`
-- linha 82 · EqualityOperator · Survived · `for (let i = 0; i < n; i += 1) {` → `i <= n`
-- linha 87 · EqualityOperator · Survived · `for (let j = i + 1; j < n; j += 1) {` → `j <= n`
-- linha 96 · EqualityOperator · Survived · `if (lastGood < 0) continue;` → `lastGood <= 0`
-- linha 100 · EqualityOperator · Survived · `if (next === undefined || next > (1 - T.cliff_drop) * avg) continue; // sem queda seca logo depois` → `next >= (1 - T.cliff_drop) * avg`
-- linha 123 · ArithmeticOperator · Survived · `const order = series.map((_, h) => h).sort((a, b) => series[b]! - series[a]! || a - b);` → `a + b`
-- linha 133 · ConditionalExpression · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `true`
-- linha 133 · EqualityOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from >= 0`
-- linha 133 · ArithmeticOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from + 1`
-- linha 134 · ConditionalExpression · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `true`
-- linha 134 · LogicalOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to + 1 < series.length || !claimed.has(to + 1)`
-- linha 134 · ConditionalExpression · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `true`
-- linha 134 · EqualityOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to + 1 <= series.length`
-- linha 134 · ArithmeticOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to - 1`
-- linha 134 · ArithmeticOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to - 1`
-- linha 139 · ConditionalExpression · Survived · `const abruptEnd = next !== undefined && next <= (1 - T.drop_fraction) * series[to]!;` → `true`
-- linha 139 · EqualityOperator · Survived · `const abruptEnd = next !== undefined && next <= (1 - T.drop_fraction) * series[to]!;` → `next < (1 - T.drop_fraction) * series[to]!`
-- linha 144 · ConditionalExpression · Survived · `} else if (value >= T.organic_min_lift * baseline && to - hour >= T.organic_min_tail_hours && isGradual(series` → `true`
-- linha 144 · ArithmeticOperator · Survived · `} else if (value >= T.organic_min_lift * baseline && to - hour >= T.organic_min_tail_hours && isGradual(series` → `T.organic_min_lift / baseline`
-- linha 158 · EqualityOperator · Survived · `if (series[h]! <= (1 - T.drop_fraction) * series[h - 1]!) return false;` → `series[h]! < (1 - T.drop_fraction) * series[h - 1]`
-- linha 171 · ArithmeticOperator · Survived · `for (let s = w; s <= n - w; s += 1) {` → `n + w`
-- linha 177 · EqualityOperator · Survived · `for (let h = s - w; h <= s + w; h += 1) {` → `h < s + w`
-- linha 178 · EqualityOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h <= 3`
-- linha 178 · EqualityOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h + 6 >= n`
-- linha 178 · ArithmeticOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h - 6`
-- linha 179 · ConditionalExpression · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `false`
-- linha 179 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `series[h - 1]! > mid`
-- linha 179 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `v > mid`
-- linha 180 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
-- linha 180 · LogicalOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h - 3]! > mid && series[h + 2]! < 0.8 * aft`
-- linha 180 · EqualityOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h - 3]! >= mid`
-- linha 180 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
-- linha 180 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
-- linha 180 · EqualityOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h + 2]! <= 0.8 * after`
-- linha 180 · ArithmeticOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `0.8 / after`
+- linha 86 · EqualityOperator · Survived · `for (let j = start + 1; j < n; j += 1) {` → `j <= n`
+- linha 95 · EqualityOperator · Survived · `if (lastGood < 0) return undefined;` → `lastGood <= 0`
+- linha 99 · EqualityOperator · Survived · `if (next === undefined || next > (1 - T.cliff_drop) * avg) return undefined; // sem queda seca logo depois` → `next >= (1 - T.cliff_drop) * avg`
+- linha 109 · EqualityOperator · Survived · `for (let start = 0; start < series.length; start += 1) {` → `start <= series.length`
+- linha 116 · EqualityOperator · Survived · `if (!chosen.some((other) => candidate.from <= other.to && candidate.to >= other.from)) chosen.push(candidate);` → `candidate.from < other.to`
+- linha 116 · EqualityOperator · Survived · `if (!chosen.some((other) => candidate.from <= other.to && candidate.to >= other.from)) chosen.push(candidate);` → `candidate.to > other.from`
+- linha 130 · ArithmeticOperator · Survived · `const order = series.map((_, h) => h).sort((a, b) => series[b]! - series[a]! || a - b);` → `a + b`
+- linha 140 · ConditionalExpression · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `true`
+- linha 140 · EqualityOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from >= 0`
+- linha 140 · ArithmeticOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from + 1`
+- linha 141 · ArithmeticOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to - 1`
+- linha 146 · ConditionalExpression · Survived · `const abruptEnd = next !== undefined && next <= (1 - T.drop_fraction) * series[to]!;` → `true`
+- linha 146 · EqualityOperator · Survived · `const abruptEnd = next !== undefined && next <= (1 - T.drop_fraction) * series[to]!;` → `next < (1 - T.drop_fraction) * series[to]!`
+- linha 151 · ConditionalExpression · Survived · `} else if (value >= T.organic_min_lift * baseline && to - hour >= T.organic_min_tail_hours && isGradual(series` → `true`
+- linha 151 · ArithmeticOperator · Survived · `} else if (value >= T.organic_min_lift * baseline && to - hour >= T.organic_min_tail_hours && isGradual(series` → `T.organic_min_lift / baseline`
+- linha 165 · EqualityOperator · Survived · `if (series[h]! <= (1 - T.drop_fraction) * series[h - 1]!) return false;` → `series[h]! < (1 - T.drop_fraction) * series[h - 1]`
+- linha 178 · ArithmeticOperator · Survived · `for (let s = w; s <= n - w; s += 1) {` → `n + w`
+- linha 184 · EqualityOperator · Survived · `for (let h = s - w; h <= s + w; h += 1) {` → `h < s + w`
+- linha 185 · EqualityOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h <= 3`
+- linha 185 · ConditionalExpression · Survived · `if (h < 3 || h + 6 > n) continue;` → `false`
+- linha 185 · EqualityOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h + 6 >= n`
+- linha 186 · ConditionalExpression · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `false`
+- linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `series[h - 1]! > mid`
+- linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `v > mid`
+- linha 187 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
+- linha 187 · EqualityOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h - 3]! >= mid`
+- linha 187 · LogicalOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h - 3]! > mid && series[h + 2]! < 0.8 * aft`
+- linha 187 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
+- linha 187 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
+- linha 187 · EqualityOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h + 2]! <= 0.8 * after`
+- linha 187 · ArithmeticOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `0.8 / after`

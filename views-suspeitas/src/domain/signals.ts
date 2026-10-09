@@ -76,39 +76,46 @@ export const regularityOf = (window: number[]): number => {
   return m <= 0 ? Number.POSITIVE_INFINITY : stdDev(window) / Math.sqrt(m);
 };
 
-export function findPlateauCliff(series: number[], baseline: number): Plateau | undefined {
+/** Para cada hora de partida, o maior patamar que começa ali e termina numa queda seca. */
+function plateauFrom(series: number[], start: number, baseline: number): Plateau | undefined {
   const n = series.length;
-  let best: Plateau | undefined;
-  for (let i = 0; i < n; i += 1) {
-    let lo = series[i]!;
-    let hi = series[i]!;
-    let sum = series[i]!;
-    let lastGood = -1;
-    for (let j = i + 1; j < n; j += 1) {
-      const v = series[j]!;
-      lo = Math.min(lo, v);
-      hi = Math.max(hi, v);
-      sum += v;
-      const avg = sum / (j - i + 1);
-      if ((hi - lo) / (2 * avg) > T.plateau_band) break;
-      if (j - i + 1 >= T.plateau_min_hours && avg >= T.plateau_min_lift * baseline) lastGood = j;
-    }
-    if (lastGood < 0) continue;
-    const window = series.slice(i, lastGood + 1);
-    const avg = mean(window);
-    const next = series[lastGood + 1];
-    if (next === undefined || next > (1 - T.cliff_drop) * avg) continue; // sem queda seca logo depois
-    const candidate: Plateau = {
-      from: i,
-      to: lastGood,
-      mean: avg,
-      regularity: regularityOf(window),
-      cliffHour: lastGood + 1,
-      cliffDrop: 1 - next / avg,
-    };
-    if (!best || candidate.to - candidate.from > best.to - best.from) best = candidate;
+  let lo = series[start]!;
+  let hi = series[start]!;
+  let sum = series[start]!;
+  let lastGood = -1;
+  for (let j = start + 1; j < n; j += 1) {
+    const v = series[j]!;
+    lo = Math.min(lo, v);
+    hi = Math.max(hi, v);
+    sum += v;
+    const avg = sum / (j - start + 1);
+    if ((hi - lo) / (2 * avg) > T.plateau_band) break;
+    if (j - start + 1 >= T.plateau_min_hours && avg >= T.plateau_min_lift * baseline) lastGood = j;
   }
-  return best;
+  if (lastGood < 0) return undefined;
+  const window = series.slice(start, lastGood + 1);
+  const avg = mean(window);
+  const next = series[lastGood + 1];
+  if (next === undefined || next > (1 - T.cliff_drop) * avg) return undefined; // sem queda seca logo depois
+  return { from: start, to: lastGood, mean: avg, regularity: regularityOf(window), cliffHour: lastGood + 1, cliffDrop: 1 - next / avg };
+}
+
+/**
+ * Todos os patamares seguidos de queda seca, do mais longo para o mais curto (em empate, o que começa antes), sem sobreposição:
+ * um patamar longo e irregular não pode esconder outro, menor e quase fixo, em outra parte da série.
+ */
+export function findPlateauCliffs(series: number[], baseline: number): Plateau[] {
+  const candidates: Plateau[] = [];
+  for (let start = 0; start < series.length; start += 1) {
+    const found = plateauFrom(series, start, baseline);
+    if (found) candidates.push(found);
+  }
+  candidates.sort((a, b) => b.to - b.from - (a.to - a.from) || a.from - b.from);
+  const chosen: Plateau[] = [];
+  for (const candidate of candidates) {
+    if (!chosen.some((other) => candidate.from <= other.to && candidate.to >= other.from)) chosen.push(candidate);
+  }
+  return chosen;
 }
 
 // ---------- picos: pulso sem cauda, queda abrupta e pico orgânico

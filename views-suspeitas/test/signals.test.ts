@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { findPeaks, findPlateauCliff, findRepetition, findStep, isGradual, regularityOf } from "../src/domain/signals.ts";
+import { findPeaks, findPlateauCliffs, findRepetition, findStep, isGradual, regularityOf } from "../src/domain/signals.ts";
 import { baselineOf, mean, median, stdDev } from "../src/domain/stats.ts";
 import { steady, withRange } from "./series.ts";
 
+/** O maior patamar, ou nada: os testes de borda de cada limiar olham para ele. */
+const findPlateauCliff = (series: number[], baseline: number) => findPlateauCliffs(series, baseline)[0];
 const flat = (hours: number, value: number) => Array.from({ length: hours }, () => value);
 const put = (base: number[], at: number, values: number[]) => base.map((v, i) => (i >= at && i < at + values.length ? values[i - at]! : v));
 
@@ -235,5 +237,25 @@ describe("degrau persistente", () => {
   it("tem de ser rápido: uma rampa lenta de 24 horas não é degrau", () => {
     const ramp = Array.from({ length: 24 }, (_, k) => 100 + (150 * (k + 1)) / 24);
     expect(findStep([...flat(48, 100), ...ramp, ...flat(24, 250)])).toBeUndefined();
+  });
+});
+
+describe("todos os patamares, do maior para o menor, sem sobreposição", () => {
+  it("devolve o patamar longo e o curto, em ordem de tamanho", () => {
+    const series = put(put(flat(80, 100), 5, flat(6, 1000)), 40, flat(12, 2000));
+    expect(findPlateauCliffs(series, 100).map((p) => [p.from, p.to])).toEqual([[40, 51], [5, 10]]);
+  });
+
+  it("em empate de tamanho, o que começa antes vem primeiro", () => {
+    const series = put(put(flat(80, 100), 5, flat(6, 1000)), 40, flat(6, 2000));
+    expect(findPlateauCliffs(series, 100).map((p) => p.from)).toEqual([5, 40]);
+  });
+
+  it("janelas que se sobrepõem a um patamar já escolhido não viram outro", () => {
+    expect(findPlateauCliffs(put(flat(40, 100), 10, flat(10, 1000)), 100)).toHaveLength(1);
+  });
+
+  it("sem patamar, lista vazia", () => {
+    expect(findPlateauCliffs(flat(40, 100), 100)).toEqual([]);
   });
 });

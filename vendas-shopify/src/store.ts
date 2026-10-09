@@ -1,6 +1,6 @@
 import type { DatabaseSync } from "node:sqlite";
 import { attribute, normalizeCoupon, normalizeUtm, type Attribution, type Registry, type Signals } from "./attribution.ts";
-import { inTransaction } from "./db.ts";
+import { inTransaction, readSnapshot } from "./db.ts";
 import { allocateRefund } from "./refunds.ts";
 
 const COUNTED_STATUSES = new Set(["paid", "partially_refunded", "refunded"]);
@@ -142,7 +142,12 @@ export function ingestRefund(db: DatabaseSync, refund: NewRefund, now: () => str
   });
 }
 
+/** O pedido com os estornos, lidos do mesmo retrato do banco: um crédito feito por outra conexão no meio não mistura os dois estados. */
 export function getOrder(db: DatabaseSync, id: string) {
+  return readSnapshot(db, () => readOrder(db, id));
+}
+
+function readOrder(db: DatabaseSync, id: string) {
   const order = db.prepare("SELECT * FROM orders WHERE id = ?").get(id) as
     | {
         id: string;

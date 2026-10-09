@@ -1,5 +1,5 @@
 import { CRITERIA_VERSION, THRESHOLDS as T } from "./criteria.ts";
-import { type Peak, type Signal, type Effect, findPeaks, findPlateauCliff, findRepetition, findStep, fmt, pct } from "./signals.ts";
+import { type Peak, type Plateau, type Signal, type Effect, findPeaks, findPlateauCliffs, findRepetition, findStep, fmt, pct } from "./signals.ts";
 import { baselineOf, median, stdDev } from "./stats.ts";
 
 export type Classification = "organic" | "suspicious" | "inconclusive";
@@ -41,8 +41,9 @@ export function classify(series: number[]): ClassifyResult {
   if (lowVolume) add(lowVolumeFinding(typical, series.length));
 
   if (enoughContext && !lowVolume) {
-    const plateau = plateauFinding(series, baseline);
-    if (plateau && !overlaps(plateau.signal.from_hour, plateau.signal.to_hour)) add(plateau, true);
+    for (const plateau of plateauFindings(series, baseline)) {
+      if (!overlaps(plateau.signal.from_hour, plateau.signal.to_hour)) add(plateau, true);
+    }
   }
   if (enoughContext) {
     for (const peak of findPeaks(series, baseline)) {
@@ -105,9 +106,11 @@ function repetitionFinding(series: number[]): Finding | undefined {
   return make(found.repeats!, T.cycle_min_repeats, `ciclo de ${found.period} horas repetido ${found.repeats} vezes (mínimo ${T.cycle_min_repeats})`, `um ciclo de ${found.period} horas se repete ${found.repeats} vezes exatamente igual (${where}). ${why}`);
 }
 
-function plateauFinding(series: number[], baseline: number): Finding | undefined {
-  const plateau = findPlateauCliff(series, baseline);
-  if (!plateau) return undefined;
+function plateauFindings(series: number[], baseline: number): Finding[] {
+  return findPlateauCliffs(series, baseline).map((plateau) => plateauFinding(series, baseline, plateau));
+}
+
+function plateauFinding(series: number[], baseline: number, plateau: Plateau): Finding {
   const hours = plateau.to - plateau.from + 1;
   const suspicious = plateau.regularity < T.plateau_regularity_suspicious;
   const level = fmt(plateau.mean);
