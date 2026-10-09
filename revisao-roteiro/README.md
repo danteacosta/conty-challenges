@@ -4,7 +4,7 @@ API para a revisão de roteiro de uma missão: o criador manda **versões**, a m
 
 ```bash
 npm install
-npm test            # 97 testes: prazo, máquina de estados, fluxo, e2e HTTP, corrida entre conexões
+npm test            # 113 testes: prazo, máquina de estados, fluxo, rodadas e retry de envio, e2e HTTP, corrida entre conexões
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 npm start           # http://127.0.0.1:3013   (DB_PATH=arquivo.db para persistir)
@@ -29,7 +29,7 @@ Toda resposta traz `state` e `allowed_actions`, então dá para seguir o fluxo s
 | `POST /scripts` `{mission_id, content}` | cria o roteiro com a versão 1 (201). Uma missão tem um roteiro só (409 `mission_already_has_script`). |
 | `GET /scripts/:id` | estado, ações possíveis, **todas** as versões e **todos** os pedidos de alteração. |
 | `POST /scripts/:id/change-requests` `{reason, deadline_date}` | a marca pede alteração (só em `awaiting_review`). `reason` e `deadline_date` (`YYYY-MM-DD`) são obrigatórios. |
-| `POST /scripts/:id/versions` `{content}` | o criador responde com uma versão nova (só em `changes_requested`). |
+| `POST /scripts/:id/versions` `{content, change_request_id?, submission_id?}` | o criador responde com uma versão nova (só em `changes_requested`). Os dois campos opcionais protegem contra retry atrasado, ver "Qual rodada o envio responde". |
 | `POST /scripts/:id/approve` | a marca aprova a versão atual (só em `awaiting_review`). |
 
 Erros: `400 validation_error` (com o `field`), `404 not_found`, `409 invalid_state` / `script_approved` / `mission_already_has_script` (com `state` e `allowed_actions`), `422 deadline_in_past`.
@@ -47,6 +47,15 @@ O prazo é **um dia** no fuso da marca, `America/Sao_Paulo`, e o **último insta
 O dia sai de `Intl` com o fuso ([`src/domain/deadline.ts`](src/domain/deadline.ts)), nunca do corte do ISO em UTC e nunca de um `-03:00` fixo (o Brasil teve horário de verão até 2019, e há um teste com 2018). Tudo é testado com o relógio injetado (`createApp({ db, now })`).
 
 Uma **versão** enviada depois do dia do prazo é **aceita e marcada `late: true`**; nada que o criador mandou se perde, e a marca vê que foi tardia.
+
+## Qual rodada o envio responde
+
+Sem os campos opcionais, o envio responde ao pedido de alteração que estiver aberto. Isso deixa um retry atrasado cair na rodada errada: o envio S1 cria a v2 e responde à rodada A; a marca abre a rodada B; o cliente, sem saber se S1 chegou, repete S1 e a v3 nasce com o texto antigo respondendo à B. Por isso o envio pode declarar:
+
+- `change_request_id`: a rodada que ele responde (o `id` em `change_requests`). Se não for a que está aberta, a resposta é **409 `stale_round`** (com `open_change_request_id`) e nada é gravado.
+- `submission_id`: o id do envio, único por roteiro. Repetir o mesmo id com o mesmo conteúdo e a mesma rodada devolve a **versão original** (200, `submission.replayed: true`), em qualquer estado, inclusive depois da aprovação. O mesmo id com outro conteúdo ou outra rodada é **409 `submission_conflict`**.
+
+Não deduplico só pelo texto: conteúdo igual numa rodada nova pode ser intencional. Os campos são opcionais para não quebrar quem já usa a rota; quem os omite continua sujeito ao problema acima. O retry simultâneo do mesmo `submission_id` por duas conexões é serializado pelo `BEGIN IMMEDIATE` e pela chave primária `(script_id, submission_id)`; não escrevi um teste de corrida com workers para este caminho.
 
 ## Exemplos
 

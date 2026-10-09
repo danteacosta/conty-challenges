@@ -14,10 +14,11 @@ type ScriptRow = {
 type VersionRow = { number: number; content: string; submitted_at: string; late: number };
 type RequestRow = { id: number; version_number: number; reason: string; deadline_date: string; created_at: string; answered_by_version: number | null };
 
-export type FailureCode = "not_found" | "invalid_state" | "script_approved" | "deadline_in_past" | "mission_already_has_script";
-export type Failure = { ok: false; code: FailureCode; state?: State; allowed_actions?: Action[] };
+export type FailureCode = "not_found" | "invalid_state" | "script_approved" | "deadline_in_past" | "mission_already_has_script" | "stale_round" | "submission_conflict";
+export type Failure = { ok: false; code: FailureCode; state?: State; allowed_actions?: Action[]; open_change_request_id?: number };
 export type ScriptView = ReturnType<typeof toView>;
-export type Outcome = { ok: true; view: ScriptView } | Failure;
+export type Submission = { id: string; version: number; replayed: boolean };
+export type Outcome = { ok: true; view: ScriptView; submission?: Submission } | Failure;
 
 function toView(db: DatabaseSync, script: ScriptRow) {
   const versions = db.prepare("SELECT * FROM script_versions WHERE script_id = ? ORDER BY number").all(script.id) as VersionRow[];
@@ -92,10 +93,31 @@ export function requestChanges(db: DatabaseSync, input: { id: string; reason: st
   });
 }
 
-export function submitVersion(db: DatabaseSync, input: { id: string; content: string }, now: () => Date): Outcome {
+/**
+ * Envia a versão nova. `changeRequestId` declara a rodada que o envio responde: se não for a que está aberta, é `stale_round`
+ * (um retry atrasado não responde à rodada seguinte). `submissionId` torna o envio repetível: o mesmo id com o mesmo conteúdo
+ * e a mesma rodada devolve a versão original, em qualquer estado do roteiro; com outro conteúdo ou rodada é `submission_conflict`.
+ */
+export function submitVersion(
+  db: DatabaseSync,
+  input: { id: string; content: string; changeRequestId?: number; submissionId?: string },
+  now: () => Date,
+): Outcome {
   return inTransaction(db, () => {
     const script = find(db, input.id);
     if (!script) return { ok: false, code: "not_found" } as const;
+
+    if (input.submissionId !== undefined) {
+      const previous = db
+        .prepare("SELECT content, change_request_id, version_number FROM script_submissions WHERE script_id = ? AND submission_id = ?")
+        .get(script.id, input.submissionId) as { content: string; change_request_id: number | null; version_number: number } | undefined;
+      if (previous) {
+        const same = previous.content === input.content && previous.change_request_id === (input.changeRequestId ?? null);
+        if (!same) return { ok: false, code: "submission_conflict" } as const;
+        return { ok: true, view: toView(db, script), submission: { id: input.submissionId, version: previous.version_number, replayed: true } } as const;
+      }
+    }
+
     const target = nextState(script.state, "submit_version");
     if (target === null) return stateFailure(script);
 
@@ -103,6 +125,9 @@ export function submitVersion(db: DatabaseSync, input: { id: string; content: st
     const open = db
       .prepare("SELECT id, deadline_date FROM change_requests WHERE script_id = ? AND answered_by_version IS NULL ORDER BY id DESC LIMIT 1")
       .get(script.id) as { id: number; deadline_date: string };
+    if (input.changeRequestId !== undefined && input.changeRequestId !== open.id) {
+      return { ok: false, code: "stale_round", open_change_request_id: open.id } as const;
+    }
     const next = (db.prepare("SELECT MAX(number) AS n FROM script_versions WHERE script_id = ?").get(script.id) as { n: number }).n + 1;
     db.prepare("INSERT INTO script_versions (script_id, number, content, submitted_at, late) VALUES (?, ?, ?, ?, ?)").run(
       script.id,
@@ -113,7 +138,19 @@ export function submitVersion(db: DatabaseSync, input: { id: string; content: st
     );
     db.prepare("UPDATE change_requests SET answered_by_version = ? WHERE id = ?").run(next, open.id);
     db.prepare("UPDATE scripts SET state = ? WHERE id = ?").run(target, script.id);
-    return { ok: true, view: toView(db, find(db, script.id) as ScriptRow) } as const;
+    if (input.submissionId !== undefined) {
+      db.prepare("INSERT INTO script_submissions (script_id, submission_id, content, change_request_id, version_number) VALUES (?, ?, ?, ?, ?)").run(
+        script.id,
+        input.submissionId,
+        input.content,
+        input.changeRequestId ?? null,
+        next,
+      );
+    }
+    const view = toView(db, find(db, script.id) as ScriptRow);
+    return input.submissionId === undefined
+      ? ({ ok: true, view } as const)
+      : ({ ok: true, view, submission: { id: input.submissionId, version: next, replayed: false } } as const);
   });
 }
 

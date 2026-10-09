@@ -14,21 +14,35 @@ function required(value: unknown): string | null {
   return trimmed === "" || trimmed.length > MAX_TEXT ? null : trimmed;
 }
 
+const MAX_SUBMISSION_ID = 200;
+
+/** Campo opcional: ausente ou null vira undefined; presente e inválido vira null. */
+function optionalPositiveInteger(value: unknown): number | undefined | null {
+  if (value === undefined || value === null) return undefined;
+  return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;
+}
+function optionalText(value: unknown, max: number): string | undefined | null {
+  if (value === undefined || value === null) return undefined;
+  return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;
+}
+
 const STATUS: Record<Failure["code"], 404 | 409 | 422> = {
   not_found: 404,
   invalid_state: 409,
   script_approved: 409,
   deadline_in_past: 422,
   mission_already_has_script: 409,
+  stale_round: 409,
+  submission_conflict: 409,
 };
 
 export function createApp({ db, now }: AppOptions) {
   const app = new Hono();
 
   const respond = (c: { json: (body: unknown, status?: 200 | 201 | 404 | 409 | 422) => Response }, outcome: Outcome, success: 200 | 201) => {
-    if (outcome.ok) return c.json(outcome.view, success);
-    const { code, state, allowed_actions } = outcome;
-    return c.json({ error: code, ...(state ? { state, allowed_actions } : {}) }, STATUS[code]);
+    if (outcome.ok) return c.json(outcome.submission ? { ...outcome.view, submission: outcome.submission } : outcome.view, outcome.submission?.replayed ? 200 : success);
+    const { code, state, allowed_actions, open_change_request_id } = outcome;
+    return c.json({ error: code, ...(state ? { state, allowed_actions } : {}), ...(open_change_request_id ? { open_change_request_id } : {}) }, STATUS[code]);
   };
   const invalid = (c: { json: (body: unknown, status: 400) => Response }, field: string, message: string) =>
     c.json({ error: "validation_error", field, message }, 400);
@@ -59,7 +73,11 @@ export function createApp({ db, now }: AppOptions) {
     const body = await c.req.json().catch(() => null);
     const content = required(body?.content);
     if (!content) return invalid(c, "content", "content é obrigatório");
-    return respond(c, submitVersion(db, { id: c.req.param("id"), content }, now), 201);
+    const changeRequestId = optionalPositiveInteger(body?.change_request_id);
+    if (changeRequestId === null) return invalid(c, "change_request_id", "change_request_id deve ser o id inteiro positivo do pedido de alteração que este envio responde");
+    const submissionId = optionalText(body?.submission_id, MAX_SUBMISSION_ID);
+    if (submissionId === null) return invalid(c, "submission_id", `submission_id deve ser um texto de 1 a ${MAX_SUBMISSION_ID} caracteres`);
+    return respond(c, submitVersion(db, { id: c.req.param("id"), content, changeRequestId, submissionId }, now), 201);
   });
 
   app.post("/scripts/:id/approve", (c) => respond(c, approve(db, { id: c.req.param("id") }, now), 200));

@@ -30,6 +30,16 @@ CREATE TABLE IF NOT EXISTS change_requests (
   answered_by_version INTEGER
 );
 CREATE INDEX IF NOT EXISTS change_requests_script ON change_requests (script_id, id);
+
+-- Um envio com id: o retry do mesmo envio devolve a versão original em vez de criar outra.
+CREATE TABLE IF NOT EXISTS script_submissions (
+  script_id TEXT NOT NULL,
+  submission_id TEXT NOT NULL,
+  content TEXT NOT NULL,
+  change_request_id INTEGER,
+  version_number INTEGER NOT NULL,
+  PRIMARY KEY (script_id, submission_id)
+);
 `;
 
 export function openDatabase(path = ":memory:"): DatabaseSync {
