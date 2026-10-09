@@ -1,11 +1,11 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { Worker } from "node:worker_threads";
 import { afterAll, describe, expect, it } from "vitest";
 import { openDatabase } from "../src/db.ts";
 import { loadShipment, registerShipment } from "../src/store.ts";
 import { setup } from "./helpers.ts";
+import { tsWorker } from "./spawn-worker.ts";
 import { DELIVERED, H, IN_TRANSIT, OUT_FOR_DELIVERY, POSTED, T0, iso } from "./fixtures.ts";
 
 const dir = mkdtempSync(join(tmpdir(), "rastreio-"));
@@ -18,7 +18,7 @@ describe("concorrência", () => {
     const events = [POSTED, IN_TRANSIT, OUT_FOR_DELIVERY, DELIVERED].map((rawStatus, i) => ({ rawStatus, occurredAt: iso(i * 3 * H) }));
     const run = (worker: number) =>
       new Promise<Array<{ added: number; duplicates: number }>>((resolve, reject) => {
-        const w = new Worker(new URL("./worker.ts", import.meta.url), { workerData: { path, worker, events } });
+        const w = tsWorker(new URL("./worker.ts", import.meta.url), { path, worker, events });
         w.once("message", resolve);
         w.once("error", reject);
       });
@@ -43,7 +43,7 @@ describe("concorrência", () => {
 
     const run = () =>
       new Promise<{ result: { newly_alerted: number; notified: number }; sent: string[] }>((resolve, reject) => {
-        const w = new Worker(new URL("./alerts-worker.ts", import.meta.url), { workerData: { path, nowMs: T0 + 100 * H } });
+        const w = tsWorker(new URL("./alerts-worker.ts", import.meta.url), { path, nowMs: T0 + 100 * H });
         w.once("message", resolve);
         w.once("error", reject);
       });

@@ -73,6 +73,28 @@ describe("status atual a partir do histórico", () => {
     expect(fold).toMatchObject({ status: "exception", reason: "unmapped_carrier_status" });
   });
 
+  it("exceções no mesmo instante, uma mapeada (90) e outra inventada: o motivo é o da desconhecida, em qualquer ordem", () => {
+    const known = ev(FAILED_ATTEMPT, 4 * H);
+    const unknown = normalizeEvent("via-rapida", viaRapida("INVENTADO", 4 * H));
+    expect(foldEvents([known, unknown])).toMatchObject({ status: "exception", reason: "unmapped_carrier_status" });
+    expect(foldEvents([unknown, known])).toMatchObject({ status: "exception", reason: "unmapped_carrier_status" });
+  });
+
+  it("a regra vale pelo motivo, não pela ordem alfabética do código: inventado que ordena antes do conhecido também vence", () => {
+    // "000_INVENTADO" ordena antes de "90" na dedupeKey; só a regra do motivo faz o inventado vencer nos dois sentidos
+    const known = ev(FAILED_ATTEMPT, 4 * H);
+    const unknown = normalizeEvent("via-rapida", viaRapida("000_INVENTADO", 4 * H));
+    expect(unknown.dedupeKey < known.dedupeKey).toBe(true);
+    expect(foldEvents([known, unknown]).reason).toBe("unmapped_carrier_status");
+    expect(foldEvents([unknown, known]).reason).toBe("unmapped_carrier_status");
+  });
+
+  it("exceções empatadas com o mesmo motivo também dão sempre o mesmo resultado, qualquer que seja a ordem", () => {
+    const a = normalizeEvent("via-rapida", viaRapida("INVENTADO_A", 4 * H));
+    const b = normalizeEvent("via-rapida", viaRapida("INVENTADO_B", 4 * H));
+    expect(foldEvents([a, b])).toEqual(foldEvents([b, a]));
+  });
+
   it("status desconhecido nunca produz entregue, mesmo sem outros eventos", () => {
     const fold = foldEvents([normalizeEvent("via-rapida", viaRapida("ENTREGUE_MAS_NAO_SEI", 0))]);
     expect(fold.status).toBe("exception");
@@ -86,17 +108,21 @@ describe("status atual: propriedades", () => {
     .array(fc.record({ raw: rawArb, ms: fc.integer({ min: 0, max: 20 }) }), { maxLength: 8 })
     .map((list) => list.map((e) => ev(e.raw, e.ms * H)));
 
-  it("qualquer ordem de chegada dos mesmos eventos dá o mesmo status e a mesma marcação", () => {
-    fc.assert(
-      fc.property(eventsArb, fc.nat(), (events, seed) => {
-        const shuffled = [...events.slice(seed % (events.length || 1)), ...events.slice(0, seed % (events.length || 1))].reverse();
-        const a = foldEvents(events);
-        const b = foldEvents(shuffled);
-        expect(b.status).toBe(a.status);
-        expect(b.reason).toBe(a.reason);
-        expect([...b.afterDelivered].sort()).toEqual([...a.afterDelivered].sort());
-      }),
-    );
+  const orderIndependence = fc.property(eventsArb, fc.nat(), (events, seed) => {
+    const shuffled = [...events.slice(seed % (events.length || 1)), ...events.slice(0, seed % (events.length || 1))].reverse();
+    const a = foldEvents(events);
+    const b = foldEvents(shuffled);
+    expect(b.status).toBe(a.status);
+    expect(b.reason).toBe(a.reason);
+    expect([...b.afterDelivered].sort()).toEqual([...a.afterDelivered].sort());
+  });
+
+  it("qualquer ordem de chegada dos mesmos eventos dá o mesmo status, o mesmo motivo e a mesma marcação", () => {
+    fc.assert(orderIndependence);
+  });
+
+  it("replay do caso que a auditoria reproduziu (seed 559970327): a ordem de chegada não muda status nem motivo", () => {
+    fc.assert(orderIndependence, { seed: 559970327, path: "91:9:10:10:18:19:19:19:9:15", numRuns: 1 });
   });
 
   it("reenviar eventos já recebidos não muda nada", () => {

@@ -151,6 +151,22 @@ describe("consulta e normalização", () => {
     });
   });
 
+  it("exceção conhecida e código inventado no mesmo instante: a resposta é a mesma em qualquer ordem de chegada", async () => {
+    const bodies: unknown[] = [];
+    for (const order of [[FAILED_ATTEMPT, "INVENTADO"], ["INVENTADO", FAILED_ATTEMPT]]) {
+      const t = setup();
+      await t.register("BR1");
+      for (const raw of order) {
+        t.aggregator.script("BR1", [viaRapida(raw!, 4 * H)]);
+        await t.refresh("BR1");
+      }
+      const { body } = await t.get("BR1");
+      bodies.push({ status: body.status, reason: body.reason, history: body.history });
+    }
+    expect(bodies[1]).toEqual(bodies[0]);
+    expect((bodies[0] as { reason: string }).reason).toBe("unmapped_carrier_status");
+  });
+
   it("status inventado não desfaz uma entrega já registrada", async () => {
     const t = setup();
     await t.register("BR1");

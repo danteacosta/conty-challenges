@@ -1,6 +1,6 @@
 import type { CarrierEvent } from "../../domain/types.ts";
 import { AggregatorError, type TrackingAggregator } from "../port.ts";
-import { mapTrackHubPayload } from "./mapper.ts";
+import { mapTrackHubPayload, verifyTrackHubEnvelope } from "./mapper.ts";
 
 export type TrackHubOptions = { baseUrl: string; apiKey: string; timeoutMs?: number; fetch?: typeof fetch };
 
@@ -22,7 +22,7 @@ export class HttpTrackHubClient implements TrackingAggregator {
     await this.request("POST", "/v1/trackings", { tracking_number: code, courier: carrier });
   }
 
-  async fetchEvents(code: string): Promise<CarrierEvent[]> {
+  async fetchEvents(code: string, carrier: string): Promise<CarrierEvent[]> {
     const response = await this.request("GET", `/v1/trackings/${encodeURIComponent(code)}`, undefined, [404]);
     // 404 = o agregador ainda não conhece o código: não há eventos, o que não é um erro.
     if (response.status === 404) return [];
@@ -32,6 +32,7 @@ export class HttpTrackHubClient implements TrackingAggregator {
     } catch {
       throw new AggregatorError("invalid_payload", "o TrackHub devolveu um corpo que não é JSON");
     }
+    verifyTrackHubEnvelope(payload, { code, carrier });
     return mapTrackHubPayload(payload);
   }
 

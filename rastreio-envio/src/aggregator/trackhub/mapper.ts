@@ -8,6 +8,21 @@ import type { CarrierEvent } from "../../domain/types.ts";
  */
 const invalid = (why: string) => new AggregatorError("invalid_payload", `payload do TrackHub inválido: ${why}`);
 
+/**
+ * O envelope tem que ser do envio pedido: sem isso, a resposta de outro código ou de outra transportadora seria
+ * lida com o dialeto do envio consultado (um "40" de uma transportadora qualquer viraria entrega).
+ */
+export function verifyTrackHubEnvelope(payload: unknown, expected: { code: string; carrier: string }): void {
+  if (typeof payload !== "object" || payload === null) throw invalid("o corpo não é um objeto");
+  const { tracking_number: trackingNumber, courier } = payload as { tracking_number?: unknown; courier?: unknown };
+  if (typeof trackingNumber !== "string" || trackingNumber.trim().toUpperCase() !== expected.code.trim().toUpperCase()) {
+    throw invalid("tracking_number ausente ou de outro envio");
+  }
+  if (typeof courier !== "string" || courier.trim().toLowerCase() !== expected.carrier) {
+    throw invalid("courier ausente ou de outra transportadora");
+  }
+}
+
 export function mapTrackHubPayload(payload: unknown): CarrierEvent[] {
   if (typeof payload !== "object" || payload === null) throw invalid("o corpo não é um objeto");
   const checkpoints = (payload as { checkpoints?: unknown }).checkpoints;

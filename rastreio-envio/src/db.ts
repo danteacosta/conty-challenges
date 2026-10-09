@@ -39,6 +39,9 @@ CREATE TABLE IF NOT EXISTS alerts (
   created_at TEXT NOT NULL,
   claimed_at TEXT,
   notified_at TEXT,
+  -- Aviso que ficou obsoleto antes de ser enviado (ex.: a entrega, dentro do prazo, chegou depois): nunca é enviado.
+  discarded_at TEXT,
+  discard_reason TEXT,
   UNIQUE (tracking_code, kind)
 );
 `;
@@ -48,6 +51,7 @@ export function openDatabase(path = ":memory:"): DatabaseSync {
   db.exec("PRAGMA busy_timeout = 5000");
   if (path !== ":memory:") db.exec("PRAGMA journal_mode = WAL");
   db.exec(SCHEMA);
+  addMissingColumns(db);
   return db;
 }
 
@@ -61,5 +65,13 @@ export function inTransaction<T>(db: DatabaseSync, fn: () => T): T {
   } catch (error) {
     db.exec("ROLLBACK");
     throw error;
+  }
+}
+
+/** Bancos criados antes das colunas de descarte (CREATE TABLE IF NOT EXISTS não as acrescenta). */
+function addMissingColumns(db: DatabaseSync): void {
+  const columns = (db.prepare("PRAGMA table_info(alerts)").all() as Array<{ name: string }>).map((c) => c.name);
+  for (const column of ["discarded_at", "discard_reason"]) {
+    if (!columns.includes(column)) db.exec(`ALTER TABLE alerts ADD COLUMN ${column} TEXT`);
   }
 }

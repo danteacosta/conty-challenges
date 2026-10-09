@@ -18,7 +18,7 @@ export class InMemoryAggregator implements TrackingAggregator {
     if (this.failure) throw this.failure;
     this.registered.push({ code, carrier });
   }
-  async fetchEvents(code: string) {
+  async fetchEvents(code: string, _carrier?: string) {
     if (this.failure) throw this.failure;
     return this.events.get(code) ?? [];
   }

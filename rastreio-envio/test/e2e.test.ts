@@ -67,6 +67,21 @@ describe("jornada completa por HTTP, com o cliente real do TrackHub", () => {
     expect(jobs.newly_alerted).toBe(0);
   });
 
+  it("envelope de outro envio: a API responde 502 e o envio consultado não é alterado", async () => {
+    await send("POST", "/shipments", { tracking_code: "BR779", carrier: "via-rapida" });
+    hub.state.trackings.set("BR779", {
+      tracking_number: "OTHER",
+      courier: "unknown-carrier",
+      checkpoints: [{ id: "1", status_code: "40", message: "Entregue", time: "2026-06-01T12:00:00Z", city: null }],
+    });
+    const res = await send("POST", "/shipments/BR779/refresh");
+    expect(res.status).toBe(502);
+    expect(await res.json()).toMatchObject({ error: "aggregator_unavailable", kind: "invalid_payload" });
+
+    const shipment = await (await send("GET", "/shipments/BR779")).json();
+    expect(shipment).toMatchObject({ status: null, delivered_at: null, history: [] });
+  });
+
   it("se o agregador cai, a API responde 502 em vez de inventar estado", async () => {
     await send("POST", "/shipments", { tracking_code: "BR778", carrier: "via-rapida" });
     hub.state.nextResponse = { status: 503, body: "{}" };

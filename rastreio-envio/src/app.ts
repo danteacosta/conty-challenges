@@ -52,8 +52,9 @@ export function createApp(options: AppOptions) {
 
   app.post("/shipments/:code/refresh", async (c) => {
     const code = normalizeCode(c.req.param("code"));
-    if (!findShipment(db, code)) return c.json({ error: "envio não encontrado" }, 404);
-    const events = await aggregator.fetchEvents(code);
+    const shipment = findShipment(db, code);
+    if (!shipment) return c.json({ error: "envio não encontrado" }, 404);
+    const events = await aggregator.fetchEvents(code, shipment.carrier);
     const outcome = ingestEvents(db, code, events, now);
     return outcome ? c.json(outcome) : c.json({ error: "envio não encontrado" }, 404);
   });

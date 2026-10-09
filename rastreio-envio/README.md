@@ -4,13 +4,15 @@ Integra com um agregador de rastreio (fictício, "TrackHub"), traduz o dialeto d
 
 ```bash
 npm install
-npm test            # 103 testes: normalização, status, atraso, API, cliente HTTP, concorrência, e2e
+npm test            # 126 testes: normalização, status, atraso, aviso, API, cliente HTTP, concorrência, e2e
 npm run typecheck
 npm run mutation    # Stryker nas regras (relatório em reports/)
 npm start           # http://127.0.0.1:3012
 ```
 
-Variáveis do `npm start`: `TRACKHUB_URL`, `TRACKHUB_API_KEY`, `TRACKHUB_TIMEOUT_MS` (5000), `TRANSIT_THRESHOLD_HOURS` (168), `DB_PATH`, `PORT`. Node 22+ (usa `node:sqlite`).
+Variáveis do `npm start`: `TRACKHUB_URL`, `TRACKHUB_API_KEY`, `TRACKHUB_TIMEOUT_MS` (5000), `TRANSIT_THRESHOLD_HOURS` (168), `DB_PATH`, `PORT`. Node 22.13+ (a partir daí `node:sqlite` não precisa de flag). Suíte completa verificada em 22.15.0 e 24.7.0.
+
+Em Node 22 os workers dos testes de concorrência são `.ts`, que só carregam com `--experimental-strip-types`; `test/spawn-worker.ts` passa a flag ao `Worker` (no 24 ela já é o padrão), então `npm test` e `npx vitest` direto funcionam nas duas versões.
 
 ## API
 
@@ -19,8 +21,8 @@ Variáveis do `npm start`: `TRACKHUB_URL`, `TRACKHUB_API_KEY`, `TRACKHUB_TIMEOUT
 | `POST /shipments` `{tracking_code, carrier, creator_id?, campaign_id?}` | Cadastra o código no agregador e guarda o envio. Idempotente (200 `exists`); transportadora diferente para o mesmo código é 409; transportadora sem dialeto é 400 com a lista das suportadas. |
 | `POST /shipments/:code/refresh` | Consulta o agregador, normaliza e grava só o que é novo. Devolve `{added, duplicates, status}`. Agregador fora do ar: 502 e o estado gravado fica como estava. |
 | `GET /shipments/:code` | Status, histórico (do mais antigo ao mais novo) e a avaliação de atraso. |
-| `POST /jobs/check-delays` | Avalia os envios não entregues e avisa dos atrasados, uma vez só por envio. Pensado para rodar em cron. |
-| `GET /alerts` | Avisos gerados e se já foram entregues ao destino. |
+| `POST /jobs/check-delays` | Avalia os envios não entregues e avisa dos atrasados, uma vez só por envio. Antes de enviar, reavalia cada aviso pendente: o que ficou obsoleto é descartado. Devolve `{newly_alerted, notified, discarded}`. Pensado para rodar em cron. |
+| `GET /alerts` | Avisos e o estado de cada um: `pending`, `notified` ou `discarded` (com `discard_reason`: `delivered` ou `within_threshold`). |
 
 ## Status normalizado
 
@@ -66,6 +68,7 @@ O `status_code` está no dialeto da transportadora (`via-rapida`). Depois de nor
 **Status atual** ([`status.ts`](src/domain/status.ts)). É calculado sempre do histórico inteiro, não atualizado aos poucos, então a ordem de chegada não importa:
 - vale o evento de maior data de ocorrência (não o de chegada): evento antigo que chega depois não regride nada;
 - empate de horário: `delivered` > `exception` > `out_for_delivery` > `in_transit` > `posted`;
+- empate também no status (duas `exception` no mesmo instante, como `90` e um `INVENTADO`): vence o evento **com motivo**, ou seja, a desconhecida, para a anomalia continuar visível; por fim a `dedupeKey`. A ordem é total, então `status`, `reason` e histórico nunca dependem da ordem de chegada;
 - `delivered` é terminal: evento posterior à entrega fica no histórico com `ignored: "after_delivered"` e não muda o status;
 - uma `exception` seguida de evento mais novo se recupera (tentativa falha hoje, entrega amanhã). Por isso não uso "maior status vence".
 
@@ -81,11 +84,17 @@ O erro clássico é comparar "agora" com o início mesmo para pacotes já entreg
 - `exception` parada passa a contar como atraso quando ultrapassa o limite;
 - o relógio é injetado, e os testes usam data controlada ([`delay.test.ts`](test/delay.test.ts), [`delays.test.ts`](test/delays.test.ts)): limite exato, 1 ms depois, entrega consultada 30 dias depois, exceção parada.
 
+**Aviso obsoleto não é enviado.** Um aviso pode ficar pendente (o destino estava fora do ar) e o mundo mudar antes do reenvio, por exemplo chegando fora de ordem uma entrega que ocorreu dentro do prazo. Ao reservar, o job reavalia cada aviso pendente contra o estado **atual** do envio, na mesma transação: se já não está atrasado (entregue, ou o limite mudou), o aviso vira `discarded` e nunca sai; se continua atrasado, sai com os dados atuais (status e horas decorridas de agora, não de quando foi criado). Se um envio descartado voltar a atrasar, o mesmo aviso é reativado, sem duplicar. Entre a reserva e o envio ainda existe uma janela curta; a garantia é "pelo menos uma vez, e nunca um aviso já sabidamente obsoleto".
+
 **Aviso uma vez só.** `alerts` tem `UNIQUE(tracking_code, kind)`. O job registra, reserva (`claimed_at`) e só então entrega ao `Notifier`; se o destino falha, a reserva é desfeita e o aviso sai na próxima execução. Entrega é pelo menos uma vez e nunca duplicada em execuções normais; se o processo morrer entre a reserva e o envio, o aviso fica reservado (limitação declarada).
 
 ## Trocar o agregador
 
-O resto do código só conhece a interface [`TrackingAggregator`](src/aggregator/port.ts) (`register`, `fetchEvents`) e os `CarrierEvent` internos. O formato do TrackHub vive só em [`src/aggregator/trackhub/`](src/aggregator/trackhub/) (`client.ts` com timeout e erros tipados `http | timeout | network | invalid_payload`, e `mapper.ts`). Um segundo agregador é outra classe que implementa a interface; o teste e2e roda o mesmo fluxo com o cliente HTTP real e com um agregador em memória.
+O resto do código só conhece a interface [`TrackingAggregator`](src/aggregator/port.ts) (`register`, `fetchEvents(code, carrier)`) e os `CarrierEvent` internos. O formato do TrackHub vive só em [`src/aggregator/trackhub/`](src/aggregator/trackhub/) (`client.ts` com timeout e erros tipados `http | timeout | network | invalid_payload`, e `mapper.ts`). Um segundo agregador é outra classe que implementa a interface; o teste e2e roda o mesmo fluxo com o cliente HTTP real e com um agregador em memória.
+
+## Identidade do envelope
+
+O adapter confere, antes de mapear, que a resposta é do envio pedido: `tracking_number` igual ao código consultado e `courier` igual à transportadora cadastrada (sem diferenciar caixa nem espaços). Ausente, de outro tipo ou diferente é `invalid_payload`: a API responde 502 e o envio consultado **não** é alterado. Sem isso, um envelope de outro código ou de uma transportadora desconhecida seria lido com o dialeto do envio consultado (um `40` qualquer viraria entrega). Só o adapter conhece esses campos; a interface recebe a transportadora esperada justamente para poder conferir.
 
 ## Testes
 
@@ -94,7 +103,8 @@ O resto do código só conhece a interface [`TrackingAggregator`](src/aggregator
 - Cliente HTTP contra um servidor TrackHub falso real (porta efêmera): chave de API, 404, 500, JSON malformado, timeout, rede fora do ar.
 - Concorrência: 4 `worker_threads` com conexões separadas consultando os mesmos eventos em ordens diferentes; 4 workers verificando atrasos ao mesmo tempo (cada aviso sai exatamente uma vez).
 - Jornada e2e por HTTP.
-- Mutação: 99,0% (199 de 201). Os 2 sobreviventes são equivalentes (`typeof` antes de `Date.parse`, que já devolve `NaN` para `undefined`; e `?.` sobre uma linha que sempre existe).
+- Mutação (Stryker, agora incluindo `alerts.ts`): 93,6% (291 de 311). Os sobreviventes vêm de: a `dedupeKey` como último critério do desempate (dentro de um mesmo envio todos os eventos têm a mesma transportadora, então o motivo depende só de haver ou não motivo, e esse critério final não altera nenhum resultado observável); mensagens de erro e o `ConsoleNotifier` (texto de log); e alguns mutantes em `alerts.ts` que o Stryker mantém vivos mas que, aplicados à mão, derrubam os testes (descarte nunca acontecendo, motivo de descarte fixo). Considero o relatório do Stryker conservador nesses pontos e registro a divergência em vez de esconder.
+- Concorrência: workers largam juntos, e 4 conexões verificando atrasos ao mesmo tempo entregam cada aviso exatamente uma vez.
 
 ## Decisões minhas (o enunciado não fixa)
 
@@ -108,10 +118,13 @@ O resto do código só conhece a interface [`TrackingAggregator`](src/aggregator
 - Webhooks de push do agregador (aqui a atualização é por consulta); autenticação das rotas; assinatura do agregador.
 - Limite por transportadora ou por campanha; reabertura do aviso depois de resolvido.
 - Evento com `occurred_at` no futuro em relação ao relógio local não é tratado de forma especial.
+- `TRANSIT_THRESHOLD_HOURS` não numérico vira `NaN` e nenhum envio é considerado atrasado (sem validação na inicialização); e o padrão é SQLite em memória, então reiniciar sem `DB_PATH` perde os dados.
 
 ## Uso de IA
 
 Este projeto foi escrito com o Claude Code (Claude Sonnet 5.5), seguindo plano aprovado por mim: o modelo propôs o desenho, escreveu os testes antes do código, a implementação, o README e rodou a mutação (que apontou testes fracos nos caminhos do `store`, nas mensagens do mapper e na marcação pós-entrega, todos corrigidos).
+
+**Depois da primeira entrega**, uma auditoria automatizada (feita com o Codex) apontou lacunas; as correções acima foram escritas pelo Claude Code, com regressões antes das correções, e verificadas com a suíte completa em Node 22.15 e 24.7. Isso não substitui a minha revisão: as caixas abaixo continuam desmarcadas até eu ler e rodar.
 
 **Eu (Dante) preciso confirmar antes de enviar** *(marque o que de fato revisou)*:
 

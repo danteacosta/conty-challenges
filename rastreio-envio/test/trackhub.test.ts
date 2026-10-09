@@ -94,43 +94,92 @@ describe("cliente HTTP do TrackHub", () => {
 
   it("consulta e devolve eventos já traduzidos para o formato interno", async () => {
     hub.state.trackings.set("BR123456789", RAW_EXAMPLE);
-    const events = await client.fetchEvents("BR123456789");
+    const events = await client.fetchEvents("BR123456789", "via-rapida");
     expect(events).toHaveLength(3);
     expect(events[0]).toMatchObject({ rawStatus: "20", location: "Recife" });
   });
 
   it("código ainda desconhecido pelo agregador (404) é lista vazia, não erro", async () => {
-    expect(await client.fetchEvents("NAO_EXISTE")).toEqual([]);
+    expect(await client.fetchEvents("NAO_EXISTE", "via-rapida")).toEqual([]);
   });
 
   it("chave de API errada é erro http tipado", async () => {
     const wrong = new HttpTrackHubClient({ baseUrl: hub.baseUrl, apiKey: "errada", timeoutMs: 300 });
-    await expect(wrong.fetchEvents("BR1")).rejects.toMatchObject({ kind: "http", status: 401 });
+    await expect(wrong.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "http", status: 401 });
   });
 
   it("resposta 500 é erro http tipado", async () => {
     hub.state.nextResponse = { status: 500, body: '{"error":"boom"}' };
-    await expect(client.fetchEvents("BR1")).rejects.toMatchObject({ kind: "http", status: 500 });
+    await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "http", status: 500 });
     await expect(client.register("BR1", "via-rapida")).rejects.toMatchObject({ kind: "http", status: 500 });
   });
 
   it("JSON malformado é payload inválido", async () => {
     hub.state.nextResponse = { status: 200, body: "{nope" };
-    await expect(client.fetchEvents("BR1")).rejects.toMatchObject({ kind: "invalid_payload" });
+    await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload" });
   });
 
   it("agregador lento demais é timeout", async () => {
     hub.state.delayMs = 1000;
-    await expect(client.fetchEvents("BR1")).rejects.toMatchObject({ kind: "timeout" });
+    await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "timeout" });
   });
 
   it("agregador fora do ar é erro de rede", async () => {
     const down = new HttpTrackHubClient({ baseUrl: "http://127.0.0.1:1", apiKey: "x", timeoutMs: 300 });
-    await expect(down.fetchEvents("BR1")).rejects.toMatchObject({ kind: "network" });
+    await expect(down.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "network" });
+  });
+
+  describe("identidade do envelope: o payload tem que ser do envio e da transportadora pedidos", () => {
+    const checkpoint = { id: "1", status_code: "40", message: "Entregue", time: "2026-06-01T12:00:00Z", city: null };
+
+    it("envelope de outro código e de outra transportadora não vira evento do envio consultado (caso da auditoria)", async () => {
+      hub.state.trackings.set("BR1", { tracking_number: "OTHER", courier: "unknown-carrier", checkpoints: [checkpoint] });
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload" });
+    });
+
+    it("mesmo código com outra transportadora é recusado", async () => {
+      hub.state.trackings.set("BR1", { tracking_number: "BR1", courier: "correio-norte", checkpoints: [checkpoint] });
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload", message: expect.stringMatching(/courier/) });
+    });
+
+    it("mesma transportadora com outro código é recusado", async () => {
+      hub.state.trackings.set("BR1", { tracking_number: "BR2", courier: "via-rapida", checkpoints: [checkpoint] });
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload", message: expect.stringMatching(/tracking_number/) });
+    });
+
+    it("envelope sem identidade é recusado", async () => {
+      hub.state.trackings.set("BR1", { checkpoints: [checkpoint] } as never);
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload" });
+    });
+
+    it("courier que não é texto é recusado, não derruba a consulta", async () => {
+      hub.state.trackings.set("BR1", { tracking_number: "BR1", courier: 123, checkpoints: [checkpoint] } as never);
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload", message: expect.stringMatching(/courier/) });
+    });
+
+    it("tracking_number que não é texto é recusado", async () => {
+      hub.state.trackings.set("BR1", { tracking_number: 1, courier: "via-rapida", checkpoints: [checkpoint] } as never);
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload", message: expect.stringMatching(/tracking_number/) });
+    });
+
+    it.each(["null", '"texto"', "[]", "42"])("corpo JSON %s não é um envelope", async (body) => {
+      hub.state.nextResponse = { status: 200, body };
+      await expect(client.fetchEvents("BR1", "via-rapida")).rejects.toMatchObject({ kind: "invalid_payload" });
+    });
+
+    it("o código pedido em minúsculas e com espaços também confere com o envelope", async () => {
+      hub.state.trackings.set(" br1 ", { tracking_number: "BR1", courier: " Via-Rapida ", checkpoints: [checkpoint] });
+      expect(await client.fetchEvents(" br1 ", "via-rapida")).toHaveLength(1);
+    });
+
+    it("a identidade certa passa, mesmo com caixa e espaços diferentes no código", async () => {
+      hub.state.trackings.set("BR1", { tracking_number: " br1 ", courier: "VIA-RAPIDA", checkpoints: [checkpoint] });
+      expect(await client.fetchEvents("BR1", "via-rapida")).toHaveLength(1);
+    });
   });
 
   it("o código vai codificado na URL", async () => {
-    await client.fetchEvents("a/b c");
+    await client.fetchEvents("a/b c", "via-rapida");
     expect(hub.state.requests[0]?.path).toBe("/v1/trackings/a%2Fb%20c");
   });
 });

@@ -6,6 +6,9 @@ import type { NormalizedEvent, Status } from "./types.ts";
  *
  * - Vale o evento de maior data de ocorrência (não o de chegada): evento antigo que chega depois não regride nada.
  * - Empate de horário: entregue > exceção > saiu para entrega > em trânsito > postado.
+ * - Empate também no status (duas exceções no mesmo instante): vence o evento com motivo, ou seja, o código que a
+ *   transportadora inventou (a anomalia continua visível para completar o mapeamento), e por fim a dedupeKey.
+ *   A ordem é total, então o resultado nunca depende da ordem de chegada.
  * - Entregue é terminal: eventos posteriores à entrega ficam no histórico, marcados, sem mudar o status.
  * - Exceção seguida de um evento mais novo se recupera (a tentativa falha de hoje vira a entrega de amanhã).
  */
@@ -29,8 +32,14 @@ export type Fold = {
 
 const at = (event: NormalizedEvent) => Date.parse(event.occurredAt);
 
+/** Ordem total e crescente: o último elemento é o que vale. */
 function byTimeThenPriority(a: NormalizedEvent, b: NormalizedEvent): number {
-  return at(a) - at(b) || TIE_PRIORITY[a.status] - TIE_PRIORITY[b.status];
+  return (
+    at(a) - at(b) ||
+    TIE_PRIORITY[a.status] - TIE_PRIORITY[b.status] ||
+    Number(a.reason !== null) - Number(b.reason !== null) ||
+    (a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)
+  );
 }
 
 export function foldEvents(events: NormalizedEvent[]): Fold {
