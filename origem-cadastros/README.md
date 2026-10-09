@@ -93,8 +93,8 @@ Primeiro open e cadastro são idempotentes por `PRIMARY KEY` + `ON CONFLICT DO N
 
 - Regra pura ([`decide-origin.test.ts`](test/decide-origin.test.ts)): dois links, empate de horário (inclusive com a ordem de chegada contrária à de desempate), bordas da janela (exatamente no início, no fim, ±1 ms), toque depois do cadastro, clique repetido, auto-indicação, orgânico com cada motivo, e propriedades (a decisão não depende da ordem de entrada; no máximo um vencedor, sempre dentro da janela e antes do cadastro).
 - API ([`api.test.ts`](test/api.test.ts)) e jornada por HTTP real em porta efêmera ([`e2e.test.ts`](test/e2e.test.ts)).
-- Mutação (Stryker): 98,8% (324 de 328) em `decide-origin`, `link`, `store` e `instant`. Sobreviventes: 2 equivalentes em `compareCandidates` (`cid` iguais nunca chegam ao comparador porque o clique repetido já foi eliminado) e 2 em `instant.ts` (a ramificação do fuso `Z` calcula offset 0 de qualquer jeito).
-- Concorrência: os workers largam juntos (barreira); 4 conexões mandando o mesmo `cid` com dados diferentes gravam um só clique.
+- Mutação (Stryker): 98,8% (324 de 328) em `decide-origin`, `link`, `store` e `instant` (relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)). Sobreviventes: 2 equivalentes em `compareCandidates` (`cid` iguais nunca chegam ao comparador porque o clique repetido já foi eliminado) e 2 em `instant.ts` (a ramificação do fuso `Z` calcula offset 0 de qualquer jeito).
+- Concorrência: 4 workers com conexões separadas; as partidas não usam barreira. As 4 conexões mandando o mesmo `cid` com dados diferentes gravam um só clique.
 
 ## Decisões que são minhas (o enunciado não fixa)
 

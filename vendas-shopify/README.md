@@ -59,7 +59,7 @@ A idempotência é garantida pelo banco, não por "consulta e depois insere": `P
 - Aceitação por HTTP ([`orders`](test/orders.test.ts), [`refunds`](test/refunds.test.ts)): pedido duplicado, estorno parcial, repetido, antes do pedido, teto.
 - Propriedades (fast-check, [`properties`](test/properties.test.ts)): para qualquer ordem de chegada, `estornado = min(total, soma pedida)`; reenviar eventos não muda nada.
 - E2E por servidor HTTP real em porta efêmera ([`e2e`](test/e2e.test.ts)).
-- Mutação (Stryker): 100% em `attribution` e `refunds`, 98,4% em `store` e 96,4% em `money`; os sobreviventes são equivalentes (`Number.isFinite` antes de um regex que já recusa `NaN`/`Infinity`). `src/app.ts` agora também entra na mutação (75,7%): os sobreviventes são sobretudo o texto das mensagens de erro (os testes afirmam o status, não a frase) e helpers de módulo (`str`, `idOf`); os mutantes de `idOf` e da checagem de moeda eu refiz à mão e todos morrem.
+- Mutação (Stryker, 245 de 283 = 86,6%; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)): 100% em `attribution` e `refunds` e em `store`, 96,4% em `money` (o sobrevivente é equivalente: `Number.isFinite` antes de um regex que já recusa `NaN`/`Infinity`). `src/app.ts` entra na mutação com 75,7%: os sobreviventes são sobretudo o texto das mensagens de erro (os testes afirmam o status, não a frase) e helpers de módulo (`str`, `idOf`); os mutantes de `idOf` e da checagem de moeda eu refiz à mão e todos morrem.
 - Concorrência: os workers largam juntos (barreira) e o pedido usa cupom conhecido, o caminho em que a atribuição lê o cadastro antes de gravar; trocar `BEGIN IMMEDIATE` por `BEGIN` faz o teste falhar.
 
 ## Fora de escopo (decisões declaradas)
