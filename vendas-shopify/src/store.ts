@@ -107,6 +107,7 @@ export function ingestOrder(db: DatabaseSync, order: NewOrder, now: () => string
 
 export type RefundOutcome =
   | { result: "duplicate" }
+  | { result: "conflict" }
   | { result: "pending"; requested_cents: number }
   | { result: "applied" | "clamped"; requested_cents: number; applied_cents: number };
 
@@ -118,7 +119,12 @@ export function ingestRefund(db: DatabaseSync, refund: NewRefund, now: () => str
          VALUES (?, ?, ?, 'pending', ?) ON CONFLICT(id) DO NOTHING`,
       )
       .run(refund.id, refund.orderId, refund.amountCents, now());
-    if (inserted.changes === 0) return { result: "duplicate" as const };
+    if (inserted.changes === 0) {
+      // Mesmo id: é repetição só se o conteúdo financeiro for o mesmo; senão a identidade colidiu e isso não pode passar calado.
+      const original = db.prepare("SELECT order_id, requested_cents FROM refunds WHERE id = ?").get(refund.id) as { order_id: string; requested_cents: number };
+      const same = original.order_id === refund.orderId && original.requested_cents === refund.amountCents;
+      return same ? { result: "duplicate" as const } : { result: "conflict" as const };
+    }
 
     // Sem pedido, ou com o pedido ainda não creditado (pendente), o estorno espera: é aplicado quando o crédito nascer.
     const order = db.prepare("SELECT total_cents, counted FROM orders WHERE id = ?").get(refund.orderId) as
@@ -169,21 +175,48 @@ export function getOrder(db: DatabaseSync, id: string) {
   };
 }
 
+type Totals = { orders: number; gross: bigint; refunded: bigint };
+
+/** Soma no SQLite; se a soma passar de 64 bits (o SQLite aborta com "integer overflow"), soma linha a linha em BigInt. */
+function creatorTotals(db: DatabaseSync, creatorId: string): Totals {
+  const refundedOf = "(SELECT COALESCE(SUM(r.applied_cents), 0) FROM refunds r WHERE r.order_id = o.id)";
+  try {
+    const sums = db.prepare(`SELECT COUNT(o.id) AS orders, COALESCE(SUM(o.total_cents), 0) AS gross, COALESCE(SUM(${refundedOf}), 0) AS refunded FROM orders o WHERE o.creator_id = ? AND o.counted = 1`);
+    sums.setReadBigInts(true);
+    const row = sums.get(creatorId) as { orders: bigint; gross: bigint; refunded: bigint };
+    return { orders: Number(row.orders), gross: row.gross, refunded: row.refunded };
+  } catch (error) {
+    if (!/integer overflow/i.test(String(error))) throw error;
+    const rows = db.prepare(`SELECT o.total_cents AS gross, ${refundedOf} AS refunded FROM orders o WHERE o.creator_id = ? AND o.counted = 1`);
+    rows.setReadBigInts(true);
+    const totals: Totals = { orders: 0, gross: 0n, refunded: 0n };
+    for (const row of rows.iterate(creatorId) as Iterable<{ gross: bigint; refunded: bigint }>) {
+      totals.orders += 1;
+      totals.gross += row.gross;
+      totals.refunded += row.refunded;
+    }
+    return totals;
+  }
+}
+
+const MAX_SAFE = BigInt(Number.MAX_SAFE_INTEGER);
+/** Número JSON só quando é exato; acima do inteiro seguro vira null e o valor está em `exact`. */
+const asSafeNumber = (value: bigint): number | null => (value <= MAX_SAFE ? Number(value) : null);
+
+/**
+ * Totais de um criador. `gross_cents`, `refunded_cents` e `net_cents` são números enquanto cabem exatamente num número
+ * JSON (até 2^53 − 1); acima disso valem `null`, e `exact` traz os mesmos três valores como texto, sempre.
+ */
 export function creatorSales(db: DatabaseSync, creatorId: string) {
-  const row = db
-    .prepare(
-      `SELECT COUNT(o.id) AS orders,
-              COALESCE(SUM(o.total_cents), 0) AS gross,
-              COALESCE(SUM((SELECT COALESCE(SUM(r.applied_cents), 0) FROM refunds r WHERE r.order_id = o.id)), 0) AS refunded
-         FROM orders o WHERE o.creator_id = ? AND o.counted = 1`,
-    )
-    .get(creatorId) as { orders: number; gross: number; refunded: number };
+  const { orders, gross, refunded } = creatorTotals(db, creatorId);
+  const net = gross - refunded;
   return {
     creator_id: creatorId,
-    orders: row.orders,
-    gross_cents: row.gross,
-    refunded_cents: row.refunded,
-    net_cents: row.gross - row.refunded,
+    orders,
+    gross_cents: asSafeNumber(gross),
+    refunded_cents: asSafeNumber(refunded),
+    net_cents: asSafeNumber(net),
+    exact: { gross_cents: String(gross), refunded_cents: String(refunded), net_cents: String(net) },
   };
 }
 

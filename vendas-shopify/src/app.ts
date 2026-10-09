@@ -65,6 +65,7 @@ export function createApp(db: DatabaseSync, now: () => string = () => new Date()
     if (!id || !orderId) return c.json({ error: "id e order_id são obrigatórios (texto ou inteiro seguro)" }, 400);
     if (amountCents === null || amountCents <= 0) return c.json({ error: "amount inválido" }, 400);
     const outcome = ingestRefund(db, { id, orderId, amountCents }, now);
+    if (outcome.result === "conflict") return c.json({ error: "refund_conflict", refund_id: id, message: "já existe um estorno com este id para outro pedido ou outro valor; nada foi alterado" }, 409);
     return c.json(outcome, outcome.result === "pending" ? 202 : 200);
   });
 

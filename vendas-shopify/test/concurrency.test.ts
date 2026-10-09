@@ -85,7 +85,7 @@ describe("concorrência", () => {
       const perWorker = await Promise.all(done);
 
       const db = openDatabase(path);
-      expect(creatorSales(db, "crt_ana"), `rodada ${round}`).toEqual({ creator_id: "crt_ana", orders: ORDERS, gross_cents: ORDERS * 10000, refunded_cents: ORDERS * 3000, net_cents: ORDERS * 7000 });
+      expect(creatorSales(db, "crt_ana"), `rodada ${round}`).toMatchObject({ creator_id: "crt_ana", orders: ORDERS, gross_cents: ORDERS * 10000, refunded_cents: ORDERS * 3000, net_cents: ORDERS * 7000 });
       for (let id = 1; id <= ORDERS; id += 1) {
         expect(getOrder(db, String(id)), `rodada ${round}, pedido ${id}`).toMatchObject({ counted: true, financial_status: "paid", refunded_cents: 3000 });
         // o crédito de cada pedido nasce exatamente uma vez: num pedido que já nasce pago ("created" por um worker pago) ou num

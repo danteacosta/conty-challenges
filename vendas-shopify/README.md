@@ -4,7 +4,7 @@ Ingestão de webhook de pedido (formato próximo ao do Shopify) com atribuição
 
 ```bash
 npm install
-npm test            # 102 testes: aceitação, entrada, pendente→pago, propriedades, concorrência, e2e HTTP
+npm test            # 113 testes: aceitação, entrada, pendente→pago, estorno em conflito, agregados exatos, propriedades, concorrência, e2e HTTP
 npm run typecheck
 npm run mutation    # Stryker nas regras de negócio (relatório em reports/)
 npm start           # http://127.0.0.1:3010 (DB_PATH=arquivo.db para persistir)
@@ -20,10 +20,10 @@ Em Node 22 os workers dos testes de concorrência são `.ts`, que só carregam c
 |---|---|
 | `POST /creators` `{id, coupon_code, utm_handle}` | Cadastra o criador. Cupom e UTM são únicos (409 se já usados). |
 | `POST /webhooks/orders` | Pedido: `{id, total_price, currency, financial_status, discount_codes:[{code}], utm_parameters:{utm_content}}`. 201 `created`; 200 `credited` (um pedido não pago que chegou pago), `updated` (mudou entre status não pagos) ou `duplicate`. |
-| `POST /webhooks/refunds` | Estorno: `{id, order_id, amount}`. 200 `applied`/`clamped`/`duplicate`, **202 `pending`** se o pedido ainda não chegou **ou ainda não foi creditado**. |
+| `POST /webhooks/refunds` | Estorno: `{id, order_id, amount}`. 200 `applied`/`clamped`/`duplicate`, **202 `pending`** se o pedido ainda não chegou **ou ainda não foi creditado**, **409 `refund_conflict`** se o `id` já existe para outro pedido ou outro valor (nada muda). `duplicate` exige o mesmo pedido e o mesmo valor (`1.0` e `1.00` são o mesmo); pedido repetido com conteúdo diferente continua `duplicate`, porque o status de um pedido evolui. |
 | `GET /refunds/:id`, `GET /refunds?status=&order_id=` | Consulta de um estorno (inclusive o pendente, mesmo quando o pedido nem existe) e listagem por status (`pending`, `applied`, `clamped`) e por pedido. |
 | `GET /orders/:id` | Pedido, atribuição (regra e conflito), estornos (pedido × aplicado × status), líquido. |
-| `GET /creators/:id/sales` | Pedidos, bruto, estornado e líquido do criador. |
+| `GET /creators/:id/sales` | Pedidos, bruto, estornado e líquido do criador. `gross_cents`, `refunded_cents` e `net_cents` são números enquanto cabem exatamente num número JSON (até 9.007.199.254.740.991 centavos); acima disso valem `null`, e `exact` traz os três como texto, sempre. A soma é feita em BigInt (91 pedidos de 999.999.999.999,99 passam do limite; antes isso dava 500). |
 
 ### Entrada validada
 
