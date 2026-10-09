@@ -22,17 +22,31 @@ export function recordInstall(db: DatabaseSync, installId: string, openedAt: str
   return { result: inserted.changes === 1 ? ("created" as const) : ("duplicate" as const), first_open_at: row.first_open_at };
 }
 
+export type TouchOutcome =
+  | { result: "recorded" | "repeated"; touch_id: string }
+  | { result: "conflict"; canonical: { src: TouchSource; ref: string; touched_at: string } };
+
+/**
+ * O primeiro payload recebido de (install_id, cid) é o canônico. O mesmo clique reenviado igual é um reenvio
+ * inofensivo (fica no log e aparece na auditoria como duplicate_click); reenviado com src, ref ou horário diferentes
+ * é rejeitado e não é gravado, para um reenvio defeituoso não reescrever nem invalidar o clique original.
+ */
 export function recordTouch(
   db: DatabaseSync,
   touch: { installId: string; cid: string; src: TouchSource; ref: string; touchedAt: string },
   receivedAt: string,
-) {
+): TouchOutcome {
   return inTransaction(db, () => {
-    const seen = db.prepare("SELECT 1 AS x FROM touches WHERE install_id = ? AND cid = ? LIMIT 1").get(touch.installId, touch.cid);
+    const canonical = db
+      .prepare("SELECT src, ref, touched_at FROM touches WHERE install_id = ? AND cid = ? ORDER BY id LIMIT 1")
+      .get(touch.installId, touch.cid) as { src: TouchSource; ref: string; touched_at: string } | undefined;
+    if (canonical && (canonical.src !== touch.src || canonical.ref !== touch.ref || canonical.touched_at !== touch.touchedAt)) {
+      return { result: "conflict" as const, canonical };
+    }
     const inserted = db
       .prepare("INSERT INTO touches (install_id, cid, src, ref, touched_at, received_at) VALUES (?, ?, ?, ?, ?, ?)")
       .run(touch.installId, touch.cid, touch.src, touch.ref, touch.touchedAt, receivedAt);
-    return { result: seen ? ("repeated" as const) : ("recorded" as const), touch_id: String(inserted.lastInsertRowid) };
+    return { result: canonical ? ("repeated" as const) : ("recorded" as const), touch_id: String(inserted.lastInsertRowid) };
   });
 }
 

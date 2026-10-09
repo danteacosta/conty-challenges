@@ -1,6 +1,6 @@
 {
   "testRunner": "vitest",
-  "mutate": ["src/decide-origin.ts", "src/link.ts", "src/store.ts"],
+  "mutate": ["src/decide-origin.ts", "src/link.ts", "src/store.ts", "src/instant.ts"],
   "reporters": ["clear-text", "json"],
   "jsonReporter": { "fileName": "reports/mutation.json" },
   "coverageAnalysis": "perTest",

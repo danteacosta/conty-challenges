@@ -4,13 +4,15 @@ Contrato de atribuição de origem: o que viaja no link, o que o app grava no pr
 
 ```bash
 npm install
-npm test            # 45 testes: regra, API, propriedades, concorrência, e2e HTTP
+npm test            # 105 testes: regra, datas, API, propriedades, concorrência, e2e HTTP
 npm run typecheck
 npm run mutation    # Stryker em decide-origin, link e store (relatório em reports/)
 npm start           # http://127.0.0.1:3011 (DB_PATH=arquivo.db para persistir)
 ```
 
-Node 22+ (usa `node:sqlite`).
+Node 22.13+ (a partir daí `node:sqlite` não precisa de flag). Suíte completa verificada em 22.15.0 e 24.7.0.
+
+Em Node 22 os workers dos testes de concorrência são `.ts`, que só carregam com `--experimental-strip-types`; `test/spawn-worker.ts` passa a flag ao `Worker` (no 24 ela já é o padrão), então `npm test` e `npx vitest` direto funcionam nas duas versões.
 
 ## O contrato
 
@@ -32,7 +34,8 @@ Indicação:  https://conty.app/l?src=referral&ref=usr_ana&cid=clk_02
 **2. No primeiro open, o app grava e envia**
 
 - `POST /installs {install_id, opened_at}`: o primeiro registro vence e nunca é movido (reenvio devolve `duplicate` com o `first_open_at` original). É daqui que a janela é medida.
-- `POST /touches {install_id, src, ref, cid, touched_at}`: um toque por vez em que um link chegou ao app. Todo envio é guardado (log append-only), inclusive repetidos; a deduplicação é regra de decisão e aparece na auditoria.
+- `POST /touches {install_id, src, ref, cid, touched_at}`: um toque por vez em que um link chegou ao app. **O primeiro payload recebido de `(install_id, cid)` é o canônico.** Reenvio idêntico é inofensivo (200 `repeated`, fica no log append-only e aparece na auditoria como `duplicate_click`). Reenvio do mesmo `cid` com `src`, `ref` ou `touched_at` diferente é **conflito: 409 `cid_conflict`**, com o payload canônico na resposta, e **não é gravado**, para um reenvio defeituoso (por exemplo, com um horário mais antigo) não reescrever nem invalidar o clique original. O mesmo `cid` em outra instalação é outro clique.
+- **Datas**: `opened_at`, `touched_at` e `signed_up_at` são ISO-8601 estritos com fuso (`Z` ou `±HH:MM`), validados campo a campo em [`src/instant.ts`](src/instant.ts). Datas impossíveis (`2026-02-30`, `2026-04-31`, `2026-02-29` em ano comum, hora `24`, segundo `60`, offset `+24:00`) são 400, em vez de serem "corrigidas" em silêncio para outro dia.
 
 **3. No cadastro**
 
@@ -90,7 +93,8 @@ Primeiro open e cadastro são idempotentes por `PRIMARY KEY` + `ON CONFLICT DO N
 
 - Regra pura ([`decide-origin.test.ts`](test/decide-origin.test.ts)): dois links, empate de horário (inclusive com a ordem de chegada contrária à de desempate), bordas da janela (exatamente no início, no fim, ±1 ms), toque depois do cadastro, clique repetido, auto-indicação, orgânico com cada motivo, e propriedades (a decisão não depende da ordem de entrada; no máximo um vencedor, sempre dentro da janela e antes do cadastro).
 - API ([`api.test.ts`](test/api.test.ts)) e jornada por HTTP real em porta efêmera ([`e2e.test.ts`](test/e2e.test.ts)).
-- Mutação: ~99% em `decide-origin`, `link` e `store`. Os 2 sobreviventes são equivalentes (em `compareCandidates`, `cid` iguais nunca chegam ao comparador porque o clique repetido já foi eliminado).
+- Mutação (Stryker): 98,8% (324 de 328) em `decide-origin`, `link`, `store` e `instant`. Sobreviventes: 2 equivalentes em `compareCandidates` (`cid` iguais nunca chegam ao comparador porque o clique repetido já foi eliminado) e 2 em `instant.ts` (a ramificação do fuso `Z` calcula offset 0 de qualquer jeito).
+- Concorrência: os workers largam juntos (barreira); 4 conexões mandando o mesmo `cid` com dados diferentes gravam um só clique.
 
 ## Decisões que são minhas (o enunciado não fixa)
 
@@ -108,6 +112,8 @@ Primeiro open e cadastro são idempotentes por `PRIMARY KEY` + `ON CONFLICT DO N
 ## Uso de IA
 
 Este projeto foi escrito com o Claude Code (Claude Sonnet 5.5), seguindo plano aprovado por mim: o modelo propôs o contrato, escreveu os testes antes do código, a implementação, o README e rodou a mutação (que apontou testes fracos nos desempates, corrigidos).
+
+**Depois da primeira entrega**, uma auditoria automatizada (feita com o Codex) apontou lacunas; as correções acima foram escritas pelo Claude Code, com regressões antes das correções, e verificadas com a suíte completa em Node 22.15 e 24.7. Isso não substitui a minha revisão: as caixas abaixo continuam desmarcadas até eu ler e rodar.
 
 **Eu (Dante) preciso confirmar antes de enviar** *(marque o que de fato revisou)*:
 
