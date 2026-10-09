@@ -177,7 +177,7 @@ export function getOrder(db: DatabaseSync, id: string) {
 
 type Totals = { orders: number; gross: bigint; refunded: bigint };
 
-/** Soma no SQLite; se a soma passar de 64 bits (o SQLite aborta com "integer overflow"), soma linha a linha em BigInt. */
+/** Soma no SQLite; se a soma passar de 64 bits (o SQLite aborta com "integer overflow"), soma em BigInt no JavaScript. */
 function creatorTotals(db: DatabaseSync, creatorId: string): Totals {
   const refundedOf = "(SELECT COALESCE(SUM(r.applied_cents), 0) FROM refunds r WHERE r.order_id = o.id)";
   try {
@@ -190,7 +190,8 @@ function creatorTotals(db: DatabaseSync, creatorId: string): Totals {
     const rows = db.prepare(`SELECT o.total_cents AS gross, ${refundedOf} AS refunded FROM orders o WHERE o.creator_id = ? AND o.counted = 1`);
     rows.setReadBigInts(true);
     const totals: Totals = { orders: 0, gross: 0n, refunded: 0n };
-    for (const row of rows.iterate(creatorId) as Iterable<{ gross: bigint; refunded: bigint }>) {
+    // `.all()` e não `.iterate()`: no Node 22.15 o iterador do node:sqlite fecha o statement antes da hora com este volume.
+    for (const row of rows.all(creatorId) as Array<{ gross: bigint; refunded: bigint }>) {
       totals.orders += 1;
       totals.gross += row.gross;
       totals.refunded += row.refunded;

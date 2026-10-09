@@ -11,7 +11,7 @@ DEBUG_REPO=/caminho/para/o/clone/do/fork-de-debug \   # opcional
 ./verificacao/matriz-node.sh 6
 ```
 
-Roda `npm run typecheck` e `vitest run` completo de cada projeto, `N` vezes (padrão 6) em cada versão de Node, e sai com código ≠ 0 se houver falha. A saída da minha rodada de 09/10/2026 está em [`matriz-node.log`](matriz-node.log): 96 execuções completas (vendas 102, origem 117, rastreio 245, roteiro 97, métricas 218, vídeo 83, views 147 e debug 46 testes; 6 repetições em Node 22.15.0 e em 24.7.0), 0 falhas. As repetições existem porque parte da suíte é concorrente e baseada em propriedades. O fast-check usa uma semente aleatória a cada execução; quando uma propriedade falha, o vitest imprime a semente e o caminho, e o replay de um caso real da auditoria (`seed: 559970327`) está fixado em `rastreio-envio/test/status.test.ts`.
+Roda `npm run typecheck` e `vitest run` completo de cada projeto, `N` vezes (padrão 6) em cada versão de Node, e sai com código ≠ 0 se houver falha. A saída da minha rodada de 09/10/2026 está em [`matriz-node.log`](matriz-node.log): 96 execuções completas (vendas 113, origem 117, rastreio 245, roteiro 113, métricas 218, vídeo 83, views 158 e debug 46 testes; 6 repetições em Node 22.15.0 e em 24.7.0), 0 falhas. As repetições existem porque parte da suíte é concorrente e baseada em propriedades. O fast-check usa uma semente aleatória a cada execução; quando uma propriedade falha, o vitest imprime a semente e o caminho, e o replay de um caso real da auditoria (`seed: 559970327`) está fixado em `rastreio-envio/test/status.test.ts`.
 
 ## Mutação (Stryker)
 

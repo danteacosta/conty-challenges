@@ -117,7 +117,7 @@ Aprovar: `{ "state": "approved", "allowed_actions": [], "approved": { "version":
 ## Verificação
 
 - 97 testes em Node 22.15.0 e 24.7.0. O relatório e o script para repetir estão em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): 219 de 234 (93,6%): `store` e `transitions` 100%, `deadline.ts` 92,8%, `app.ts` 87,5%. Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
+- Mutação (Stryker): 300 de 325 (92,3%): `transitions` e `store` 100%, `deadline.ts` 92,8%, `app.ts` 85,3%. Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
 - Mutação manual nos pontos críticos, todos pegos: dia em UTC, fuso UTC, `-03:00` fixo, `>=` e `<` no prazo, aprovado reabrindo (versão e pedido), aprovar com alteração pendente, `late` sempre/nunca, pedido que ignora o prazo, aprovação repetida virando erro, versão aprovada errada, pedido na versão errada, motivo sem aparar, data sem validar, mês de 31 dias, bissexto fixo e `BEGIN` no lugar de `BEGIN IMMEDIATE`.
 
 ## O que ficou de fora

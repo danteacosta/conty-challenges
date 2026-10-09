@@ -4,15 +4,15 @@ Gerado por `node verificacao/resumo-mutacao.mjs` a partir de `reports/mutation.j
 (`npm run mutation` dentro da pasta). Os JSON completos estão ao lado deste arquivo. O Stryker não usa semente:
 o resultado depende do código, dos testes e da versão do Node (esta rodada: ver `matriz-node.log`).
 
-## vendas-shopify: 293/338 (86.7%)
+## vendas-shopify: 331/377 (87.8%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
-| `src/app.ts` | 140/183 | 76.5% |
+| `src/app.ts` | 146/190 | 76.8% |
 | `src/attribution.ts` | 34/34 | 100.0% |
 | `src/money.ts` | 27/28 | 96.4% |
 | `src/refunds.ts` | 8/8 | 100.0% |
-| `src/store.ts` | 84/85 | 98.8% |
+| `src/store.ts` | 116/117 | 99.1% |
 
 Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos são equivalentes):
 
@@ -20,47 +20,48 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 - linha 7 · MethodExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `v`
 - linha 7 · ConditionalExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `true`
-- linha 7 · MethodExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `v`
-- linha 7 · StringLiteral · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `"Stryker was here!"`
 - linha 7 · ConditionalExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `false`
-- linha 7 · LogicalOperator · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `typeof v === "number" || Number.isFinite(v)`
+- linha 7 · StringLiteral · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `"Stryker was here!"`
 - linha 7 · EqualityOperator · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `typeof v !== "number"`
+- linha 7 · LogicalOperator · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `typeof v === "number" || Number.isFinite(v)`
+- linha 7 · MethodExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `v`
 - linha 7 · ConditionalExpression · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `true`
 - linha 7 · StringLiteral · Survived · `typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) ` → `""`
-- linha 11 · MethodExpression · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `v`
-- linha 11 · ConditionalExpression · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `true`
 - linha 11 · StringLiteral · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `"Stryker was here!"`
 - linha 22 · ArrowFunction · Survived · `const b = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 11 · ConditionalExpression · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `true`
+- linha 11 · MethodExpression · Survived · `typeof v === "string" ? (v.trim() !== "" ? v.trim() : null) : Number.isSafeInteger(v) ? String(v) : null;` → `v`
 - linha 26 · ObjectLiteral · Survived · `if (!id || !coupon || !utm) return c.json({ error: "id, coupon_code e utm_handle são obrigatórios" }, 400);` → `{}`
 - linha 26 · StringLiteral · Survived · `if (!id || !coupon || !utm) return c.json({ error: "id, coupon_code e utm_handle são obrigatórios" }, 400);` → `""`
 - linha 35 · ObjectLiteral · Survived · `if (!id) return c.json({ error: "id é obrigatório (texto ou inteiro seguro)" }, 400);` → `{}`
 - linha 35 · StringLiteral · Survived · `if (!id) return c.json({ error: "id é obrigatório (texto ou inteiro seguro)" }, 400);` → `""`
 - linha 32 · ArrowFunction · Survived · `const b = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 36 · OptionalChaining · Survived · `if (b?.currency !== undefined && b?.currency !== null) {` → `b.currency`
 - linha 41 · ObjectLiteral · Survived · `if (totalCents === null) return c.json({ error: "total_price inválido" }, 400);` → `{}`
 - linha 41 · StringLiteral · Survived · `if (totalCents === null) return c.json({ error: "total_price inválido" }, 400);` → `""`
 - linha 36 · OptionalChaining · Survived · `if (b?.currency !== undefined && b?.currency !== null) {` → `b.currency`
+- linha 36 · OptionalChaining · Survived · `if (b?.currency !== undefined && b?.currency !== null) {` → `b.currency`
 - linha 44 · ArrayDeclaration · Survived · `: [];` → `["Stryker was here"]`
 - linha 43 · OptionalChaining · Survived · `? b.discount_codes.map((d: { code?: unknown }) => str(d?.code)).filter((x: string | null): x is string => !!x)` → `d.code`
-- linha 42 · OptionalChaining · Survived · `const codes = Array.isArray(b?.discount_codes)` → `b.discount_codes`
 - linha 43 · MethodExpression · Survived · `? b.discount_codes.map((d: { code?: unknown }) => str(d?.code)).filter((x: string | null): x is string => !!x)` → `b.discount_codes.map((d: {   code?: unknown; }) =>`
+- linha 42 · OptionalChaining · Survived · `const codes = Array.isArray(b?.discount_codes)` → `b.discount_codes`
 - linha 51 · OptionalChaining · Survived · `financialStatus: str(b?.financial_status) ?? "pending",` → `b.financial_status`
-- linha 53 · OptionalChaining · Survived · `signals: { couponCodes: codes, utmHandle: str(b?.utm_parameters?.utm_content) },` → `b.utm_parameters`
 - linha 52 · OptionalChaining · Survived · `createdAt: str(b?.created_at),` → `b.created_at`
+- linha 53 · OptionalChaining · Survived · `signals: { couponCodes: codes, utmHandle: str(b?.utm_parameters?.utm_content) },` → `b.utm_parameters`
 - linha 65 · ObjectLiteral · Survived · `if (!id || !orderId) return c.json({ error: "id e order_id são obrigatórios (texto ou inteiro seguro)" }, 400)` → `{}`
-- linha 61 · ArrowFunction · Survived · `const b = await c.req.json().catch(() => null);` → `() => undefined`
 - linha 65 · StringLiteral · Survived · `if (!id || !orderId) return c.json({ error: "id e order_id são obrigatórios (texto ou inteiro seguro)" }, 400)` → `""`
+- linha 61 · ArrowFunction · Survived · `const b = await c.req.json().catch(() => null);` → `() => undefined`
 - linha 66 · ObjectLiteral · Survived · `if (amountCents === null || amountCents <= 0) return c.json({ error: "amount inválido" }, 400);` → `{}`
 - linha 66 · StringLiteral · Survived · `if (amountCents === null || amountCents <= 0) return c.json({ error: "amount inválido" }, 400);` → `""`
+- linha 68 · StringLiteral · Survived · `if (outcome.result === "conflict") return c.json({ error: "refund_conflict", refund_id: id, message: "já exist` → `""`
 - linha 66 · ConditionalExpression · Survived · `if (amountCents === null || amountCents <= 0) return c.json({ error: "amount inválido" }, 400);` → `false`
-- linha 78 · ObjectLiteral · Survived · `return refund ? c.json(refund) : c.json({ error: "estorno não encontrado" }, 404);` → `{}`
-- linha 78 · StringLiteral · Survived · `return refund ? c.json(refund) : c.json({ error: "estorno não encontrado" }, 404);` → `""`
-- linha 73 · ObjectLiteral · Survived · `return order ? c.json(order) : c.json({ error: "pedido não encontrado" }, 404);` → `{}`
-- linha 73 · StringLiteral · Survived · `return order ? c.json(order) : c.json({ error: "pedido não encontrado" }, 404);` → `""`
-- linha 83 · ConditionalExpression · Survived · `if (status !== undefined && status !== "pending" && status !== "applied" && status !== "clamped") {` → `true`
-- linha 83 · StringLiteral · Survived · `if (status !== undefined && status !== "pending" && status !== "applied" && status !== "clamped") {` → `""`
-- linha 84 · ObjectLiteral · Survived · `return c.json({ error: "status deve ser pending, applied ou clamped" }, 400);` → `{}`
-- linha 84 · StringLiteral · Survived · `return c.json({ error: "status deve ser pending, applied ou clamped" }, 400);` → `""`
+- linha 79 · ObjectLiteral · Survived · `return refund ? c.json(refund) : c.json({ error: "estorno não encontrado" }, 404);` → `{}`
+- linha 79 · StringLiteral · Survived · `return refund ? c.json(refund) : c.json({ error: "estorno não encontrado" }, 404);` → `""`
+- linha 74 · ObjectLiteral · Survived · `return order ? c.json(order) : c.json({ error: "pedido não encontrado" }, 404);` → `{}`
+- linha 74 · StringLiteral · Survived · `return order ? c.json(order) : c.json({ error: "pedido não encontrado" }, 404);` → `""`
+- linha 84 · ConditionalExpression · Survived · `if (status !== undefined && status !== "pending" && status !== "applied" && status !== "clamped") {` → `true`
+- linha 84 · StringLiteral · Survived · `if (status !== undefined && status !== "pending" && status !== "applied" && status !== "clamped") {` → `""`
+- linha 85 · ObjectLiteral · Survived · `return c.json({ error: "status deve ser pending, applied ou clamped" }, 400);` → `{}`
+- linha 85 · StringLiteral · Survived · `return c.json({ error: "status deve ser pending, applied ou clamped" }, 400);` → `""`
 
 **`src/money.ts`**
 
@@ -68,7 +69,7 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/store.ts`**
 
-- linha 28 · StringLiteral · RuntimeError · `const byCoupon = db.prepare("SELECT id FROM creators WHERE coupon_code = ?");` → `""`
+- linha 189 · ConditionalExpression · Survived · `if (!/integer overflow/i.test(String(error))) throw error;` → `false`
 
 ## origem-cadastros: 334/338 (98.8%)
 
@@ -146,34 +147,44 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 - linha 49 · OptionalChaining · Survived · `return findShipment(db, shipment.code)?.carrier === shipment.carrier ? ("exists" as const) : ("conflict" as co` → `findShipment(db, shipment.code).carrier`
 
-## revisao-roteiro: 219/234 (93.6%)
+## revisao-roteiro: 300/325 (92.3%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
-| `src/app.ts` | 70/80 | 87.5% |
+| `src/app.ts` | 116/136 | 85.3% |
 | `src/domain/deadline.ts` | 64/69 | 92.8% |
 | `src/domain/transitions.ts` | 9/9 | 100.0% |
-| `src/store.ts` | 76/76 | 100.0% |
+| `src/store.ts` | 111/111 | 100.0% |
 
 Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos são equivalentes):
 
 **`src/app.ts`**
 
+- linha 21 · ConditionalExpression · Survived · `if (value === undefined || value === null) return undefined;` → `false`
 - linha 14 · ConditionalExpression · Survived · `return trimmed === "" || trimmed.length > MAX_TEXT ? null : trimmed;` → `false`
 - linha 14 · StringLiteral · Survived · `return trimmed === "" || trimmed.length > MAX_TEXT ? null : trimmed;` → `"Stryker was here!"`
-- linha 42 · StringLiteral · Survived · `if (!missionId) return invalid(c, "mission_id", "mission_id é obrigatório");` → `""`
-- linha 39 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 43 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
-- linha 53 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");` → `""`
-- linha 50 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 54 · StringLiteral · Survived · `if (!deadlineDate) return invalid(c, "deadline_date", "deadline_date é obrigatório, no formato YYYY-MM-DD e co` → `""`
-- linha 61 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
-- linha 59 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 22 · ConditionalExpression · Survived · `return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;` → `true`
+- linha 25 · ConditionalExpression · Survived · `if (value === undefined || value === null) return undefined;` → `false`
+- linha 26 · ConditionalExpression · Survived · `return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;` → `true`
+- linha 26 · EqualityOperator · Survived · `return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;` → `value.length > 1`
+- linha 26 · EqualityOperator · Survived · `return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;` → `value.length < max`
+- linha 56 · StringLiteral · Survived · `if (!missionId) return invalid(c, "mission_id", "mission_id é obrigatório");` → `""`
+- linha 57 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
+- linha 53 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 67 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");` → `""`
+- linha 68 · StringLiteral · Survived · `if (!deadlineDate) return invalid(c, "deadline_date", "deadline_date é obrigatório, no formato YYYY-MM-DD e co` → `""`
+- linha 64 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 75 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
+- linha 77 · StringLiteral · Survived · `if (changeRequestId === null) return invalid(c, "change_request_id", "change_request_id deve ser o id inteiro ` → `""`
+- linha 73 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 79 · StringLiteral · Survived · `if (submissionId === null) return invalid(c, "submission_id", 'submission_id deve ser um texto de 1 a ${MAX_SU` → `''`
+- linha 76 · OptionalChaining · Survived · `const changeRequestId = optionalPositiveInteger(body?.change_request_id);` → `body.change_request_id`
+- linha 78 · OptionalChaining · Survived · `const submissionId = optionalText(body?.submission_id, MAX_SUBMISSION_ID);` → `body.submission_id`
 
 **`src/domain/deadline.ts`**
 
-- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 8 · StringLiteral · Survived · `const BRAND_ZONE = "America/Sao_Paulo";` → `""`
+- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`

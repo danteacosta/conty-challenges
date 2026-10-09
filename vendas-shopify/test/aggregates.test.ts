@@ -73,10 +73,14 @@ describe("agregados exatos além do inteiro seguro do JavaScript", () => {
     db.exec(`WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 100000)
              INSERT INTO orders (id, total_cents, currency, financial_status, counted, creator_id, attribution_json, received_at)
              SELECT 'o' || i, 99999999999999, 'BRL', 'paid', 1, 'crt_ana', '{}', 'x' FROM n`);
+    const refund = db.prepare("INSERT INTO refunds (id, order_id, requested_cents, applied_cents, status, received_at) VALUES (?, ?, ?, ?, 'applied', 'x')");
+    refund.run("r1", "o1", 5_000, 5_000);
+    refund.run("r2", "o2", 700, 700);
     const result = creatorSales(db, "crt_ana");
     expect(result.orders).toBe(100_000);
     expect(result.gross_cents).toBeNull();
-    expect(result.exact).toEqual({ gross_cents: "9999999999999900000", refunded_cents: "0", net_cents: "9999999999999900000" });
+    expect(result.refunded_cents).toBe(5_700);
+    expect(result.exact).toEqual({ gross_cents: "9999999999999900000", refunded_cents: "5700", net_cents: "9999999999999894300" });
   });
 
   it("criador sem vendas: zeros em número e em texto", async () => {
