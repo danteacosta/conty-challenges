@@ -1,0 +1,25 @@
+{
+  "name": "revisao-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "test": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' vitest run",
+    "typecheck": "tsc --noEmit",
+    "mutation": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' stryker run"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.6",
+    "hono": "^4.10.3"
+  },
+  "devDependencies": {
+    "@stryker-mutator/core": "^9.0.0",
+    "@stryker-mutator/vitest-runner": "^9.0.0",
+    "@types/node": "^22.19.0",
+    "fast-check": "^4.0.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": { "node": ">=22.13" }
+}
