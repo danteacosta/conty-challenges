@@ -10,4 +10,4 @@
 
 Quem avalia: comece por [`NOTAS-PARA-AVALIACAO.md`](NOTAS-PARA-AVALIACAO.md). Cada pasta tem README próprio, com a nota de uso de IA.
 
-Cada projeto roda isolado (`npm install && npm test` dentro da pasta). Node 22+.
+Cada projeto roda isolado (`npm install && npm test` dentro da pasta). Node 22.13+ (verificado em 22.15 e 24.7).

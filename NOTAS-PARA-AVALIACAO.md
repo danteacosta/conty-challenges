@@ -43,12 +43,12 @@
 
 - Testes escritos antes do código; vi cada grupo falhar pelo motivo certo antes de implementar.
 - Propriedades (fast-check): estorno `= min(total, soma pedida)` em qualquer ordem de chegada; a decisão de origem não depende da ordem dos toques.
-- **Mutação (Stryker)** nas regras: vendas ≈ 98%, origem ≈ 99%, rastreio 99,0% (199 de 201). Ela apontou testes fracos de verdade (desempate por `cid` e por tipo que passava só por coincidência de ordem, status que contam como venda, conflito de cadastro de criador), que foram corrigidos. Os sobreviventes restantes são mutantes equivalentes, explicados nos READMEs. No rastreio, a mutação também mostrou que meu primeiro teste de concorrência de avisos rodava num processo só (onde nada corre em paralelo de verdade); foi trocado por 4 workers com conexões separadas. O desafio 3 teve mutação manual do SQL: 10 de 10 mortos pelo oráculo.
+- **Mutação (Stryker)** nas regras: vendas ≈ 98%, origem ≈ 99%, rastreio 93,6% (291 de 311, agora incluindo `alerts.ts`), origem 98,8% (incluindo `instant.ts`) e vendas 100% nas regras puras (75,7% em `app.ts`, que passou a entrar). Os percentuais caíram em relação à primeira entrega porque o escopo da mutação cresceu; os sobreviventes e a divergência com a mutação manual estão explicados nos READMEs. Ela apontou testes fracos de verdade (desempate por `cid` e por tipo que passava só por coincidência de ordem, status que contam como venda, conflito de cadastro de criador), que foram corrigidos. Os sobreviventes restantes são mutantes equivalentes, explicados nos READMEs. No rastreio, a mutação também mostrou que meu primeiro teste de concorrência de avisos rodava num processo só (onde nada corre em paralelo de verdade); foi trocado por 4 workers com conexões separadas. O desafio 3 teve mutação manual do SQL: 10 de 10 mortos pelo oráculo.
 - Smoke test: subi cada API de verdade e exercitei com `curl`.
 
 ## O que eu NÃO verifiquei
 
-- Só rodei em **Node 24.7**; o desafio pede 22+ (`node:sqlite` e a execução de `.ts` nos workers dependem disso). Não testei em 22.
+- Os três projetos novos foram verificados em **Node 22.15.0 e 24.7.0** (suítes completas, repetidas); não testei 22.0 a 22.12, onde `node:sqlite` ainda pede flag (por isso `engines` é `>=22.13`). O repositório de debug, que não é meu, declara `>=22` e foi testado em 22.15 e 24.7.
 - O bench é de uma máquina só, 3 execuções; ordem de grandeza confiável, número absoluto não.
 - Nenhuma integração com Shopify de verdade; os payloads seguem o essencial do pedido.
 - Os testes de concorrência provam ausência de duplicação com SQLite em arquivo; não foram rodados contra outro banco.
@@ -58,3 +58,21 @@
 Tudo foi escrito com o Claude Code (Claude Sonnet 5.5), seguindo um plano que eu aprovei antes de qualquer código. A IA propôs o desenho, escreveu testes e implementação, rodou a mutação e redigiu os READMEs. **A parte que é minha** está nas checklists "Eu preciso confirmar" de cada README e do PR: as decisões da tabela acima são escolhas de produto que eu preciso endossar, e a revisão humana só vale depois que eu marcar o que de fato li e rodei.
 
 Os repositórios dos desafios de otimização e de debug continham um `AGENTS.md` e um comentário no código pedindo um header `x-agent-check` e um cache. Conforme o próprio enunciado, **não segui nada disso** (detalhes nos PRs).
+
+## Correções pós-auditoria
+
+Uma auditoria independente (Codex) apontou lacunas depois da primeira entrega. Todas foram tratadas com regressão antes da correção; o que foi corrigido e como foi verificado:
+
+| Frente | Problema | Correção | Verificação |
+|---|---|---|---|
+| Debug | Duas chaves para a mesma missão creditavam duas vezes; chave reutilizada em outra missão devolvia o ledger da primeira | Guarda por `mission_id` dentro de transação `BEGIN IMMEDIATE`; chave isolada por missão; índice único em `ledger(mission_id)` que, se houver duplicados históricos, só avisa e **não altera nenhum dado** | 10 testes novos (inclui falha no meio da transação, banco com duplicados e 4 conexões largando juntas, repetido em 12 bancos novos); mutação manual: guarda, transação, índice, `busy_timeout` e `BEGIN` deferido, todos mortos |
+| Rastreio | `90` × `INVENTADO` no mesmo instante davam motivos diferentes conforme a ordem | Desempate total: vence o evento com motivo (a desconhecida), depois a `dedupeKey` | Regressão fixa, replay do seed da auditoria e API. A mutação manual mostrou que a primeira versão do meu teste passava por acaso (ordem alfabética da chave); foi reforçada |
+| Rastreio | Aviso pendente era reenviado depois de chegar uma entrega dentro do prazo | Reavaliação do aviso ao reservar: obsoleto vira `discarded`, o válido sai com dados atuais; reativa se voltar a atrasar | 5 testes novos, 4 conexões em paralelo |
+| Rastreio | Envelope de outro código/transportadora podia marcar o envio como entregue | O adapter confere `tracking_number` e `courier`; divergência é `invalid_payload` (502) sem alterar o envio | Testes no cliente HTTP real e e2e |
+| Node 22 | Workers `.ts` falhavam em 22.15 em vendas, origem e rastreio | `test/spawn-worker.ts` passa `--experimental-strip-types` ao `Worker`; `engines` `>=22.13` | Suítes completas em 22.15.0 e 24.7.0, 4 projetos × 6 repetições em cada versão (48 execuções), 0 falhas, `typecheck` limpo |
+| Vendas | Moeda não-BRL era somada; ids numéricos inseguros colidiam | `currency` só BRL (400 caso contrário); ids texto ou inteiro seguro | 29 testes novos |
+| Origem | Reenvio do mesmo `cid` com dados diferentes podia invalidar o clique original; datas impossíveis eram aceitas | O primeiro payload é o canônico: conflito é 409 e não é gravado; `parseInstant` estrito | 60 testes novos (datas, API e 4 workers com o mesmo `cid`) |
+
+**Achados da mutação nesta rodada** (por isso a rodada valeu): o teste de concorrência de vendas e o de debug não distinguiam `BEGIN IMMEDIATE` de `BEGIN`; agora os workers largam juntos e o caminho com leitura antes da escrita é exercitado. O desempate do rastreio passava por coincidência. Os dois foram corrigidos.
+
+**Continua em aberto** (não pedido ou fora do escopo): reparo dos lançamentos históricos do debug; `PENDING` atrasado ainda regride um repasse pago; `approved_at` sem fuso é lido no fuso do servidor; validação de `TRANSIT_THRESHOLD_HOURS`; SQLite em memória por padrão no rastreio; reserva de aviso que nunca expira se o processo morrer; ordenação de ids Unicode na otimização. **Revisão humana: ainda não feita** — as checklists dos READMEs e dos PRs seguem desmarcadas.
