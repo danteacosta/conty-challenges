@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
 import { createApp } from "../src/app.ts";
 import { openDatabase } from "../src/db.ts";
-import { getOrder, registerCreator } from "../src/store.ts";
+import { creatorSales, getOrder, ingestRefund, registerCreator } from "../src/store.ts";
 import { order } from "./helpers.ts";
 import { tsWorker } from "./spawn-worker.ts";
 
@@ -58,4 +58,42 @@ describe("concorrência", () => {
       db.close();
     }
   }, 60_000);
+
+  it("pendente e pago dos mesmos 250 pedidos, de 4 conexões largando juntas, 4 vezes em bancos novos: cada crédito nasce uma vez e cada estorno antecipado é aplicado uma vez", async () => {
+    const ORDERS = 250;
+    for (let round = 0; round < 4; round += 1) {
+      const path = join(dir, `credito-${round}.db`);
+      const seeded = openDatabase(path);
+      registerCreator(seeded, { id: "crt_ana", couponCode: "ANA10", utmHandle: "ana" });
+      for (let id = 1; id <= ORDERS; id += 1) ingestRefund(seeded, { id: `r${id}`, orderId: String(id), amountCents: 3000 }, () => "2026-06-01T11:00:00.000Z"); // antes dos pedidos
+      seeded.close();
+
+      const barrier = new SharedArrayBuffer(8);
+      const flags = new Int32Array(barrier);
+      const statuses = ["pending", "paid", "pending", "paid"];
+      const done = statuses.map(
+        (status) =>
+          new Promise<string[]>((resolve, reject) => {
+            const w = tsWorker(new URL("./credit-worker.ts", import.meta.url), { path, status, orders: ORDERS, barrier });
+            w.once("message", resolve);
+            w.once("error", reject);
+          }),
+      );
+      while (Atomics.load(flags, 1) < statuses.length) await new Promise((resolve) => setTimeout(resolve, 5));
+      Atomics.store(flags, 0, 1);
+      Atomics.notify(flags, 0);
+      const perWorker = await Promise.all(done);
+
+      const db = openDatabase(path);
+      expect(creatorSales(db, "crt_ana"), `rodada ${round}`).toEqual({ creator_id: "crt_ana", orders: ORDERS, gross_cents: ORDERS * 10000, refunded_cents: ORDERS * 3000, net_cents: ORDERS * 7000 });
+      for (let id = 1; id <= ORDERS; id += 1) {
+        expect(getOrder(db, String(id)), `rodada ${round}, pedido ${id}`).toMatchObject({ counted: true, financial_status: "paid", refunded_cents: 3000 });
+        // o crédito de cada pedido nasce exatamente uma vez: num pedido que já nasce pago ("created" por um worker pago) ou num
+        // pendente que virou pago ("credited"). Um "created" de um worker pendente só grava o pedido, sem creditar.
+        const credits = perWorker.filter((results, worker) => results[id - 1] === "credited" || (results[id - 1] === "created" && statuses[worker] === "paid")).length;
+        expect(credits, `rodada ${round}, pedido ${id}: ${perWorker.map((r) => r[id - 1])}`).toBe(1);
+      }
+      db.close();
+    }
+  }, 120_000);
 });

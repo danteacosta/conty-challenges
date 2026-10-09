@@ -1,7 +1,7 @@
 import type { DatabaseSync } from "node:sqlite";
 import { Hono } from "hono";
 import { toCents } from "./money.ts";
-import { creatorSales, getOrder, ingestOrder, ingestRefund, registerCreator } from "./store.ts";
+import { creatorSales, getOrder, getRefund, ingestOrder, ingestRefund, listRefunds, registerCreator } from "./store.ts";
 
 const str = (v: unknown): string | null =>
   typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) : null;
@@ -71,6 +71,19 @@ export function createApp(db: DatabaseSync, now: () => string = () => new Date()
   app.get("/orders/:id", (c) => {
     const order = getOrder(db, c.req.param("id"));
     return order ? c.json(order) : c.json({ error: "pedido não encontrado" }, 404);
+  });
+
+  app.get("/refunds/:id", (c) => {
+    const refund = getRefund(db, c.req.param("id"));
+    return refund ? c.json(refund) : c.json({ error: "estorno não encontrado" }, 404);
+  });
+
+  app.get("/refunds", (c) => {
+    const status = c.req.query("status");
+    if (status !== undefined && status !== "pending" && status !== "applied" && status !== "clamped") {
+      return c.json({ error: "status deve ser pending, applied ou clamped" }, 400);
+    }
+    return c.json(listRefunds(db, { status, orderId: c.req.query("order_id") }));
   });
 
   app.get("/creators/:id/sales", (c) => c.json(creatorSales(db, c.req.param("id"))));

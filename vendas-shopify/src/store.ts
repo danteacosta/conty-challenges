@@ -59,28 +59,49 @@ export function registerCreator(
   return result.changes === 1 ? "created" : "conflict";
 }
 
-export function ingestOrder(db: DatabaseSync, order: NewOrder, now: () => string): { result: "created" | "duplicate" } {
+export type OrderOutcome = { result: "created" | "credited" | "updated" | "duplicate" };
+
+/**
+ * O CRÉDITO da venda nasce no primeiro evento pago do pedido, e só nele:
+ * - pedido novo e pago: já nasce creditado ("created") e aplica os estornos que chegaram antes dele;
+ * - pedido novo e não pago (pending, authorized...): é gravado, mas não conta ("created", counted = false);
+ * - pedido não pago que depois chega pago: o crédito nasce agora ("credited"), com a atribuição calculada com os sinais
+ *   deste evento e congelada, e os estornos antecipados são aplicados uma vez, na ordem de chegada;
+ * - pedido já creditado: qualquer reenvio é "duplicate" e não altera valor, criador nem estornos (um pendente atrasado
+ *   não desfaz o pago).
+ */
+export function ingestOrder(db: DatabaseSync, order: NewOrder, now: () => string): OrderOutcome {
   return inTransaction(db, () => {
-    const attribution = attribute(order.signals, registryFor(db));
-    const inserted = db
-      .prepare(
+    const paid = COUNTED_STATUSES.has(order.financialStatus);
+    const existing = db.prepare("SELECT financial_status, counted FROM orders WHERE id = ?").get(order.id) as
+      | { financial_status: string; counted: number }
+      | undefined;
+
+    if (!existing) {
+      const attribution = attribute(order.signals, registryFor(db));
+      db.prepare(
         `INSERT INTO orders (id, total_cents, currency, financial_status, counted, creator_id, attribution_json, created_at, received_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO NOTHING`,
-      )
-      .run(
-        order.id,
-        order.totalCents,
-        order.currency,
-        order.financialStatus,
-        COUNTED_STATUSES.has(order.financialStatus) ? 1 : 0,
-        attribution.creator_id,
-        JSON.stringify(attribution),
-        order.createdAt,
-        now(),
-      );
-    if (inserted.changes === 0) return { result: "duplicate" as const };
-    settlePending(db, order.id, order.totalCents);
-    return { result: "created" as const };
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ).run(order.id, order.totalCents, order.currency, order.financialStatus, paid ? 1 : 0, attribution.creator_id, JSON.stringify(attribution), order.createdAt, now());
+      if (paid) settlePending(db, order.id, order.totalCents);
+      return { result: "created" as const };
+    }
+
+    if (existing.counted === 1) return { result: "duplicate" as const };
+
+    if (paid) {
+      const attribution = attribute(order.signals, registryFor(db));
+      db.prepare(
+        `UPDATE orders SET total_cents = ?, currency = ?, financial_status = ?, counted = 1, creator_id = ?,
+                           attribution_json = ?, created_at = COALESCE(?, created_at) WHERE id = ?`,
+      ).run(order.totalCents, order.currency, order.financialStatus, attribution.creator_id, JSON.stringify(attribution), order.createdAt, order.id);
+      settlePending(db, order.id, order.totalCents);
+      return { result: "credited" as const };
+    }
+
+    if (existing.financial_status === order.financialStatus) return { result: "duplicate" as const };
+    db.prepare("UPDATE orders SET financial_status = ? WHERE id = ?").run(order.financialStatus, order.id);
+    return { result: "updated" as const };
   });
 }
 
@@ -99,10 +120,11 @@ export function ingestRefund(db: DatabaseSync, refund: NewRefund, now: () => str
       .run(refund.id, refund.orderId, refund.amountCents, now());
     if (inserted.changes === 0) return { result: "duplicate" as const };
 
-    const order = db.prepare("SELECT total_cents FROM orders WHERE id = ?").get(refund.orderId) as
-      | { total_cents: number }
+    // Sem pedido, ou com o pedido ainda não creditado (pendente), o estorno espera: é aplicado quando o crédito nascer.
+    const order = db.prepare("SELECT total_cents, counted FROM orders WHERE id = ?").get(refund.orderId) as
+      | { total_cents: number; counted: number }
       | undefined;
-    if (!order) return { result: "pending" as const, requested_cents: refund.amountCents };
+    if (!order || order.counted !== 1) return { result: "pending" as const, requested_cents: refund.amountCents };
 
     settlePending(db, refund.orderId, order.total_cents);
     const row = db.prepare("SELECT * FROM refunds WHERE id = ?").get(refund.id) as RefundRow;
@@ -163,4 +185,29 @@ export function creatorSales(db: DatabaseSync, creatorId: string) {
     refunded_cents: row.refunded,
     net_cents: row.gross - row.refunded,
   };
+}
+
+type RefundStatus = "pending" | "applied" | "clamped";
+
+function refundView(row: RefundRow & { received_at: string }) {
+  return {
+    id: row.id,
+    order_id: row.order_id,
+    requested_cents: row.requested_cents,
+    applied_cents: row.applied_cents,
+    status: row.status as RefundStatus,
+    received_at: row.received_at,
+  };
+}
+
+export function getRefund(db: DatabaseSync, id: string) {
+  const row = db.prepare("SELECT * FROM refunds WHERE id = ?").get(id) as (RefundRow & { received_at: string }) | undefined;
+  return row ? refundView(row) : null;
+}
+
+export function listRefunds(db: DatabaseSync, filter: { status?: RefundStatus; orderId?: string }) {
+  const rows = db
+    .prepare("SELECT * FROM refunds WHERE (? IS NULL OR status = ?) AND (? IS NULL OR order_id = ?) ORDER BY seq")
+    .all(filter.status ?? null, filter.status ?? null, filter.orderId ?? null, filter.orderId ?? null) as Array<RefundRow & { received_at: string }>;
+  return rows.map(refundView);
 }
