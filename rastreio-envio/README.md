@@ -4,7 +4,7 @@ Integra com um agregador de rastreio (fictício, "TrackHub"), traduz o dialeto d
 
 ```bash
 npm install
-npm test            # 126 testes: normalização, status, atraso, aviso, API, cliente HTTP, concorrência, e2e
+npm test            # 127 testes: normalização, status, atraso, aviso, API, cliente HTTP, concorrência, migração, e2e
 npm run typecheck
 npm run mutation    # Stryker nas regras (relatório em reports/)
 npm start           # http://127.0.0.1:3012
@@ -103,8 +103,9 @@ O adapter confere, antes de mapear, que a resposta é do envio pedido: `tracking
 - Cliente HTTP contra um servidor TrackHub falso real (porta efêmera): chave de API, 404, 500, JSON malformado, timeout, rede fora do ar.
 - Concorrência: 4 `worker_threads` com conexões separadas consultando os mesmos eventos em ordens diferentes; 4 workers verificando atrasos ao mesmo tempo (cada aviso sai exatamente uma vez).
 - Jornada e2e por HTTP.
-- Mutação (Stryker, agora incluindo `alerts.ts`): 93,6% (291 de 311). Os sobreviventes vêm de: a `dedupeKey` como último critério do desempate (dentro de um mesmo envio todos os eventos têm a mesma transportadora, então o motivo depende só de haver ou não motivo, e esse critério final não altera nenhum resultado observável); mensagens de erro e o `ConsoleNotifier` (texto de log); e alguns mutantes em `alerts.ts` que o Stryker mantém vivos mas que, aplicados à mão, derrubam os testes (descarte nunca acontecendo, motivo de descarte fixo). Considero o relatório do Stryker conservador nesses pontos e registro a divergência em vez de esconder.
-- Concorrência: workers largam juntos, e 4 conexões verificando atrasos ao mesmo tempo entregam cada aviso exatamente uma vez.
+- Mutação (Stryker, incluindo `alerts.ts`): 93,6% (291 de 311; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)). Os sobreviventes vêm de: a `dedupeKey` como último critério do desempate (dentro de um mesmo envio todos os eventos têm a mesma transportadora, então o motivo depende só de haver ou não motivo, e esse critério final não altera nenhum resultado observável); mensagens de erro e o `ConsoleNotifier` (texto de log); e alguns mutantes em `alerts.ts` que o Stryker mantém vivos mas que, aplicados à mão, derrubam os testes (descarte nunca acontecendo, motivo de descarte fixo). Considero o relatório do Stryker conservador nesses pontos e registro a divergência em vez de esconder.
+- Concorrência: 4 workers com conexões separadas ao mesmo arquivo (a ingestão repetida de eventos e a verificação de atrasos **sem barreira de largada**: eles competem, mas não partem no mesmo instante); cada evento entra uma vez e cada aviso é entregue exatamente uma vez. Só o teste de migração abaixo usa uma barreira (`SharedArrayBuffer`) para largar as oito conexões juntas. Trocar `BEGIN IMMEDIATE` por `BEGIN` faz os testes de concorrência falharem mesmo sem barreira (verificado à mão).
+- Migração: oito conexões abrem juntas um banco com o esquema antigo; a inicialização transacional preserva envio, histórico e aviso pendente, e acrescenta as colunas de descarte uma vez. O teste repete a abertura em oito arquivos independentes.
 
 ## Decisões minhas (o enunciado não fixa)
 

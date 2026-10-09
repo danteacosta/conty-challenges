@@ -50,8 +50,11 @@ export function openDatabase(path = ":memory:"): DatabaseSync {
   const db = new DatabaseSync(path);
   db.exec("PRAGMA busy_timeout = 5000");
   if (path !== ":memory:") db.exec("PRAGMA journal_mode = WAL");
-  db.exec(SCHEMA);
-  addMissingColumns(db);
+  // O lock vem antes de inspecionar o esquema: outra conexão deve reler as colunas após a migração.
+  inTransaction(db, () => {
+    db.exec(SCHEMA);
+    addMissingColumns(db);
+  });
   return db;
 }
 
