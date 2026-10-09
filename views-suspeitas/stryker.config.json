@@ -1,0 +1,8 @@
+{
+  "testRunner": "vitest",
+  "mutate": ["src/domain/stats.ts", "src/domain/signals.ts", "src/domain/classify.ts", "src/dataset/evaluate.ts", "src/dataset/readme.ts"],
+  "reporters": ["clear-text", "json"],
+  "jsonReporter": { "fileName": "reports/mutation.json" },
+  "coverageAnalysis": "perTest",
+  "timeoutMS": 60000
+}
