@@ -6,7 +6,7 @@ Os números de acerto abaixo são medidos **no meu dataset sintético**, gerado 
 
 ```bash
 npm install
-npm test               # 147 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
+npm test               # 158 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
 npm run typecheck
 npm run mutation       # Stryker (relatório em reports/)
 
@@ -149,6 +149,8 @@ Resumo das três taxas por parte (falso positivo / abstenção em legítimos / r
 | holdout | <!--m:holdout_fpr-->0,3%<!--/m--> | <!--m:holdout_abstain-->35,2%<!--/m--> | <!--m:holdout_recall-->55,3%<!--/m--> |
 | total | <!--m:overall_fpr-->0,2%<!--/m--> | <!--m:overall_abstain-->35,2%<!--/m--> | <!--m:overall_recall-->54,3%<!--/m--> |
 
+**Estabilidade entre sementes.** O número do `holdout` não é uma semente de sorte: rodei o mesmo critério, sem mexer em nada, em seis outros pares de sementes (`test/stability.test.ts`). O falso positivo ficou entre 0% e 0,2% do total, a abstenção em legítimos entre 34% e 35% e o recall entre 56% e 60%. O teste exige falso positivo de no máximo 1%, abstenção entre 30% e 40% e recall entre 45% e 70% em cada uma.
+
 Dois pontos para ler esses números:
 
 - O recall mede o que o critério pega **do que eu defini como suspeito**. A família `disguised_buy` foi escrita para passar despercebida, e passa. Em tráfego real o recall pode ser maior ou menor, e eu não tenho como medir.
@@ -182,6 +184,8 @@ Dois pontos para ler esses números:
 - Intervalo de confiança nas taxas: com 330 legítimos no `holdout`, um falso positivo a mais ou a menos muda a taxa em 0,3 ponto.
 - Autenticação, limite de requisições e persistência: a API é uma função pura atrás de HTTP.
 - Séries com mais de 60 dias ou menos de 24 horas.
+- Horas sem medição: a série é só a lista de contagens, e `null` é recusado (400) em vez de ser tratado como zero. Uma lacuna real precisaria de timestamps, que este contrato não tem; por isso também não há análise de fuso nem de acumulados.
+- Episódios: os picos e patamares são examinados um a um (um pico orgânico grande não esconde um bloco comprado menor, e as acusações citam só as horas do bloco comprado), mas o limite de repetição é por episódio, não somado entre episódios.
 
 ## Uso de IA
 

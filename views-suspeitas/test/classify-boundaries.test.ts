@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { classify } from "../src/domain/classify.ts";
-import { plateau, steady, withRange } from "./series.ts";
+import { organicSpike, plateau, steady, withRange } from "./series.ts";
 
 const names = (series: number[]) => classify(series).signals.map((s) => s.name);
 const cycle = (hours: number, median: number) => Array.from({ length: hours }, (_, i) => median + (i % 3) - 1); // mediana exata, sem repetição possível (volume baixo)
@@ -192,3 +192,39 @@ function plateauless(): number[] {
   }
   return series;
 }
+
+describe("casos adversariais: mais de um episódio, observação curta e série cortada", () => {
+  it("um pico orgânico grande não esconde um bloco comprado menor na mesma série (e não o contamina)", () => {
+    const series = plateau(organicSpike(steady(336), 40, 14_000), 200, 213, 3000);
+    const result = classify(series);
+    expect(result.classification).toBe("suspicious");
+    const byName = (name: string) => result.signals.find((s) => s.name === name);
+    expect(byName("plateau_then_cliff")).toMatchObject({ effect: "suspicious", from_hour: 200, to_hour: 213 });
+    expect(byName("organic_decay")).toMatchObject({ effect: "organic" });
+    expect(result.reason).toMatch(/horas 200 a 213/);
+    expect(result.reason).not.toMatch(/horas 4\d|cauda/); // o motivo da acusação é só do bloco comprado
+  });
+
+  it("o mesmo pico orgânico sozinho continua orgânico (o bloco comprado é que muda a resposta)", () => {
+    expect(classify(organicSpike(steady(336), 40, 14_000)).classification).toBe("organic");
+  });
+
+  it("ciclo de 6 horas: 3 repetições não bastam para demonstrar periodicidade, 4 bastam", () => {
+    const pattern = [300, 520, 910, 640, 780, 450];
+    const cyc = (repeats: number) => withRange(steady(), 30, 30 + 6 * repeats - 1, (_, k) => pattern[k % 6]!);
+    expect(names(cyc(3))).toEqual([]);
+    expect(classify(cyc(3)).classification).toBe("organic");
+    expect(classify(cyc(4)).signals[0]).toMatchObject({ name: "mechanical_repetition", from_hour: 30, to_hour: 53 });
+  });
+
+  it("série que termina dentro do patamar não inventa uma queda: sem hora seguinte não há penhasco", () => {
+    const series = plateau(steady(100), 88, 99, 6200);
+    expect(names(series)).not.toContain("plateau_then_cliff");
+    expect(classify(series).classification).not.toBe("suspicious");
+  });
+
+  it("série que termina no meio da cauda de um pico orgânico não é acusada", () => {
+    const series = organicSpike(steady(100), 80, 14_000).slice(0, 90);
+    expect(classify(series).classification).not.toBe("suspicious");
+  });
+});
