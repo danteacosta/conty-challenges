@@ -1,6 +1,6 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { ATTRIBUTION_WINDOW_MS, decideOrigin, type Touch } from "../src/decide-origin.ts";
+import { ATTRIBUTION_WINDOW_MS, POLICY, decideOrigin, type Touch } from "../src/decide-origin.ts";
 
 const T0 = Date.parse("2026-06-01T12:00:00.000Z"); // primeiro open
 const at = (ms: number) => new Date(T0 + ms).toISOString();
@@ -166,6 +166,32 @@ describe("decideOrigin: cadastro, clique repetido e auto-indicação", () => {
     const d = decide([self, other]);
     expect(verdictOf(d, self.id)).toMatchObject({ verdict: "rejected", reason: "self_referral" });
     expect(d.origin).toMatchObject({ type: "campaign", touch_id: other.id });
+  });
+});
+
+describe("decideOrigin: a política vai gravada na decisão", () => {
+  it("descreve a regra que decidiu: janela, critério de escolha, desempates e fronteira do cadastro", () => {
+    expect(POLICY).toEqual({
+      version: 1,
+      window_days: 7,
+      selection: "last_valid_touch",
+      tie_break: ["referral_over_campaign", "lowest_cid", "lowest_delivery_id"],
+      signup_boundary: "inclusive",
+      self_referral: "rejected",
+    });
+  });
+
+  it("toda decisão carrega a política, seja vencedor, orgânico por falta de toque ou por falta de install", () => {
+    const winner = decide([touch({ ms: 1 * H })]);
+    const noTouches = decide([]);
+    const noInstall = decide([touch({ ms: 1 * H })], { firstOpen: false });
+    for (const d of [winner, noTouches, noInstall]) expect(d.policy).toEqual(POLICY);
+  });
+
+  it("a janela declarada na política é a mesma que a decisão usou", () => {
+    const d = decide([]);
+    expect(d.policy.window_days).toBe(d.window?.days);
+    expect(d.policy.window_days * D).toBe(ATTRIBUTION_WINDOW_MS);
   });
 });
 

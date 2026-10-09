@@ -14,6 +14,20 @@
 export const ATTRIBUTION_WINDOW_DAYS = 7;
 export const ATTRIBUTION_WINDOW_MS = ATTRIBUTION_WINDOW_DAYS * 24 * 60 * 60 * 1000;
 
+/**
+ * A política desta regra, gravada junto de cada decisão. Se a regra mudar um dia (outra janela, outro critério), os
+ * cadastros antigos continuam dizendo com qual política foram decididos, em vez de parecerem decididos pela nova.
+ * Mudou a regra, sobe a `version`.
+ */
+export const POLICY = {
+  version: 1,
+  window_days: ATTRIBUTION_WINDOW_DAYS,
+  selection: "last_valid_touch",
+  tie_break: ["referral_over_campaign", "lowest_cid", "lowest_delivery_id"],
+  signup_boundary: "inclusive",
+  self_referral: "rejected",
+} as const;
+
 export type TouchSource = "campaign" | "referral";
 
 export type Touch = { id: string; cid: string; src: TouchSource; ref: string; touchedAt: string };
@@ -36,6 +50,7 @@ export type Origin =
 
 export type Decision = {
   origin: Origin;
+  policy: typeof POLICY;
   window: { starts_at: string; ends_at: string; days: number } | null;
   considered: Considered[];
 };
@@ -81,6 +96,7 @@ export function decideOrigin(input: DecisionInput): Decision {
   if (input.firstOpenAt === null) {
     return {
       origin: { type: "organic", ref: null, touch_id: null, reason: "no_install" },
+      policy: POLICY,
       window: null,
       considered: ordered.map((t) => describe(t, "rejected", "no_install")),
     };
@@ -135,6 +151,7 @@ export function decideOrigin(input: DecisionInput): Decision {
 
   if (winner) {
     return {
+      policy: POLICY,
       origin: {
         type: winner.src,
         ref: winner.ref,
@@ -146,6 +163,7 @@ export function decideOrigin(input: DecisionInput): Decision {
     };
   }
   return {
+    policy: POLICY,
     origin: {
       type: "organic",
       ref: null,

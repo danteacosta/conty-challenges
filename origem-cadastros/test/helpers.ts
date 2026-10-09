@@ -7,7 +7,8 @@ export const D = 24 * H;
 export const at = (ms: number) => new Date(T0 + ms).toISOString();
 
 export function setup() {
-  const app = createApp(openDatabase(":memory:"));
+  const db = openDatabase(":memory:");
+  const app = createApp(db);
   const call = async (method: string, path: string, body?: unknown) => {
     const res = await app.request(path, {
       method,
@@ -18,6 +19,7 @@ export function setup() {
   };
   return {
     app,
+    db,
     install: (install_id: string, ms = 0) => call("POST", "/installs", { install_id, opened_at: at(ms) }),
     touch: (install_id: string, src: string, ref: string, cid: string, ms: number) =>
       call("POST", "/touches", { install_id, src, ref, cid, touched_at: at(ms) }),

@@ -42,6 +42,9 @@ export function createApp(db: DatabaseSync, now: () => string = () => new Date()
       return c.json({ error: "user_id, install_id e signed_up_at (ISO-8601 com fuso) são obrigatórios" }, 400);
     }
     const out = signUp(db, { userId, installId, signedUpAt });
+    if (out.result === "conflict") {
+      return c.json({ error: "signup_conflict", recorded: out.recorded, origin: out.view.origin, policy: out.view.policy }, 409);
+    }
     return c.json({ result: out.result, ...out.view }, out.result === "created" ? 201 : 200);
   });
 

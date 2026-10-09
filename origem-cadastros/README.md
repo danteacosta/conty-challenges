@@ -4,7 +4,7 @@ Contrato de atribuição de origem: o que viaja no link, o que o app grava no pr
 
 ```bash
 npm install
-npm test            # 105 testes: regra, datas, API, propriedades, concorrência, e2e HTTP
+npm test            # 117 testes: regra, política, datas, API, conflito de cadastro, propriedades, concorrência, e2e HTTP
 npm run typecheck
 npm run mutation    # Stryker em decide-origin, link e store (relatório em reports/)
 npm start           # http://127.0.0.1:3011 (DB_PATH=arquivo.db para persistir)
@@ -39,7 +39,7 @@ Indicação:  https://conty.app/l?src=referral&ref=usr_ana&cid=clk_02
 
 **3. No cadastro**
 
-- `POST /signups {user_id, install_id, signed_up_at}`: decide a origem, grava e devolve a resposta de auditoria. Idempotente por `user_id`: repetir devolve a decisão original (200, `duplicate`).
+- `POST /signups {user_id, install_id, signed_up_at}`: decide a origem, grava e devolve a resposta de auditoria. **Replay igual** (mesmo `user_id`, mesma `install_id`, mesmo instante, mesmo que escrito com outro offset) devolve a decisão original (200, `duplicate`). **Cadastro diferente do mesmo `user_id`** (outra instalação ou outro horário) **não é replay**: responde **409 `signup_conflict`** com o que ficou gravado (`recorded`), a origem decidida e a política, e não grava nada. Responder com a decisão antiga esconderia que o segundo pedido não é o que foi registrado.
 - `GET /signups/:user_id/origin`: a mesma resposta, mais os toques que chegaram depois do cadastro.
 
 ## A regra (um lugar só: [`src/decide-origin.ts`](src/decide-origin.ts))
@@ -71,6 +71,7 @@ O resultado não depende da ordem em que os toques chegaram.
   "user_id": "usr_9",
   "origin": { "type": "referral", "ref": "usr_ana", "touch_id": "3", "reason": "latest_valid_touch" },
   "window": { "starts_at": "2026-06-01T12:00:00.000Z", "ends_at": "2026-06-08T12:00:00.000Z", "days": 7 },
+  "policy": { "version": 1, "window_days": 7, "selection": "last_valid_touch", "tie_break": ["referral_over_campaign", "lowest_cid", "lowest_delivery_id"], "signup_boundary": "inclusive", "self_referral": "rejected" },
   "considered": [
     { "touch_id": "1", "cid": "clk_1", "src": "campaign", "ref": "verao-2026", "touched_at": "2026-06-01T12:00:01.000Z", "verdict": "lost",     "reason": "superseded_by_later_touch" },
     { "touch_id": "2", "cid": "clk_1", "src": "campaign", "ref": "verao-2026", "touched_at": "2026-06-01T12:00:01.000Z", "verdict": "rejected", "reason": "duplicate_click" },
@@ -85,6 +86,10 @@ O resultado não depende da ordem em que os toques chegaram.
 | `lost` | `superseded_by_later_touch`, `lost_tiebreak_referral_priority`, `lost_tiebreak_cid_order` |
 | `rejected` | `duplicate_click`, `before_first_open`, `after_signup`, `outside_window`, `self_referral`, `no_install`, `received_after_signup` |
 
+### A política vai gravada com a decisão
+
+`policy` descreve a regra que decidiu: a janela, o critério de escolha, os desempates, a fronteira do cadastro e o tratamento de auto-indicação (`POLICY` em [`src/decide-origin.ts`](src/decide-origin.ts)). Ela é gravada junto da decisão e **lida de volta do que foi gravado**, nunca recalculada: se a regra mudar um dia (outra janela, outro critério), sobe-se a `version` e os cadastros antigos continuam dizendo com qual política foram decididos, em vez de parecerem decididos pela nova (há um teste que troca a política gravada e confere que a auditoria devolve a da época).
+
 ## Concorrência
 
 Primeiro open e cadastro são idempotentes por `PRIMARY KEY` + `ON CONFLICT DO NOTHING`, e o cadastro roda em `BEGIN IMMEDIATE` (decisão e gravação na mesma transação). [`test/concurrency.test.ts`](test/concurrency.test.ts) sobe 4 `worker_threads`, cada um com sua conexão ao mesmo arquivo, disparando primeiro open, toque e cadastro do mesmo usuário: sai um cadastro, um primeiro open e uma origem.
@@ -93,8 +98,8 @@ Primeiro open e cadastro são idempotentes por `PRIMARY KEY` + `ON CONFLICT DO N
 
 - Regra pura ([`decide-origin.test.ts`](test/decide-origin.test.ts)): dois links, empate de horário (inclusive com a ordem de chegada contrária à de desempate), bordas da janela (exatamente no início, no fim, ±1 ms), toque depois do cadastro, clique repetido, auto-indicação, orgânico com cada motivo, e propriedades (a decisão não depende da ordem de entrada; no máximo um vencedor, sempre dentro da janela e antes do cadastro).
 - API ([`api.test.ts`](test/api.test.ts)) e jornada por HTTP real em porta efêmera ([`e2e.test.ts`](test/e2e.test.ts)).
-- Mutação (Stryker): 98,8% (324 de 328) em `decide-origin`, `link`, `store` e `instant` (relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)). Sobreviventes: 2 equivalentes em `compareCandidates` (`cid` iguais nunca chegam ao comparador porque o clique repetido já foi eliminado) e 2 em `instant.ts` (a ramificação do fuso `Z` calcula offset 0 de qualquer jeito).
-- Concorrência: 4 workers com conexões separadas; as partidas não usam barreira. As 4 conexões mandando o mesmo `cid` com dados diferentes gravam um só clique.
+- Mutação (Stryker): 98,8% (334 de 338) em `decide-origin`, `link`, `store` e `instant` (relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)). Sobreviventes: 2 equivalentes em `compareCandidates` (`cid` iguais nunca chegam ao comparador porque o clique repetido já foi eliminado) e 2 em `instant.ts` (a ramificação do fuso `Z` calcula offset 0 de qualquer jeito).
+- Concorrência, com **barreira** de largada e 200 cliques ou usuários por worker (com poucos, a troca de `BEGIN IMMEDIATE` por `BEGIN` passava despercebida): 4 conexões mandando os mesmos cliques com dados diferentes gravam um canônico por clique; 4 conexões, em duas instalações, cadastrando os mesmos usuários gravam uma decisão por usuário, e quem diverge dela recebe conflito. Trocar `BEGIN IMMEDIATE` por `BEGIN` faz esses testes falharem (verificado à mão, 4 de 4).
 
 ## Decisões que são minhas (o enunciado não fixa)
 

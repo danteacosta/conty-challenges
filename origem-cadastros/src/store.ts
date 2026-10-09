@@ -76,7 +76,18 @@ function storedView(db: DatabaseSync, userId: string): SignupView | null {
 export function signUp(db: DatabaseSync, input: { userId: string; installId: string; signedUpAt: string }) {
   return inTransaction(db, () => {
     const existing = storedView(db, input.userId);
-    if (existing) return { result: "duplicate" as const, view: existing };
+    if (existing) {
+      // Replay igual devolve a decisão. Mesmo usuário com outra instalação ou outro horário de cadastro NÃO é replay: é
+      // um pedido diferente que o primeiro cadastro não cobre, e responder com a decisão antiga esconderia isso.
+      const recorded = db.prepare("SELECT install_id, signed_up_at FROM signups WHERE user_id = ?").get(input.userId) as {
+        install_id: string;
+        signed_up_at: string;
+      };
+      if (recorded.install_id !== input.installId || recorded.signed_up_at !== input.signedUpAt) {
+        return { result: "conflict" as const, view: existing, recorded };
+      }
+      return { result: "duplicate" as const, view: existing };
+    }
 
     const install = db.prepare("SELECT first_open_at FROM installs WHERE install_id = ?").get(input.installId) as
       | { first_open_at: string }

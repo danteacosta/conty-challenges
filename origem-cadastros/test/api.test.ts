@@ -197,3 +197,96 @@ describe("o clique original é o canônico", () => {
     expect((await t.origin("usr_1")).body.considered).toHaveLength(1);
   });
 });
+
+describe("a política fica gravada com a decisão", () => {
+  it("a resposta do cadastro e a auditoria trazem a política usada", async () => {
+    const t = setup();
+    await t.install("ins_1", 0);
+    await t.touch("ins_1", "campaign", "verao-2026", "clk_a", 1 * H);
+    const signup = await t.signup("usr_1", "ins_1", 1 * D);
+    expect(signup.body.policy).toEqual({
+      version: 1,
+      window_days: 7,
+      selection: "last_valid_touch",
+      tie_break: ["referral_over_campaign", "lowest_cid", "lowest_delivery_id"],
+      signup_boundary: "inclusive",
+      self_referral: "rejected",
+    });
+    expect((await t.origin("usr_1")).body.policy).toEqual(signup.body.policy);
+  });
+
+  it("a política gravada é a da época da decisão: mudar a regra depois não reescreve cadastros antigos", async () => {
+    const t = setup();
+    await t.install("ins_1", 0);
+    await t.signup("usr_1", "ins_1", 1 * D);
+    // simula um cadastro decidido por uma política anterior (janela de 3 dias, versão 0)
+    const row = t.db.prepare("SELECT decision_json FROM signups WHERE user_id = 'usr_1'").get() as { decision_json: string };
+    const old = JSON.parse(row.decision_json);
+    old.policy = { ...old.policy, version: 0, window_days: 3 };
+    t.db.prepare("UPDATE signups SET decision_json = ? WHERE user_id = 'usr_1'").run(JSON.stringify(old));
+
+    const audit = (await t.origin("usr_1")).body;
+    expect(audit.policy).toMatchObject({ version: 0, window_days: 3 });
+    expect((await t.signup("usr_1", "ins_1", 1 * D)).body.policy).toMatchObject({ version: 0, window_days: 3 });
+  });
+});
+
+describe("cadastro repetido: replay igual devolve a decisão, cadastro diferente é conflito", () => {
+  async function registered() {
+    const t = setup();
+    await t.install("ins_1", 0);
+    await t.install("ins_2", 0);
+    await t.touch("ins_1", "campaign", "verao-2026", "clk_a", 1 * H);
+    await t.touch("ins_2", "referral", "usr_ana", "clk_b", 2 * H);
+    const first = await t.signup("usr_1", "ins_1", 1 * D);
+    expect(first.status).toBe(201);
+    return { t, first };
+  }
+
+  it("o mesmo cadastro de novo é um replay: 200 com a decisão original", async () => {
+    const { t, first } = await registered();
+    const again = await t.signup("usr_1", "ins_1", 1 * D);
+    expect(again.status).toBe(200);
+    expect(again.body).toMatchObject({ result: "duplicate", origin: first.body.origin });
+  });
+
+  it("o mesmo instante escrito com outro offset ainda é o mesmo cadastro", async () => {
+    const { t } = await registered();
+    const sameInstant = new Date(Date.parse("2026-06-01T12:00:00.000Z") + 1 * D).toISOString().replace("Z", "+00:00");
+    const again = await t.call("POST", "/signups", { user_id: "usr_1", install_id: "ins_1", signed_up_at: sameInstant });
+    expect(again.status).toBe(200);
+    expect(again.body.result).toBe("duplicate");
+  });
+
+  it("o mesmo usuário com OUTRA instalação é conflito (409), e a decisão original não muda", async () => {
+    const { t, first } = await registered();
+    const conflict = await t.signup("usr_1", "ins_2", 1 * D);
+    expect(conflict.status).toBe(409);
+    expect(conflict.body).toMatchObject({
+      error: "signup_conflict",
+      recorded: { install_id: "ins_1", signed_up_at: "2026-06-02T12:00:00.000Z" },
+      origin: first.body.origin,
+    });
+    expect((await t.origin("usr_1")).body.origin).toEqual(first.body.origin);
+  });
+
+  it("o mesmo usuário e instalação com OUTRO horário de cadastro é conflito (409)", async () => {
+    const { t } = await registered();
+    const conflict = await t.signup("usr_1", "ins_1", 2 * D);
+    expect(conflict.status).toBe(409);
+    expect(conflict.body.error).toBe("signup_conflict");
+    expect(conflict.body.recorded).toMatchObject({ install_id: "ins_1", signed_up_at: "2026-06-02T12:00:00.000Z" });
+  });
+
+  it("o conflito não grava nada e não conta como toque ou cadastro novo", async () => {
+    const { t } = await registered();
+    await t.signup("usr_1", "ins_2", 1 * D);
+    expect(t.db.prepare("SELECT COUNT(*) AS n FROM signups").get()).toEqual({ n: 1 });
+    expect((await t.origin("usr_1")).body.considered).toHaveLength(1);
+  });
+
+  it("dois usuários diferentes na mesma instalação continuam possíveis: cada um recebe a sua decisão", async () => {
+    const { t } = await registered();
+    expect((await t.signup("usr_2", "ins_1", 1 * D)).status).toBe(201);
+  });
+});
