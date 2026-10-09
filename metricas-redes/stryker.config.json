@@ -1,0 +1,17 @@
+{
+  "testRunner": "vitest",
+  "mutate": [
+    "src/domain/retry.ts",
+    "src/domain/retry-after.ts",
+    "src/providers/adapters.ts",
+    "src/providers/http.ts",
+    "src/sync.ts",
+    "src/store.ts",
+    "src/config.ts",
+    "src/instant.ts"
+  ],
+  "reporters": ["clear-text", "json"],
+  "jsonReporter": { "fileName": "reports/mutation.json" },
+  "coverageAnalysis": "perTest",
+  "timeoutMS": 30000
+}
