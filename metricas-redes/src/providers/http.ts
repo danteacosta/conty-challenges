@@ -57,9 +57,19 @@ export class HttpMetricsProvider implements MetricsProvider {
     if (response.status >= 500) throw new ProviderError("server", `o provedor respondeu ${response.status}`, response.status);
     if (!response.ok) throw new ProviderError("client", `o provedor respondeu ${response.status}`, response.status);
 
+    // Ler o corpo e interpretá-lo são duas falhas diferentes: a primeira é de transporte (vale repetir), a segunda é do provedor.
+    let text: string;
+    try {
+      text = await response.text();
+    } catch (error) {
+      if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
+        throw new ProviderError("timeout", `o provedor não terminou de enviar o corpo em ${this.timeoutMs} ms`);
+      }
+      throw new ProviderError("network", `a conexão com o provedor caiu durante o corpo: ${(error as Error).message}`);
+    }
     let body: unknown;
     try {
-      body = await response.json();
+      body = JSON.parse(text);
     } catch {
       throw new ProviderError("invalid_payload", "o provedor devolveu um corpo que não é JSON");
     }

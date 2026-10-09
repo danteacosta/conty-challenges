@@ -4,7 +4,7 @@ Serviço que, dada uma conexão **já autorizada** (token fictício), sincroniza
 
 ```bash
 npm install
-npm test            # 218 testes: retry, Retry-After, adapters, sync, cliente HTTP, configuração, e2e nas 4 redes, corrida
+npm test            # 224 testes: retry, Retry-After, adapters, sync, cliente HTTP (inclusive corpo interrompido), configuração, e2e nas 4 redes, corrida
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 
@@ -37,7 +37,7 @@ src/store.ts             PostSnapshot, ProviderError  (formato de cada rede)
 
 - A regra (`sync`, `retry`, `store`) só conhece a interface `MetricsProvider` e o formato único `PostSnapshot`. Ela nunca vê o JSON de uma rede.
 - O formato de cada rede (Instagram, TikTok, YouTube, X: nomes de campo, tipos, datas em ISO ou em segundos desde 1970, contadores em texto) vive só em [`adapters.ts`](src/providers/adapters.ts). Rede nova = uma linha na tabela.
-- O cliente HTTP ([`http.ts`](src/providers/http.ts)) traduz o que a rede responde em falhas tipadas: `timeout`, `network`, `server` (5xx), `client` (4xx), `rate_limited` (429, com o `Retry-After` já em milissegundos) e `invalid_payload`.
+- O cliente HTTP ([`http.ts`](src/providers/http.ts)) traduz o que a rede responde em falhas tipadas: `timeout`, `network`, `server` (5xx), `client` (4xx), `rate_limited` (429, com o `Retry-After` já em milissegundos) e `invalid_payload`. Ler o corpo e interpretá-lo são falhas separadas: se os cabeçalhos chegam e o corpo é interrompido (`TimeoutError`/`AbortError` é `timeout`, queda de conexão é `network`), a página é repetida pela política; só um corpo que chegou inteiro e não é JSON (ou não tem a lista `data`) é `invalid_payload`, terminal.
 - O provedor simulado ([`simulator.ts`](src/providers/simulator.ts)) fala o formato das quatro redes e falha sob comando: timeout, 429, 5xx, itens duplicados e itens inválidos. Nada de regra mora nele.
 - Relógio e `sleep` são injetados, então os testes de espera usam **relógio controlado** e não esperam de verdade.
 
@@ -118,7 +118,7 @@ A rede e as esperas acontecem fora das transações. Se a **segunda página** fa
 
 ## Verificação
 
-- 218 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
+- 224 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
 - Mutação (Stryker): 599 de 623 (96,1%): `retry` 100%, `retry-after` 97,4%, `store` 98,3%, `sync` 98,5%, `instant` 98,3%, `adapters` 96,1%, `config` 95,7%, `http` 89,1%. Os vivos de `http.ts` são sobretudo o texto das mensagens de erro (os testes afirmam o tipo da falha, não a frase) e dois ramos equivalentes (`catch {}` do JSON e `typeof body` antes de ler `data`, que dão `invalid_payload` de qualquer jeito). Em `store.ts`, `>=` no lugar de `>` do `as_of` é equivalente: um snapshot com o mesmo `as_of` já foi barrado antes como duplicado.
 - Mutação manual nos pontos críticos, todos pegos: tentativas (`>`/`>=`), teto do `Retry-After`, backoff, erro do cliente repetido, data passada do `Retry-After`, unidade (ms), época em segundos, contador negativo, 500/408, cursor, leitura do cabeçalho errado, snapshot atrasado substituindo o atual, "sempre substitui", `retry_at` no passado, espera não registrada ou não feita, tentativas não contadas, cursor repetido, teto de páginas, erro inesperado, token devolvido, códigos 202/502 e janela invertida.
 - **`BEGIN IMMEDIATE` por `BEGIN` não é detectado, e é equivalente aqui**: toda transação deste projeto começa por uma escrita (`INSERT`/`UPDATE`), então o lock é tomado na primeira instrução de qualquer jeito. O `IMMEDIATE` fica como defesa para uma transação futura que leia antes de escrever. O que a corrida protege (e os testes provam) é a idempotência por chave: sem `ON CONFLICT` ou com "sempre substitui" o teste de concorrência falha.
