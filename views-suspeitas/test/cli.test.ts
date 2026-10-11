@@ -1,4 +1,5 @@
-import { execFileSync, spawn } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
+import { promisify } from "node:util";
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -19,55 +20,57 @@ const copyOfProject = (name: string) => {
   cpSync(join(project, "data", "independent-problems.json"), join(root, "data", "independent-problems.json"));
   return root;
 };
-const runDataset = (root: string, ...args: string[]) => {
+const execFileAsync = promisify(execFile);
+// Assíncrono de propósito: um execFileSync de vários segundos trava o worker do vitest e a suíte inteira cai em timeout de RPC.
+const runDataset = async (root: string, ...args: string[]) => {
   try {
-    const out = execFileSync(process.execPath, ["--import", "tsx", join(project, "scripts", "dataset.ts"), ...args], { env: { ...process.env, VIEWS_ROOT: root }, encoding: "utf8", stdio: "pipe" });
-    return { code: 0, out, err: "" };
+    const { stdout } = await execFileAsync(process.execPath, ["--import", "tsx", join(project, "scripts", "dataset.ts"), ...args], { env: { ...process.env, VIEWS_ROOT: root }, encoding: "utf8" });
+    return { code: 0, out: stdout, err: "" };
   } catch (error) {
-    const e = error as { status: number; stdout: string; stderr: string };
-    return { code: e.status, out: e.stdout, err: e.stderr };
+    const e = error as { code: number; stdout: string; stderr: string };
+    return { code: e.code, out: e.stdout, err: e.stderr };
   }
 };
 
 describe("npm run dataset:check (o comando de verdade, sobre uma cópia)", () => {
-  it("README e hash em dia: sai com 0", () => {
-    const result = runDataset(copyOfProject("ok"), "--check");
+  it("README e hash em dia: sai com 0", async () => {
+    const result = await runDataset(copyOfProject("ok"), "--check");
     expect(result.code).toBe(0);
     expect(result.out).toMatch(/em dia/);
   }, 60_000);
 
-  it("um número do README diferente do medido: sai com 1 e diz qual", () => {
+  it("um número do README diferente do medido: sai com 1 e diz qual", async () => {
     const root = copyOfProject("readme");
     const path = join(root, "README.md");
     writeFileSync(path, readFileSync(path, "utf8").replace(/<!--m:holdout_fpr-->[^<]*<!--\/m-->/, "<!--m:holdout_fpr-->99,9%<!--/m-->"));
-    const result = runDataset(root, "--check");
+    const result = await runDataset(root, "--check");
     expect(result.code).toBe(1);
     expect(result.err).toMatch(/holdout_fpr/);
   }, 60_000);
 
-  it("hash versionado diferente do gerado: sai com 1", () => {
+  it("hash versionado diferente do gerado: sai com 1", async () => {
     const root = copyOfProject("hash");
     writeFileSync(join(root, "data", "dataset.sha256"), "0".repeat(64) + "\n");
-    const result = runDataset(root, "--check");
+    const result = await runDataset(root, "--check");
     expect(result.code).toBe(1);
     expect(result.err).toMatch(/dataset\.sha256/);
   }, 60_000);
 
-  it("os casos problemáticos preservados fora de sincronia também derrubam o --check", () => {
+  it("os casos problemáticos preservados fora de sincronia também derrubam o --check", async () => {
     const root = copyOfProject("problems");
     writeFileSync(join(root, "data", "independent-problems.json"), "[]\n");
-    const result = runDataset(root, "--check");
+    const result = await runDataset(root, "--check");
     expect(result.code).toBe(1);
     expect(result.err).toMatch(/independent-problems/);
   }, 60_000);
 
-  it("sem --check, grava o dataset, o hash e conserta o README", () => {
+  it("sem --check, grava o dataset, o hash e conserta o README", async () => {
     const root = copyOfProject("write");
     const path = join(root, "README.md");
     const original = readFileSync(path, "utf8");
     writeFileSync(path, original.replace(/<!--m:holdout_fpr-->[^<]*<!--\/m-->/, "<!--m:holdout_fpr-->99,9%<!--/m-->"));
     writeFileSync(join(root, "data", "dataset.sha256"), "0\n");
-    const result = runDataset(root);
+    const result = await runDataset(root);
     expect(result.code).toBe(0);
     expect(readFileSync(path, "utf8")).toBe(original);
     expect(readFileSync(join(root, "data", "dataset.sha256"), "utf8")).toBe(readFileSync(join(project, "data", "dataset.sha256"), "utf8"));

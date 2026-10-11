@@ -5,6 +5,20 @@
  */
 export type Config = { port: number; dbPath: string; providerUrl: string; providerTimeoutMs: number; maxRetryAfterMs: number };
 
+/** A URL sem usuário, senha, query e hash: pode ser registrada em log e em mensagem de erro. */
+export function redactUrl(raw: string): string {
+  try {
+    const url = new URL(raw);
+    url.username = "";
+    url.password = "";
+    url.search = "";
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return raw.replace(/\/\/[^/@\s]*@/g, "//").replace(/[?#].*$/, "");
+  }
+}
+
 export class ConfigError extends Error {
   readonly problems: string[];
   constructor(problems: string[]) {
@@ -45,7 +59,7 @@ export function loadConfig(env: Env): Config {
     const protocol = new URL(providerUrl).protocol;
     if (protocol !== "http:" && protocol !== "https:") throw new Error("protocolo");
   } catch {
-    problems.push(`PROVIDER_URL deve ser uma URL http ou https (recebido: ${JSON.stringify(providerUrl)})`);
+    problems.push(`PROVIDER_URL deve ser uma URL http ou https (recebido: ${JSON.stringify(redactUrl(providerUrl))})`);
   }
 
   if (problems.length > 0) throw new ConfigError(problems);

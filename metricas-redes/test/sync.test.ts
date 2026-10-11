@@ -177,7 +177,7 @@ describe("idempotência: o mesmo snapshot não duplica número", () => {
     const id = await t.connect();
     const run = await t.sync(id);
     expect(run.body).toMatchObject({ status: "failed", attempts: 1, waits_ms: [] });
-    expect(run.body.error).toBe("unexpected: campo indefinido");
+    expect(run.body.error).toBe("unexpected: TypeError"); // a classe, nunca a mensagem
     expect(t.provider.calls).toHaveLength(1);
   });
 

@@ -13,6 +13,14 @@ export type HttpProviderOptions = {
 
 const DEFAULT_TIMEOUT_MS = 5000;
 
+/** Contexto seguro de uma falha de transporte: a classe do erro e o código de sistema (ECONNREFUSED...), sem a mensagem, que pode ter URL e credenciais. */
+function transportContext(error: unknown): string {
+  const simple = (value: unknown, fallback: string) => (typeof value === "string" && /^[A-Za-z][A-Za-z0-9_]{0,40}$/.test(value) ? value : fallback);
+  const name = simple((error as { name?: unknown } | null)?.name, "Error");
+  const code = simple(((error as { cause?: { code?: unknown } } | null)?.cause?.code ?? (error as { code?: unknown } | null)?.code) as unknown, "");
+  return code ? `${name}, ${code}` : name;
+}
+
 /** Cliente HTTP de uma rede, atrás da interface MetricsProvider. Converte o que a rede diz em falhas tipadas. */
 export class HttpMetricsProvider implements MetricsProvider {
   private readonly options: HttpProviderOptions;
@@ -46,7 +54,7 @@ export class HttpMetricsProvider implements MetricsProvider {
       if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
         throw new ProviderError("timeout", `o provedor não respondeu em ${this.timeoutMs} ms`);
       }
-      throw new ProviderError("network", `não foi possível falar com o provedor: ${(error as Error).message}`);
+      throw new ProviderError("network", `não foi possível falar com o provedor (${transportContext(error)})`);
     }
 
     if (response.status === 429) {
@@ -65,7 +73,7 @@ export class HttpMetricsProvider implements MetricsProvider {
       if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
         throw new ProviderError("timeout", `o provedor não terminou de enviar o corpo em ${this.timeoutMs} ms`);
       }
-      throw new ProviderError("network", `a conexão com o provedor caiu durante o corpo: ${(error as Error).message}`);
+      throw new ProviderError("network", `a conexão com o provedor caiu durante o corpo (${transportContext(error)})`);
     }
     let body: unknown;
     try {

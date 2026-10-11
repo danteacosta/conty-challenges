@@ -24,8 +24,16 @@ type RequestRow = {
   cancel_reason: string | null;
 };
 
-export type FailureCode = "not_found" | "invalid_state" | "script_approved" | "deadline_in_past" | "mission_already_has_script" | "stale_round" | "submission_conflict" | "round_cancelled" | "request_not_open";
-export type Failure = { ok: false; code: FailureCode; state?: State; allowed_actions?: Action[]; open_change_request_id?: number };
+export type FailureCode = "not_found" | "invalid_state" | "script_approved" | "deadline_in_past" | "mission_already_has_script" | "stale_round" | "submission_conflict" | "round_cancelled" | "request_not_open" | "stale_version";
+export type Failure = {
+  ok: false;
+  code: FailureCode;
+  state?: State;
+  allowed_actions?: Action[];
+  open_change_request_id?: number;
+  expected_version?: number;
+  current_version?: number;
+};
 export type ScriptView = ReturnType<typeof toView>;
 export type Submission = { id: string; version: number; replayed: boolean };
 export type Outcome = { ok: true; view: ScriptView; submission?: Submission } | Failure;
@@ -83,16 +91,25 @@ export function createScript(db: DatabaseSync, input: { id: string; missionId: s
   });
 }
 
-export function requestChanges(db: DatabaseSync, input: { id: string; reason: string; deadlineDate: string }, now: () => Date): Outcome {
+const latestVersion = (db: DatabaseSync, scriptId: string) =>
+  (db.prepare("SELECT MAX(number) AS n FROM script_versions WHERE script_id = ?").get(scriptId) as { n: number }).n;
+
+/** `expected_version` é opcional (cliente antigo decide sobre a versão atual); quando vem, tem de ser a versão que existe agora. */
+const staleVersion = (expected: number | undefined, current: number): Failure | null =>
+  expected !== undefined && expected !== current ? { ok: false, code: "stale_version", expected_version: expected, current_version: current } : null;
+
+export function requestChanges(db: DatabaseSync, input: { id: string; reason: string; deadlineDate: string; expectedVersion?: number }, now: () => Date): Outcome {
   return inTransaction(db, () => {
     const script = find(db, input.id);
     if (!script) return { ok: false, code: "not_found" } as const;
     const target = nextState(script.state, "request_changes");
     if (target === null) return stateFailure(script);
+    const version = latestVersion(db, script.id);
+    const stale = staleVersion(input.expectedVersion, version);
+    if (stale) return stale;
     const current = now();
     if (isDeadlineInPast(input.deadlineDate, current)) return { ok: false, code: "deadline_in_past" } as const;
 
-    const version = (db.prepare("SELECT MAX(number) AS n FROM script_versions WHERE script_id = ?").get(script.id) as { n: number }).n;
     db.prepare("INSERT INTO change_requests (script_id, version_number, reason, deadline_date, created_at) VALUES (?, ?, ?, ?, ?)").run(
       script.id,
       version,
@@ -191,15 +208,21 @@ export function cancelChangeRequest(db: DatabaseSync, input: { id: string; reque
 }
 
 /** Aprovar encerra a revisão. Repetir a aprovação de um roteiro já aprovado não muda nada. */
-export function approve(db: DatabaseSync, input: { id: string }, now: () => Date): Outcome {
+export function approve(db: DatabaseSync, input: { id: string; expectedVersion?: number }, now: () => Date): Outcome {
   return inTransaction(db, () => {
     const script = find(db, input.id);
     if (!script) return { ok: false, code: "not_found" } as const;
-    if (script.state === "approved") return { ok: true, view: toView(db, script) } as const;
+    if (script.state === "approved") {
+      // O retry de uma aprovação já feita é inofensivo; mas dirigido a OUTRA versão que não a aprovada, é conflito.
+      const stale = staleVersion(input.expectedVersion, script.approved_version as number);
+      return stale ?? ({ ok: true, view: toView(db, script) } as const);
+    }
     const target = nextState(script.state, "approve");
     if (target === null) return stateFailure(script);
 
-    const version = (db.prepare("SELECT MAX(number) AS n FROM script_versions WHERE script_id = ?").get(script.id) as { n: number }).n;
+    const version = latestVersion(db, script.id);
+    const stale = staleVersion(input.expectedVersion, version);
+    if (stale) return stale;
     db.prepare("UPDATE scripts SET state = ?, approved_at = ?, approved_version = ? WHERE id = ?").run(target, now().toISOString(), version, script.id);
     return { ok: true, view: toView(db, find(db, script.id) as ScriptRow) } as const;
   });

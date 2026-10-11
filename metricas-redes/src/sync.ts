@@ -13,6 +13,18 @@ export type SyncDeps = {
   maxPages: number;
 };
 
+/**
+ * O que vai para a resposta e para o histórico persistido quando uma sync falha: a categoria e um contexto seguro (o status HTTP,
+ * ou a classe do erro), nunca o texto da mensagem. Mensagens de erro de adapters, de bibliotecas e de rede podem carregar tokens,
+ * URLs com credenciais e trechos de corpo.
+ */
+export function safeFailure(error: unknown): string {
+  if (error instanceof ProviderError) return error.status === undefined ? error.kind : `${error.kind} (${error.status})`;
+  const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;
+  const simple = typeof name === "string" && /^[A-Za-z][A-Za-z0-9_]{0,40}$/.test(name) ? name : "Error";
+  return `unexpected: ${simple}`;
+}
+
 type Terminal = { status: "succeeded" | "failed" | "deferred"; error: string | null; retryAt: string | null };
 
 /**
@@ -45,7 +57,7 @@ export async function syncConnection(db: DatabaseSync, deps: SyncDeps, connectio
         break;
       } catch (error) {
         if (!(error instanceof ProviderError)) {
-          terminal = { status: "failed", error: `unexpected: ${(error as Error).message}`, retryAt: null };
+          terminal = { status: "failed", error: safeFailure(error), retryAt: null };
           break pages;
         }
         const failure: Failure = { kind: error.kind, retryAfterMs: error.retryAfterMs };
@@ -65,7 +77,7 @@ export async function syncConnection(db: DatabaseSync, deps: SyncDeps, connectio
           };
           break pages;
         }
-        terminal = { status: "failed", error: `${error.kind}: ${error.message}`, retryAt: null };
+        terminal = { status: "failed", error: safeFailure(error), retryAt: null };
         break pages;
       }
     }

@@ -36,6 +36,7 @@ const STATUS: Record<Failure["code"], 404 | 409 | 422> = {
   submission_conflict: 409,
   round_cancelled: 409,
   request_not_open: 409,
+  stale_version: 409,
 };
 
 export function createApp({ db, now }: AppOptions) {
@@ -43,8 +44,16 @@ export function createApp({ db, now }: AppOptions) {
 
   const respond = (c: { json: (body: unknown, status?: 200 | 201 | 404 | 409 | 422) => Response }, outcome: Outcome, success: 200 | 201) => {
     if (outcome.ok) return c.json(outcome.submission ? { ...outcome.view, submission: outcome.submission } : outcome.view, outcome.submission?.replayed ? 200 : success);
-    const { code, state, allowed_actions, open_change_request_id } = outcome;
-    return c.json({ error: code, ...(state ? { state, allowed_actions } : {}), ...(open_change_request_id ? { open_change_request_id } : {}) }, STATUS[code]);
+    const { code, state, allowed_actions, open_change_request_id, expected_version, current_version } = outcome;
+    return c.json(
+      {
+        error: code,
+        ...(state ? { state, allowed_actions } : {}),
+        ...(open_change_request_id ? { open_change_request_id } : {}),
+        ...(expected_version !== undefined ? { expected_version, current_version } : {}),
+      },
+      STATUS[code],
+    );
   };
   const invalid = (c: { json: (body: unknown, status: 400) => Response }, field: string, message: string) =>
     c.json({ error: "validation_error", field, message }, 400);
@@ -68,7 +77,9 @@ export function createApp({ db, now }: AppOptions) {
     const deadlineDate = parseCalendarDate(body?.deadline_date);
     if (!reason) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");
     if (!deadlineDate) return invalid(c, "deadline_date", "deadline_date é obrigatório, no formato YYYY-MM-DD e com uma data que existe");
-    return respond(c, requestChanges(db, { id: c.req.param("id"), reason, deadlineDate }, now), 201);
+    const expectedVersion = optionalPositiveInteger(body?.expected_version);
+    if (expectedVersion === null) return invalid(c, "expected_version", "expected_version deve ser o número inteiro positivo da versão examinada");
+    return respond(c, requestChanges(db, { id: c.req.param("id"), reason, deadlineDate, ...(expectedVersion !== undefined ? { expectedVersion } : {}) }, now), 201);
   });
 
   app.post("/scripts/:id/versions", async (c) => {
@@ -93,7 +104,12 @@ export function createApp({ db, now }: AppOptions) {
     return respond(c, cancelChangeRequest(db, { id: c.req.param("id"), requestId: Number(raw), reason, by }, now), 200);
   });
 
-  app.post("/scripts/:id/approve", (c) => respond(c, approve(db, { id: c.req.param("id") }, now), 200));
+  app.post("/scripts/:id/approve", async (c) => {
+    const body = await c.req.json().catch(() => null);
+    const expectedVersion = optionalPositiveInteger(body?.expected_version);
+    if (expectedVersion === null) return invalid(c, "expected_version", "expected_version deve ser o número inteiro positivo da versão examinada");
+    return respond(c, approve(db, { id: c.req.param("id"), ...(expectedVersion !== undefined ? { expectedVersion } : {}) }, now), 200);
+  });
 
   return app;
 }
