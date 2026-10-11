@@ -172,91 +172,96 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 30 · ConditionalExpression · Survived · `if (zone !== "Z") {` → `true`
 - linha 30 · StringLiteral · Survived · `if (zone !== "Z") {` → `""`
 
-## revisao-roteiro: 433/486 (89.1%)
+## revisao-roteiro: 465/523 (88.9%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
-| `src/app.ts` | 193/240 | 80.4% |
+| `src/app.ts` | 229/281 | 81.5% |
 | `src/domain/deadline.ts` | 64/69 | 92.8% |
 | `src/domain/transitions.ts` | 10/10 | 100.0% |
-| `src/store.ts` | 166/167 | 99.4% |
+| `src/store.ts` | 162/163 | 99.4% |
 
 Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos são equivalentes):
 
 **`src/app.ts`**
 
-- linha 108 · ObjectLiteral · NoCoverage · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `{}`
-- linha 108 · StringLiteral · NoCoverage · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `""`
+- linha 125 · ObjectLiteral · NoCoverage · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `{}`
+- linha 125 · StringLiteral · NoCoverage · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `""`
 - linha 21 · ConditionalExpression · Survived · `if (value === undefined || value === null) return undefined;` → `false`
 - linha 22 · ConditionalExpression · Survived · `return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;` → `true`
-- linha 14 · StringLiteral · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `"Stryker was here!"`
 - linha 14 · ConditionalExpression · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `false`
+- linha 14 · StringLiteral · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `"Stryker was here!"`
 - linha 27 · ConditionalExpression · Survived · `return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;` → `true`
 - linha 30 · ConditionalExpression · Survived · `if (value === undefined || value === null) return undefined;` → `false`
 - linha 31 · ConditionalExpression · Survived · `return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;` → `true`
 - linha 31 · EqualityOperator · Survived · `return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;` → `value.length > 1`
 - linha 31 · EqualityOperator · Survived · `return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;` → `value.length < max`
-- linha 72 · StringLiteral · Survived · `if (!missionId) return invalid(c, "mission_id", "mission_id é obrigatório");` → `""`
-- linha 73 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
-- linha 58 · ConditionalExpression · Survived · `...(expected_version !== undefined ? { expected_version, current_version } : {}),` → `true`
-- linha 69 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 83 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");` → `""`
-- linha 84 · StringLiteral · Survived · `if (!deadlineDate) return invalid(c, "deadline_date", "deadline_date é obrigatório, no formato YYYY-MM-DD e co` → `""`
-- linha 86 · StringLiteral · Survived · `if (expectedVersion === null) return invalid(c, "expected_version", "expected_version deve ser o número inteir` → `""`
-- linha 80 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 93 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
-- linha 85 · OptionalChaining · Survived · `const expectedVersion = expectedVersionOf(body?.expected_version);` → `body.expected_version`
-- linha 95 · StringLiteral · Survived · `if (changeRequestId === null) return invalid(c, "change_request_id", "change_request_id deve ser o id inteiro ` → `""`
-- linha 87 · ConditionalExpression · Survived · `return respond(c, requestChanges(db, { id: c.req.param("id"), reason, deadlineDate, ...(expectedVersion !== un` → `true`
+- linha 49 · ArrayDeclaration · Survived · `if (typeof body !== "object" || body === null || Array.isArray(body)) return [];` → `["Stryker was here"]`
+- linha 49 · ConditionalExpression · Survived · `if (typeof body !== "object" || body === null || Array.isArray(body)) return [];` → `false`
+- linha 78 · StringLiteral · Survived · `if (!missionId) return invalid(c, "mission_id", "mission_id é obrigatório");` → `""`
+- linha 79 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
+- linha 64 · ConditionalExpression · Survived · `...(expected_version !== undefined ? { expected_version, current_version } : {}),` → `true`
+- linha 87 · MethodExpression · Survived · `return extra.length === 0 ? null : invalid(c, "body", 'campo desconhecido: ${extra.slice(0, 3).join(", ")}; ac` → `extra`
+- linha 87 · StringLiteral · Survived · `return extra.length === 0 ? null : invalid(c, "body", 'campo desconhecido: ${extra.slice(0, 3).join(", ")}; ac` → `""`
+- linha 87 · StringLiteral · Survived · `return extra.length === 0 ? null : invalid(c, "body", 'campo desconhecido: ${extra.slice(0, 3).join(", ")}; ac` → `""`
+- linha 75 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 96 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");` → `""`
+- linha 97 · StringLiteral · Survived · `if (!deadlineDate) return invalid(c, "deadline_date", "deadline_date é obrigatório, no formato YYYY-MM-DD e co` → `""`
+- linha 99 · StringLiteral · Survived · `if (expectedVersion === null) return invalid(c, "expected_version", "expected_version deve ser o número inteir` → `""`
 - linha 91 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 97 · StringLiteral · Survived · `if (submissionId === null) return invalid(c, "submission_id", 'submission_id deve ser um texto de 1 a ${MAX_SU` → `''`
-- linha 104 · OptionalChaining · Survived · `const by = required(body?.cancelled_by, 200);` → `body.cancelled_by`
-- linha 102 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 103 · OptionalChaining · Survived · `const reason = required(body?.reason);` → `body.reason`
-- linha 105 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do cancelamento é obrigatório");` → `""`
-- linha 94 · OptionalChaining · Survived · `const changeRequestId = optionalPositiveInteger(body?.change_request_id);` → `body.change_request_id`
-- linha 105 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do cancelamento é obrigatório");` → `""`
-- linha 106 · StringLiteral · Survived · `if (!by) return invalid(c, "cancelled_by", "cancelled_by (quem cancela) é obrigatório");` → `""`
-- linha 106 · StringLiteral · Survived · `if (!by) return invalid(c, "cancelled_by", "cancelled_by (quem cancela) é obrigatório");` → `""`
-- linha 108 · ConditionalExpression · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `false`
-- linha 108 · LogicalOperator · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `!/^[1-9]\d*$/.test(raw) && !Number.isSafeInteger(N`
-- linha 108 · Regex · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `/[1-9]\d*$/`
-- linha 108 · Regex · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `/^[1-9]\d*/`
-- linha 96 · OptionalChaining · Survived · `const submissionId = optionalText(body?.submission_id, MAX_SUBMISSION_ID);` → `body.submission_id`
-- linha 108 · Regex · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `/^[1-9]\D*$/`
-- linha 122 · BlockStatement · Survived · `} catch {` → `{}`
-- linha 123 · StringLiteral · Survived · `return invalid(c, "body", "o corpo, quando existe, deve ser um objeto JSON válido: { \"expected_version\": <in` → `""`
-- linha 125 · StringLiteral · Survived · `if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return invalid(c, "body", "o corpo` → `""`
-- linha 127 · StringLiteral · Survived · `if (unknown.length > 0) return invalid(c, "body", 'campo desconhecido: ${unknown.slice(0, 3).join(", ")}; só e` → `''`
-- linha 127 · MethodExpression · Survived · `if (unknown.length > 0) return invalid(c, "body", 'campo desconhecido: ${unknown.slice(0, 3).join(", ")}; só e` → `unknown`
-- linha 127 · StringLiteral · Survived · `if (unknown.length > 0) return invalid(c, "body", 'campo desconhecido: ${unknown.slice(0, 3).join(", ")}; só e` → `""`
-- linha 129 · StringLiteral · Survived · `if (value === null) return invalid(c, "expected_version", "expected_version deve ser o número inteiro positivo` → `""`
-- linha 132 · ConditionalExpression · Survived · `return respond(c, approve(db, { id: c.req.param("id"), ...(expectedVersion !== undefined ? { expectedVersion }` → `true`
+- linha 108 · StringLiteral · Survived · `if (!content) return invalid(c, "content", "content é obrigatório");` → `""`
+- linha 98 · OptionalChaining · Survived · `const expectedVersion = expectedVersionOf(body?.expected_version);` → `body.expected_version`
+- linha 110 · StringLiteral · Survived · `if (changeRequestId === null) return invalid(c, "change_request_id", "change_request_id deve ser o id inteiro ` → `""`
+- linha 100 · ConditionalExpression · Survived · `return respond(c, requestChanges(db, { id: c.req.param("id"), reason, deadlineDate, ...(expectedVersion !== un` → `true`
+- linha 112 · StringLiteral · Survived · `if (submissionId === null) return invalid(c, "submission_id", 'submission_id deve ser um texto de 1 a ${MAX_SU` → `''`
+- linha 104 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 117 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 120 · OptionalChaining · Survived · `const reason = required(body?.reason);` → `body.reason`
+- linha 121 · OptionalChaining · Survived · `const by = required(body?.cancelled_by, 200);` → `body.cancelled_by`
+- linha 122 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do cancelamento é obrigatório");` → `""`
+- linha 122 · StringLiteral · Survived · `if (!reason) return invalid(c, "reason", "o motivo do cancelamento é obrigatório");` → `""`
+- linha 123 · StringLiteral · Survived · `if (!by) return invalid(c, "cancelled_by", "cancelled_by (quem cancela) é obrigatório");` → `""`
+- linha 109 · OptionalChaining · Survived · `const changeRequestId = optionalPositiveInteger(body?.change_request_id);` → `body.change_request_id`
+- linha 123 · StringLiteral · Survived · `if (!by) return invalid(c, "cancelled_by", "cancelled_by (quem cancela) é obrigatório");` → `""`
+- linha 125 · ConditionalExpression · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `false`
+- linha 111 · OptionalChaining · Survived · `const submissionId = optionalText(body?.submission_id, MAX_SUBMISSION_ID);` → `body.submission_id`
+- linha 125 · Regex · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `/^[1-9]\d*/`
+- linha 125 · LogicalOperator · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `!/^[1-9]\d*$/.test(raw) && !Number.isSafeInteger(N`
+- linha 125 · Regex · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `/[1-9]\d*$/`
+- linha 125 · Regex · Survived · `if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);` → `/^[1-9]\D*$/`
+- linha 140 · StringLiteral · Survived · `return invalid(c, "body", "o corpo, quando existe, deve ser um objeto JSON válido: { \"expected_version\": <in` → `""`
+- linha 139 · BlockStatement · Survived · `} catch {` → `{}`
+- linha 142 · StringLiteral · Survived · `if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return invalid(c, "body", "o corpo` → `""`
+- linha 144 · MethodExpression · Survived · `if (unknown.length > 0) return invalid(c, "body", 'campo desconhecido: ${unknown.slice(0, 3).join(", ")}; só e` → `unknown`
+- linha 144 · StringLiteral · Survived · `if (unknown.length > 0) return invalid(c, "body", 'campo desconhecido: ${unknown.slice(0, 3).join(", ")}; só e` → `""`
+- linha 144 · StringLiteral · Survived · `if (unknown.length > 0) return invalid(c, "body", 'campo desconhecido: ${unknown.slice(0, 3).join(", ")}; só e` → `''`
+- linha 146 · StringLiteral · Survived · `if (value === null) return invalid(c, "expected_version", "expected_version deve ser o número inteiro positivo` → `""`
+- linha 149 · ConditionalExpression · Survived · `return respond(c, approve(db, { id: c.req.param("id"), ...(expectedVersion !== undefined ? { expectedVersion }` → `true`
 
 **`src/domain/deadline.ts`**
 
-- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 8 · StringLiteral · Survived · `const BRAND_ZONE = "America/Sao_Paulo";` → `""`
+- linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 - linha 10 · StringLiteral · Survived · `const dayFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: BRAND_ZONE, year: "numeric", month: "2-digit` → `""`
 
 **`src/store.ts`**
 
-- linha 202 · ConditionalExpression · Survived · `if (target === null) return stateFailure(script);` → `false`
+- linha 205 · ConditionalExpression · Survived · `if (target === null) return stateFailure(script);` → `false`
 
-## metricas-redes: 743/780 (95.3%)
+## metricas-redes: 747/783 (95.4%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
 | `src/config.ts` | 70/73 | 95.9% |
-| `src/domain/retry-after.ts` | 37/38 | 97.4% |
+| `src/domain/retry-after.ts` | 38/39 | 97.4% |
 | `src/domain/retry.ts` | 45/45 | 100.0% |
 | `src/instant.ts` | 114/116 | 98.3% |
 | `src/providers/adapters.ts` | 124/129 | 96.1% |
 | `src/providers/http.ts` | 110/126 | 87.3% |
-| `src/store.ts` | 147/151 | 97.4% |
-| `src/sync.ts` | 96/102 | 94.1% |
+| `src/store.ts` | 148/152 | 97.4% |
+| `src/sync.ts` | 98/103 | 95.1% |
 
 Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos são equivalentes):
 
@@ -268,7 +273,7 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/domain/retry-after.ts`**
 
-- linha 5 · Regex · Survived · `const HTTP_DATE = /^[A-Za-z]{3}, \d{2} [A-Za-z]{3} \d{4} \d{2}:\d{2}:\d{2} GMT$/;` → `/^[A-Za-z]{3}, \d{2} [A-Za-z]{3} \d{4} \d{2}:\d{2}`
+- linha 7 · Regex · Survived · `const HTTP_DATE = /^[A-Za-z]{3}, \d{2} [A-Za-z]{3} \d{4} \d{2}:\d{2}:\d{2} GMT$/;` → `/^[A-Za-z]{3}, \d{2} [A-Za-z]{3} \d{4} \d{2}:\d{2}`
 
 **`src/instant.ts`**
 
@@ -289,12 +294,12 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 48 · StringLiteral · Survived · `throw new ProviderError("timeout", 'o provedor não respondeu em ${this.timeoutMs} ms', undefined, null, "heade` → `''`
 - linha 48 · StringLiteral · Survived · `throw new ProviderError("timeout", 'o provedor não respondeu em ${this.timeoutMs} ms', undefined, null, "heade` → `""`
 - linha 57 · StringLiteral · Survived · `if (response.status === 408) throw new ProviderError("timeout", "o provedor respondeu 408", 408);` → `""`
-- linha 55 · StringLiteral · Survived · `throw new ProviderError("rate_limited", "o provedor respondeu 429", 429, retryAfterMs);` → `""`
 - linha 58 · StringLiteral · Survived · `if (response.status >= 500) throw new ProviderError("server", 'o provedor respondeu ${response.status}', respo` → `''`
+- linha 55 · StringLiteral · Survived · `throw new ProviderError("rate_limited", "o provedor respondeu 429", 429, retryAfterMs);` → `""`
 - linha 59 · StringLiteral · Survived · `if (!response.ok) throw new ProviderError("client", 'o provedor respondeu ${response.status}', response.status` → `''`
 - linha 67 · StringLiteral · Survived · `throw new ProviderError("timeout", 'o provedor não terminou de enviar o corpo em ${this.timeoutMs} ms', undefi` → `''`
-- linha 69 · OptionalChaining · Survived · `throw new ProviderError("network", 'a conexão com o provedor caiu durante o corpo (${safeName((error as { name` → `(error as {   name?: unknown; } | null).name`
 - linha 69 · StringLiteral · Survived · `throw new ProviderError("network", 'a conexão com o provedor caiu durante o corpo (${safeName((error as { name` → `''`
+- linha 69 · OptionalChaining · Survived · `throw new ProviderError("network", 'a conexão com o provedor caiu durante o corpo (${safeName((error as { name` → `(error as {   name?: unknown; } | null).name`
 - linha 75 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o provedor devolveu um corpo que não é JSON", undefined, null, "bo` → `""`
 - linha 78 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data", undefined, null, "missi` → `""`
 - linha 78 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data", undefined, null, "missi` → `""`
@@ -307,23 +312,22 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 257 · ConditionalExpression · Survived · `last_checked_at: posts.reduce<string | null>((latest, p) => (latest === null || p.last_checked_at > latest ? p` → `true`
 - linha 257 · EqualityOperator · Survived · `last_checked_at: posts.reduce<string | null>((latest, p) => (latest === null || p.last_checked_at > latest ? p` → `p.last_checked_at >= latest`
 - linha 258 · EqualityOperator · Survived · `last_fetched_at: posts.reduce<string | null>((latest, p) => (latest === null || p.fetched_at > latest ? p.fetc` → `p.fetched_at >= latest`
-- linha 131 · Regex · Survived · `const STATIC_FORMS = [/^rate_limited: o provedor pediu para esperar \d+ ms$/, /^(too_many_pages|pagination_loo` → `/(too_many_pages|pagination_loop|cooldown_active)$`
+- linha 131 · Regex · Survived · `const STATIC_FORMS = [/^rate_limited: o provedor pediu para esperar \d+ ms( \(acima do máximo representável; c` → `/(too_many_pages|pagination_loop|cooldown_active)$`
 
 **`src/sync.ts`**
 
 - linha 26 · StringLiteral · Survived · `return "unexpected: Error"; // um erro cujo próprio acesso a name/kind lança não pode derrubar o registro da f` → `""`
-- linha 36 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
 - linha 36 · LogicalOperator · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `typeof error === "object" || error !== null`
 - linha 36 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
 - linha 36 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
-- linha 101 · StringLiteral · Survived · `terminal = { status: "deferred", error: 'rate_limited: o provedor pediu para esperar ${waitMs} ms', retryAt: e` → `''`
+- linha 36 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
 
-## revisao-video: 605/723 (83.7%)
+## revisao-video: 607/725 (83.7%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
 | `src/app.ts` | 220/306 | 71.9% |
-| `src/store.ts` | 326/357 | 91.3% |
+| `src/store.ts` | 328/359 | 91.4% |
 | `src/domain/approval.ts` | 31/31 | 100.0% |
 | `src/domain/pieces.ts` | 21/22 | 95.5% |
 | `src/domain/versions.ts` | 7/7 | 100.0% |
@@ -339,33 +343,33 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 144 · StringLiteral · NoCoverage · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `""`
 - linha 15 · LogicalOperator · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `trimmed === "" && trimmed.length > max`
 - linha 15 · ConditionalExpression · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `false`
-- linha 15 · StringLiteral · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `"Stryker was here!"`
+- linha 15 · ConditionalExpression · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `false`
 - linha 15 · EqualityOperator · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `trimmed.length >= max`
+- linha 15 · StringLiteral · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `"Stryker was here!"`
 - linha 15 · ConditionalExpression · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `false`
-- linha 36 · ObjectLiteral · Survived · `const unknownPiece = (c: Context) => c.json({ error: "unknown_piece", allowed: PIECE_TYPES }, 404);` → `{}`
 - linha 36 · StringLiteral · Survived · `const unknownPiece = (c: Context) => c.json({ error: "unknown_piece", allowed: PIECE_TYPES }, 404);` → `""`
-- linha 15 · ConditionalExpression · Survived · `return trimmed === "" || trimmed.length > max ? null : trimmed;` → `false`
+- linha 36 · ObjectLiteral · Survived · `const unknownPiece = (c: Context) => c.json({ error: "unknown_piece", allowed: PIECE_TYPES }, 404);` → `{}`
 - linha 37 · ObjectLiteral · Survived · `const notFound = (c: Context, what: string) => c.json({ error: "not_found", what }, 404);` → `{}`
 - linha 37 · StringLiteral · Survived · `const notFound = (c: Context, what: string) => c.json({ error: "not_found", what }, 404);` → `""`
 - linha 44 · StringLiteral · Survived · `if (!requiredPieces) return invalid(c, "required_pieces", "required_pieces deve ser uma lista não vazia, sem r` → `""`
 - linha 50 · StringLiteral · Survived · `return campaign ? c.json(campaign) : notFound(c, "campaign");` → `""`
 - linha 34 · ConditionalExpression · Survived · `return raw !== undefined && /^[1-9]\d*$/.test(raw) && Number.isSafeInteger(Number(raw)) ? Number(raw) : null;` → `true`
-- linha 56 · StringLiteral · Survived · `if (!campaignId) return invalid(c, "campaign_id", "campaign_id é obrigatório");` → `""`
-- linha 56 · StringLiteral · Survived · `if (!campaignId) return invalid(c, "campaign_id", "campaign_id é obrigatório");` → `""`
 - linha 34 · Regex · Survived · `return raw !== undefined && /^[1-9]\d*$/.test(raw) && Number.isSafeInteger(Number(raw)) ? Number(raw) : null;` → `/^[1-9]\D*$/`
-- linha 43 · OptionalChaining · Survived · `const requiredPieces = parseRequiredPieces(body?.required_pieces);` → `body.required_pieces`
+- linha 56 · StringLiteral · Survived · `if (!campaignId) return invalid(c, "campaign_id", "campaign_id é obrigatório");` → `""`
+- linha 56 · StringLiteral · Survived · `if (!campaignId) return invalid(c, "campaign_id", "campaign_id é obrigatório");` → `""`
 - linha 42 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 43 · OptionalChaining · Survived · `const requiredPieces = parseRequiredPieces(body?.required_pieces);` → `body.required_pieces`
 - linha 76 · StringLiteral · Survived · `if (!url) return invalid(c, "url", "url é obrigatória");` → `""`
 - linha 76 · StringLiteral · Survived · `if (!url) return invalid(c, "url", "url é obrigatória");` → `""`
 - linha 54 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
 - linha 55 · OptionalChaining · Survived · `const campaignId = required(body?.campaign_id, 200);` → `body.campaign_id`
 - linha 79 · StringLiteral · Survived · `if (type !== "video") return invalid(c, "duration_seconds", "só o vídeo tem duração");` → `""`
-- linha 79 · StringLiteral · Survived · `if (type !== "video") return invalid(c, "duration_seconds", "só o vídeo tem duração");` → `""`
-- linha 74 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
 - linha 75 · OptionalChaining · Survived · `const url = required(body?.url, 2000);` → `body.url`
+- linha 74 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 79 · StringLiteral · Survived · `if (type !== "video") return invalid(c, "duration_seconds", "só o vídeo tem duração");` → `""`
+- linha 77 · OptionalChaining · Survived · `const duration = body?.duration_seconds;` → `body.duration_seconds`
 - linha 78 · ConditionalExpression · Survived · `if (duration !== undefined && duration !== null) {` → `true`
 - linha 80 · StringLiteral · Survived · `if (!Number.isSafeInteger(duration) || duration <= 0) return invalid(c, "duration_seconds", "duration_seconds ` → `""`
-- linha 77 · OptionalChaining · Survived · `const duration = body?.duration_seconds;` → `body.duration_seconds`
 - linha 83 · ConditionalExpression · Survived · `if (submissionId !== undefined && submissionId !== null && (typeof submissionId !== "string" || submissionId.l` → `true`
 - linha 83 · EqualityOperator · Survived · `if (submissionId !== undefined && submissionId !== null && (typeof submissionId !== "string" || submissionId.l` → `submissionId.length <= 1`
 - linha 83 · EqualityOperator · Survived · `if (submissionId !== undefined && submissionId !== null && (typeof submissionId !== "string" || submissionId.l` → `submissionId.length >= MAX_SUBMISSION_ID`
@@ -374,84 +378,84 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 100 · StringLiteral · Survived · `if (n === null) return notFound(c, "version");` → `""`
 - linha 99 · ConditionalExpression · Survived · `if (!type) return unknownPiece(c);` → `false`
 - linha 100 · ConditionalExpression · Survived · `if (n === null) return notFound(c, "version");` → `false`
-- linha 109 · StringLiteral · Survived · `if (n === null) return notFound(c, "version");` → `""`
 - linha 88 · ConditionalExpression · Survived · `{ deliveryId: c.req.param("id"), piece: type, url, durationSeconds: typeof duration === "number" ? duration : ` → `true`
+- linha 109 · StringLiteral · Survived · `if (n === null) return notFound(c, "version");` → `""`
 - linha 114 · StringLiteral · Survived · `if (!text) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");` → `""`
 - linha 114 · StringLiteral · Survived · `if (!text) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");` → `""`
-- linha 108 · ConditionalExpression · Survived · `if (!type) return unknownPiece(c);` → `false`
 - linha 109 · ConditionalExpression · Survived · `if (n === null) return notFound(c, "version");` → `false`
+- linha 108 · ConditionalExpression · Survived · `if (!type) return unknownPiece(c);` → `false`
 - linha 112 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
-- linha 127 · StringLiteral · Survived · `if (n === null) return notFound(c, "version");` → `""`
 - linha 113 · OptionalChaining · Survived · `const text = required(body?.reason);` → `body.reason`
+- linha 127 · StringLiteral · Survived · `if (n === null) return notFound(c, "version");` → `""`
 - linha 130 · StringLiteral · Survived · `if (!text) return invalid(c, "text", "text é obrigatório");` → `""`
 - linha 130 · StringLiteral · Survived · `if (!text) return invalid(c, "text", "text é obrigatório");` → `""`
 - linha 126 · ConditionalExpression · Survived · `if (!type) return unknownPiece(c);` → `false`
 - linha 127 · ConditionalExpression · Survived · `if (n === null) return notFound(c, "version");` → `false`
-- linha 129 · OptionalChaining · Survived · `const text = required(body?.text);` → `body.text`
 - linha 128 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 129 · OptionalChaining · Survived · `const text = required(body?.text);` → `body.text`
 - linha 131 · OptionalChaining · Survived · `const second = body?.second;` → `body.second`
 - linha 132 · StringLiteral · Survived · `if (second !== undefined && second !== null && (!Number.isSafeInteger(second) || second < 0)) return invalid(c` → `""`
-- linha 132 · ConditionalExpression · Survived · `if (second !== undefined && second !== null && (!Number.isSafeInteger(second) || second < 0)) return invalid(c` → `true`
 - linha 140 · ConditionalExpression · Survived · `if (!type) return unknownPiece(c);` → `false`
-- linha 143 · OptionalChaining · Survived · `const from = body?.from_version;` → `body.from_version`
-- linha 142 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 132 · ConditionalExpression · Survived · `if (second !== undefined && second !== null && (!Number.isSafeInteger(second) || second < 0)) return invalid(c` → `true`
 - linha 141 · ConditionalExpression · Survived · `if (n === null) return notFound(c, "version");` → `false`
-- linha 144 · LogicalOperator · Survived · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `(typeof from !== "number" || !Number.isSafeInteger`
+- linha 142 · ArrowFunction · Survived · `const body = await c.req.json().catch(() => null);` → `() => undefined`
+- linha 143 · OptionalChaining · Survived · `const from = body?.from_version;` → `body.from_version`
 - linha 144 · ConditionalExpression · Survived · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `false`
+- linha 144 · LogicalOperator · Survived · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `(typeof from !== "number" || !Number.isSafeInteger`
 - linha 144 · ConditionalExpression · Survived · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `false`
 - linha 144 · LogicalOperator · Survived · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `typeof from !== "number" && !Number.isSafeInteger(`
 - linha 144 · ConditionalExpression · Survived · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `false`
+- linha 133 · OptionalChaining · Survived · `const out = addComment(db, { deliveryId: c.req.param("id") as string, piece: type, number: n, second: typeof s` → `body.author`
 - linha 144 · ConditionalExpression · Survived · `if (typeof from !== "number" || !Number.isSafeInteger(from) || from < 1) return invalid(c, "from_version", "fr` → `false`
 - linha 145 · OptionalChaining · Survived · `const ids = body?.comment_ids;` → `body.comment_ids`
-- linha 133 · OptionalChaining · Survived · `const out = addComment(db, { deliveryId: c.req.param("id") as string, piece: type, number: n, second: typeof s` → `body.author`
 - linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
-- linha 146 · EqualityOperator · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `ids.length < 200`
+- linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
 - linha 146 · MethodExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `ids.some((x: unknown) => typeof x === "number" && `
-- linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
 - linha 146 · LogicalOperator · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `typeof x === "number" && Number.isSafeInteger(x) |`
+- linha 146 · EqualityOperator · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `ids.length < 200`
+- linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
 - linha 146 · LogicalOperator · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `typeof x === "number" || Number.isSafeInteger(x)`
-- linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
-- linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
 - linha 146 · EqualityOperator · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `x >= 0`
 - linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
+- linha 146 · ConditionalExpression · Survived · `const valid = Array.isArray(ids) && ids.length > 0 && ids.length <= 200 && ids.every((x: unknown) => typeof x ` → `true`
 - linha 147 · StringLiteral · Survived · `if (!valid) return invalid(c, "comment_ids", "comment_ids deve ser uma lista de 1 a 200 ids de comentário, sem` → `""`
 - linha 147 · StringLiteral · Survived · `if (!valid) return invalid(c, "comment_ids", "comment_ids deve ser uma lista de 1 a 200 ids de comentário, sem` → `""`
-- linha 39 · ArrowFunction · Survived · `app.get("/health", (c) => c.json({ ok: true }));` → `() => undefined`
 - linha 39 · StringLiteral · Survived · `app.get("/health", (c) => c.json({ ok: true }));` → `""`
+- linha 39 · ArrowFunction · Survived · `app.get("/health", (c) => c.json({ ok: true }));` → `() => undefined`
 
 **`src/store.ts`**
 
-- linha 359 · StringLiteral · NoCoverage · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `""`
-- linha 359 · ObjectLiteral · NoCoverage · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `{}`
-- linha 359 · StringLiteral · NoCoverage · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `""`
-- linha 193 · ConditionalExpression · Survived · `const isCurrent = previous.version_number === currentNumber(db, input.deliveryId, input.piece);` → `false`
-- linha 64 · ArrowFunction · Survived · `const ordered = [...required, ...PIECE_TYPES.filter((type) => !required.includes(type))];` → `() => undefined`
-- linha 221 · ObjectLiteral · Survived · `logEvent(db, input.deliveryId, "invalidated", input.piece, number, { reason: "new_version_of_required_piece" }` → `{}`
-- linha 221 · StringLiteral · Survived · `logEvent(db, input.deliveryId, "invalidated", input.piece, number, { reason: "new_version_of_required_piece" }` → `""`
-- linha 249 · ConditionalExpression · Survived · `return { ok: true as const, version: versionView(version, version.number === current, commentsCount), delivery` → `false`
-- linha 259 · ObjectLiteral · Survived · `if (before === "in_review" && after === "approved") logEvent(db, input.deliveryId, "restored", input.piece, ve` → `{}`
-- linha 259 · StringLiteral · Survived · `if (before === "in_review" && after === "approved") logEvent(db, input.deliveryId, "restored", input.piece, ve` → `""`
-- linha 270 · ObjectLiteral · Survived · `if (!delivery) return fail("not_found", { what: "delivery" });` → `{}`
-- linha 270 · StringLiteral · Survived · `if (!delivery) return fail("not_found", { what: "delivery" });` → `""`
-- linha 293 · StringLiteral · Survived · `if (!delivery) return fail("not_found", { what: "delivery" });` → `""`
-- linha 295 · StringLiteral · Survived · `if (!version) return fail("not_found", { what: "version" });` → `""`
-- linha 259 · ConditionalExpression · Survived · `if (before === "in_review" && after === "approved") logEvent(db, input.deliveryId, "restored", input.piece, ve` → `true`
-- linha 324 · StringLiteral · Survived · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `""`
-- linha 329 · ObjectLiteral · Survived · `if (input.second === null) return fail("validation_error", { field: "second", message: "o comentário do vídeo ` → `{}`
-- linha 329 · StringLiteral · Survived · `if (input.second === null) return fail("validation_error", { field: "second", message: "o comentário do vídeo ` → `""`
-- linha 329 · StringLiteral · Survived · `if (input.second === null) return fail("validation_error", { field: "second", message: "o comentário do vídeo ` → `""`
-- linha 331 · StringLiteral · Survived · `return fail("validation_error", { field: "second", message: 'o vídeo tem ${version.duration_seconds} s: o segu` → `""`
-- linha 334 · StringLiteral · Survived · `return fail("validation_error", { field: "second", message: "só o comentário do vídeo é preso a um segundo" })` → `""`
-- linha 344 · LogicalOperator · Survived · `(db.prepare("SELECT v.number AS n FROM comments c JOIN piece_versions v ON v.id = c.version_id WHERE c.id = ?"` → `(db.prepare("SELECT v.number AS n FROM comments c `
-- linha 344 · OptionalChaining · Survived · `(db.prepare("SELECT v.number AS n FROM comments c JOIN piece_versions v ON v.id = c.version_id WHERE c.id = ?"` → `(db.prepare("SELECT v.number AS n FROM comments c `
-- linha 359 · ConditionalExpression · Survived · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `false`
-- linha 361 · ObjectLiteral · Survived · `if (!target) return fail("not_found", { what: "version" });` → `{}`
-- linha 361 · StringLiteral · Survived · `if (!target) return fail("not_found", { what: "version" });` → `""`
-- linha 364 · StringLiteral · Survived · `return fail("validation_error", { field: "from_version", message: "from_version deve ser outra versão existent` → `""`
-- linha 370 · StringLiteral · Survived · `if (!row) return fail("validation_error", { field: "comment_ids", message: 'o comentário ${id} não existe na v` → `''`
-- linha 378 · ConditionalExpression · Survived · `const outOfRange = fresh.filter((c) => c.second !== null && target.duration_seconds !== null && c.second > tar` → `true`
-- linha 382 · StringLiteral · Survived · `message: 'há comentários em segundos que o vídeo da versão ${target.number} (${target.duration_seconds} s) não` → `''`
-- linha 343 · ArrowFunction · Survived · `const originVersionOf = (db: DatabaseSync, commentId: number): number | null =>` → `() => undefined`
+- linha 368 · StringLiteral · NoCoverage · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `""`
+- linha 368 · ObjectLiteral · NoCoverage · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `{}`
+- linha 368 · StringLiteral · NoCoverage · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `""`
+- linha 200 · ConditionalExpression · Survived · `const isCurrent = previous.version_number === currentNumber(db, input.deliveryId, input.piece);` → `false`
+- linha 67 · ArrowFunction · Survived · `const ordered = [...required, ...PIECE_TYPES.filter((type) => !required.includes(type))];` → `() => undefined`
+- linha 228 · ObjectLiteral · Survived · `logEvent(db, input.deliveryId, "invalidated", input.piece, number, { reason: "new_version_of_required_piece" }` → `{}`
+- linha 228 · StringLiteral · Survived · `logEvent(db, input.deliveryId, "invalidated", input.piece, number, { reason: "new_version_of_required_piece" }` → `""`
+- linha 256 · ConditionalExpression · Survived · `return { ok: true as const, version: versionView(version, version.number === current, commentsCount), delivery` → `false`
+- linha 266 · ObjectLiteral · Survived · `if (before === "in_review" && after === "approved") logEvent(db, input.deliveryId, "restored", input.piece, ve` → `{}`
+- linha 266 · StringLiteral · Survived · `if (before === "in_review" && after === "approved") logEvent(db, input.deliveryId, "restored", input.piece, ve` → `""`
+- linha 277 · ObjectLiteral · Survived · `if (!delivery) return fail("not_found", { what: "delivery" });` → `{}`
+- linha 277 · StringLiteral · Survived · `if (!delivery) return fail("not_found", { what: "delivery" });` → `""`
+- linha 301 · StringLiteral · Survived · `if (!delivery) return fail("not_found", { what: "delivery" });` → `""`
+- linha 266 · ConditionalExpression · Survived · `if (before === "in_review" && after === "approved") logEvent(db, input.deliveryId, "restored", input.piece, ve` → `true`
+- linha 303 · StringLiteral · Survived · `if (!version) return fail("not_found", { what: "version" });` → `""`
+- linha 333 · StringLiteral · Survived · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `""`
+- linha 338 · ObjectLiteral · Survived · `if (input.second === null) return fail("validation_error", { field: "second", message: "o comentário do vídeo ` → `{}`
+- linha 338 · StringLiteral · Survived · `if (input.second === null) return fail("validation_error", { field: "second", message: "o comentário do vídeo ` → `""`
+- linha 338 · StringLiteral · Survived · `if (input.second === null) return fail("validation_error", { field: "second", message: "o comentário do vídeo ` → `""`
+- linha 340 · StringLiteral · Survived · `return fail("validation_error", { field: "second", message: 'o vídeo tem ${version.duration_seconds} s: o segu` → `""`
+- linha 353 · OptionalChaining · Survived · `(db.prepare("SELECT v.number AS n FROM comments c JOIN piece_versions v ON v.id = c.version_id WHERE c.id = ?"` → `(db.prepare("SELECT v.number AS n FROM comments c `
+- linha 343 · StringLiteral · Survived · `return fail("validation_error", { field: "second", message: "só o comentário do vídeo é preso a um segundo" })` → `""`
+- linha 353 · LogicalOperator · Survived · `(db.prepare("SELECT v.number AS n FROM comments c JOIN piece_versions v ON v.id = c.version_id WHERE c.id = ?"` → `(db.prepare("SELECT v.number AS n FROM comments c `
+- linha 368 · ConditionalExpression · Survived · `if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });` → `false`
+- linha 370 · ObjectLiteral · Survived · `if (!target) return fail("not_found", { what: "version" });` → `{}`
+- linha 370 · StringLiteral · Survived · `if (!target) return fail("not_found", { what: "version" });` → `""`
+- linha 373 · StringLiteral · Survived · `return fail("validation_error", { field: "from_version", message: "from_version deve ser outra versão existent` → `""`
+- linha 379 · StringLiteral · Survived · `if (!row) return fail("validation_error", { field: "comment_ids", message: 'o comentário ${id} não existe na v` → `''`
+- linha 387 · ConditionalExpression · Survived · `const outOfRange = fresh.filter((c) => c.second !== null && target.duration_seconds !== null && c.second > tar` → `true`
+- linha 391 · StringLiteral · Survived · `message: 'há comentários em segundos que o vídeo da versão ${target.number} (${target.duration_seconds} s) não` → `''`
+- linha 352 · ArrowFunction · Survived · `const originVersionOf = (db: DatabaseSync, commentId: number): number | null =>` → `() => undefined`
 
 **`src/domain/pieces.ts`**
 
@@ -477,21 +481,21 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 **`src/domain/classify.ts`**
 
 - linha 26 · ArrayDeclaration · Survived · `const claimed: Array<[number, number]> = [];` → `["Stryker was here"]`
-- linha 27 · EqualityOperator · Survived · `const overlaps = (from: number, to: number) => claimed.some(([a, b]) => from <= b && to >= a);` → `to > a`
 - linha 27 · EqualityOperator · Survived · `const overlaps = (from: number, to: number) => claimed.some(([a, b]) => from <= b && to >= a);` → `from < b`
+- linha 27 · EqualityOperator · Survived · `const overlaps = (from: number, to: number) => claimed.some(([a, b]) => from <= b && to >= a);` → `to > a`
 - linha 52 · ConditionalExpression · Survived · `add(peakFinding(peak, baseline), peak.kind !== "organic_decay");` → `false`
 - linha 83 · EqualityOperator · Survived · `for (let h = 1; h < series.length; h += 1) if (series[h]! > series[hour]!) hour = h;` → `h <= series.length`
 - linha 103 · EqualityOperator · Survived · `const step = '${found.step! > 0 ? "+" : "-"}${fmt(Math.abs(found.step!))}';` → `found.step! >= 0`
-- linha 115 · EqualityOperator · Survived · `const suspicious = plateau.regularity < T.plateau_regularity_suspicious;` → `plateau.regularity <= T.plateau_regularity_suspici`
 - linha 117 · ArithmeticOperator · Survived · `const std = stdDev(series.slice(plateau.from, plateau.to + 1));` → `plateau.to - 1`
+- linha 115 · EqualityOperator · Survived · `const suspicious = plateau.regularity < T.plateau_regularity_suspicious;` → `plateau.regularity <= T.plateau_regularity_suspici`
 - linha 153 · StringLiteral · Survived · `signal: { name: "organic_decay", effect: "organic", measured: peak.tail, threshold: T.organic_min_tail_hours, ` → `''`
 
 **`src/domain/signals.ts`**
 
 - linha 113 · ArithmeticOperator · Survived · `candidates.sort((a, b) => b.to - b.from - (a.to - a.from) || a.from - b.from);` → `a.from + b.from`
 - linha 34 · EqualityOperator · Survived · `for (let i = 0; i < n; ) {` → `i <= n`
-- linha 36 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `j + 1 <= n`
 - linha 36 · ConditionalExpression · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `true`
+- linha 36 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `j + 1 <= n`
 - linha 36 · ArithmeticOperator · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `j - 1`
 - linha 42 · EqualityOperator · Survived · `for (let i = 0; i + 1 < n; ) {` → `i + 1 <= n`
 - linha 42 · ArithmeticOperator · Survived · `for (let i = 0; i + 1 < n; ) {` → `i - 1`
@@ -519,8 +523,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 140 · EqualityOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from >= 0`
 - linha 140 · ArithmeticOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from + 1`
 - linha 141 · ConditionalExpression · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `true`
-- linha 141 · ConditionalExpression · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `true`
 - linha 141 · LogicalOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to + 1 < series.length || !claimed.has(to + 1)`
+- linha 141 · ConditionalExpression · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `true`
 - linha 141 · EqualityOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to + 1 <= series.length`
 - linha 141 · ArithmeticOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to - 1`
 - linha 141 · ArithmeticOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to - 1`
@@ -535,10 +539,10 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 185 · ConditionalExpression · Survived · `if (h < 3 || h + 6 > n) continue;` → `false`
 - linha 185 · EqualityOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h + 6 >= n`
 - linha 185 · ArithmeticOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h - 6`
-- linha 186 · ConditionalExpression · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `false`
 - linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `series[h - 1]! > mid`
-- linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `v > mid`
+- linha 186 · ConditionalExpression · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `false`
 - linha 187 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
+- linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `v > mid`
 - linha 187 · LogicalOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h - 3]! > mid && series[h + 2]! < 0.8 * aft`
 - linha 187 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
 - linha 187 · EqualityOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h - 3]! >= mid`

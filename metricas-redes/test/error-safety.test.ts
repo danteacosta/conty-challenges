@@ -203,6 +203,8 @@ describe("normalização do que já estava gravado", () => {
     ["server: o provedor respondeu 503", "server (503)"],
     ["server (503) com segredo tok-3", "server (503)"],
     ["rate_limited: o provedor pediu para esperar 5 ms e depois tok-4", "rate_limited"],
+    ["rate_limited: o provedor pediu para esperar 5 ms (acima do máximo representável; cooldown fixado em 9999-12-31T23:59:59.999Z)", "rate_limited: o provedor pediu para esperar 5 ms (acima do máximo representável; cooldown fixado em 9999-12-31T23:59:59.999Z)"],
+    ["rate_limited: o provedor pediu para esperar 5 ms (cooldown fixado em tok-9)", "rate_limited"],
     ["xrate_limited: o provedor pediu para esperar 5 ms", "unexpected: Error"],
     ["too_many_pages e texto", "unexpected: Error"],
     ["pagination_loopx", "unexpected: Error"],

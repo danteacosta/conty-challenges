@@ -79,6 +79,11 @@ describe("cliente HTTP do provedor", () => {
       expect(error).toMatchObject({ kind: "rate_limited", retryAfterMs: 10_000 });
     });
 
+    it("Retry-After decimal válido e enorme não vira ausência de prazo: satura em vez de null", async () => {
+      sim.state.behaviors = [{ status: 429, retryAfter: "9007199254741" }];
+      expect(await errorOf(provider("x").fetchPosts(WINDOW))).toMatchObject({ kind: "rate_limited", retryAfterMs: Number.MAX_SAFE_INTEGER });
+    });
+
     it("sem Retry-After, ou com ele inválido, é null", async () => {
       sim.state.behaviors = [{ status: 429 }, { status: 429, retryAfter: "daqui a pouco" }];
       expect(await errorOf(provider("x").fetchPosts(WINDOW))).toMatchObject({ kind: "rate_limited", retryAfterMs: null });

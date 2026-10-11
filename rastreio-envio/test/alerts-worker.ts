@@ -5,9 +5,11 @@ import { openDatabase } from "../src/db.ts";
 // Cada worker roda a verificação de atraso com a sua conexão ao mesmo arquivo.
 const { path, nowMs } = workerData as { path: string; nowMs: number };
 const sent: string[] = [];
-const result = await checkDelays(openDatabase(path), {
+const db = openDatabase(path);
+const result = await checkDelays(db, {
   now: () => new Date(nowMs),
   thresholdHours: 72,
   notifier: { notify: async (alert: DelayAlert) => void sent.push(alert.tracking_code) },
 });
+db.close();
 parentPort?.postMessage({ result, sent });

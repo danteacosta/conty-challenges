@@ -37,8 +37,11 @@ export function safeFailure(error: unknown): string {
     return `unexpected: ${safeName(name)}`;
   }
 
-  /** O maior prazo que um Retry-After pode impor: 7 dias. Acima disso o provedor está pedindo algo sem sentido (e o ISO deixa de comparar). */
-  export const MAX_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+  /**
+   * O último instante que o banco sabe guardar e comparar como texto (ano de 4 dígitos). Um Retry-After que passa dele não é
+   * encurtado em silêncio, o que autorizaria uma tentativa antes do prazo pedido: o cooldown fica neste limite, e a execução diz isso.
+   */
+  export const MAX_REPRESENTABLE_MS = Date.UTC(9999, 11, 31, 23, 59, 59, 999);
 
   type Terminal = { status: "succeeded" | "failed" | "deferred"; error: string | null; retryAt: string | null };
 
@@ -63,17 +66,17 @@ export function safeFailure(error: unknown): string {
         break;
       }
 
-      // O prazo de um Retry-After vale entre sincronizações, reinícios e conexões ao banco: lido do banco antes de cada página, então
-      // até uma sync que já começou para quando outra recebeu um 429.
-      const cooling = activeCooldown(db, connection.id, deps.now());
-      if (cooling) {
-        terminal = { status: "deferred", error: "cooldown_active", retryAt: cooling };
-        break;
-      }
-
       let attempt = 0;
       let page;
       while (true) {
+        // O prazo de um Retry-After vale entre sincronizações, reinícios e conexões ao banco, e é lido antes de CADA chamada externa,
+        // inclusive a repetição depois do backoff: outra sync pode ter gravado um prazo enquanto esta dormia. A rede fica fora de
+        // transação, então não há atomicidade entre a leitura e a chamada (limite declarado no README).
+        const cooling = activeCooldown(db, connection.id, deps.now());
+        if (cooling) {
+          terminal = { status: "deferred", error: "cooldown_active", retryAt: cooling };
+          break pages;
+        }
         attempt += 1;
         counters.attempts += 1;
         try {
@@ -94,11 +97,12 @@ export function safeFailure(error: unknown): string {
           if (decision.action === "defer") {
             // O provedor pediu um prazo que passa do teto de espera (ou as tentativas acabaram): não esperamos além do teto e
             // não tentamos antes do que ele pediu. A sync termina adiada, com a hora em que vale tentar de novo.
-            const waitMs = Math.min(decision.retryAfterMs, MAX_COOLDOWN_MS);
-            extendCooldown(db, connection.id, new Date(deps.now().getTime() + waitMs).toISOString());
+            const requestedAt = deps.now().getTime() + decision.retryAfterMs;
+            const beyondLimit = requestedAt > MAX_REPRESENTABLE_MS;
+            extendCooldown(db, connection.id, new Date(beyondLimit ? MAX_REPRESENTABLE_MS : requestedAt).toISOString());
             // O prazo devolvido é o EFETIVO (o maior entre o deste 429 e o que outra sync já tenha gravado).
             const effective = (db.prepare("SELECT cooldown_until FROM connections WHERE id = ?").get(connection.id) as { cooldown_until: string }).cooldown_until;
-            terminal = { status: "deferred", error: `rate_limited: o provedor pediu para esperar ${waitMs} ms`, retryAt: effective };
+            terminal = { status: "deferred", error: `rate_limited: o provedor pediu para esperar ${decision.retryAfterMs} ms${beyondLimit ? ` (acima do máximo representável; cooldown fixado em ${new Date(MAX_REPRESENTABLE_MS).toISOString()})` : ""}`, retryAt: effective };
             break pages;
           }
           terminal = { status: "failed", error: safeFailure(error), retryAt: null };

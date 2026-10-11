@@ -14,4 +14,5 @@ for (let round = 0; round < 20; round += 1) {
   const out = ingestEvents(db, "BR1", batch.map((e) => ({ ...e, description: null, location: null })), now);
   outcomes.push({ added: out?.added ?? 0, duplicates: out?.duplicates ?? 0 });
 }
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage(outcomes);

@@ -161,6 +161,12 @@ describe("os sinais carregam o que foi medido, com texto em pt-BR", () => {
     expect(s).toEqual({ name: "step_without_return", effect: "weak", measured: 3.3, threshold: 2.5, from_hour: 80, to_hour: 80, detail: "nível de ~502 para ~1.662 por hora a partir da hora 80, sem voltar" });
   });
 
+  it("o degrau só vale se o nível novo persiste: um que vai murchando até ~60% do nível inicial não é degrau", () => {
+    const fading = (loss: number) => withRange(steady(), 80, 167, (hour) => 1800 * (1 - loss * ((hour - 80) / 87)));
+    expect(names(fading(0.5))).toContain("step_without_return"); // mediana do resto ~75% do nível novo: persiste
+    expect(names(fading(0.8))).not.toContain("step_without_return"); // mediana do resto ~67%: abaixo de 70%, o degrau não persiste
+  });
+
   it("patamar suspeito e patamar com dúvida trazem a regularidade, a média e a razão para a base", () => {
     const bought = classify(plateau(steady(), 60, 77, 6200)).signals[0]!;
     expect(bought.detail).toMatch(/^18 horas em ~6\.\d{3} views por hora \(12,\d× a base\); regularidade 0,\d+ contra limiar 1,5 \(menor = mais regular que o acaso\)$/);

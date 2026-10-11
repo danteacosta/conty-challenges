@@ -1,0 +1,4202 @@
+[
+ {
+  "braço": "ctrlA",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlA",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "ctrlB",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagA",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ },
+ {
+  "braço": "flagB",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou"
+ }
+]

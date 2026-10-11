@@ -6,7 +6,7 @@ Os números de acerto abaixo são medidos **no meu dataset sintético**, gerado 
 
 ```bash
 npm install
-npm test               # 195 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
+npm test               # 199 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
 npm run typecheck
 npm run mutation       # Stryker (relatório em reports/)
 
@@ -234,7 +234,7 @@ Dois pontos para ler esses números:
 
 - **Testes primeiro**, vistos falhando pelo motivo certo (módulo inexistente) antes de qualquer código. Os casos óbvios usam séries **montadas à mão** (`test/series.ts`), não o gerador do dataset.
 - **Stryker** nos módulos de regra (`stats`, `signals`, `classify`, `evaluate`, `readme`): 862 de 930 mutantes mortos (92,7%, com `vitest.stryker.config.ts`, que deixa de fora os testes que sobem processos ou geram o dataset várias vezes: cli, sensibilidade e estabilidade). A primeira rodada deu 73%: os mutantes vivos apontaram testes que faltavam nas bordas de cada limiar e **um defeito real** (um pico menor logo depois de um pico maior reabria o grupo de horas já usado e gerava um sinal falso; corrigido em `findPeaks` e coberto por teste).
-- **Mutação manual dos limiares** de `criteria.ts` (cada um para cima e para baixo, 44 mutantes): todos morrem. Vários só morrem por causa da trava do README (mudar um limiar muda a taxa medida e o teste de sincronia falha), o que é uma função útil dela.
+- **Mutação manual dos limiares** de `criteria.ts`, por script ([`verificacao/mutacao-manual-views.mjs`](../verificacao/mutacao-manual-views.mjs), relatório em [`views-limiares-manual.md`](../verificacao/mutacao/views-limiares-manual.md)): cada constante numérica sobe e desce, e a lista `cycle_periods` perde cada período e ganha um vizinho, 68 mutantes. O script roda numa cópia, usa o resultado estruturado do vitest e **invalida a rodada** em vez de contar IPC, timeout, suíte sem testes ou comando ausente como mutante morto (provado com runners falsos em [`autoteste-mutacao.mjs`](../verificacao/autoteste-mutacao.mjs)). Resultado: 68 de 68 mortos por teste de comportamento, 0 só pela trava do README. A primeira rodada validada achou 2 sobreviventes reais (os períodos 5 e +7 de `cycle_periods`) e 1 morto só pela trava (`step_persistence`); viraram testes de comportamento.
 - Os 68 mutantes não mortos restantes (67 sobreviventes e 1 sem cobertura) são, pelo que olhei, de três tipos: bordas de laço (`i < n` contra `i <= n`, que só lê `series[n]` indefinido), igualdade exata de ponto flutuante em limiares (`<` contra `<=` com 1,5 de regularidade) e o texto de algumas frases. Não afirmo que todos são equivalentes: o relatório completo sai de `npm run mutation`.
 
 ## Decisões

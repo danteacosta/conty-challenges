@@ -1,0 +1,4 @@
+flagA node=v22.15.0 config=padrão paralelos=5 execuções=150 falhas=0 ipc=0 timeout=0 relatórios_de_crash_novos=0 fim=14:59:17
+ctrlA node=v22.15.0 config=vitest.control.config.ts paralelos=5 execuções=150 falhas=1 ipc=1 timeout=0 relatórios_de_crash_novos=-1 fim=15:06:07
+flagB node=v22.15.0 config=padrão paralelos=5 execuções=150 falhas=0 ipc=0 timeout=0 relatórios_de_crash_novos=0 fim=15:13:52
+ctrlB node=v22.15.0 config=vitest.control.config.ts paralelos=5 execuções=150 falhas=2 ipc=2 timeout=0 relatórios_de_crash_novos=0 fim=15:20:14

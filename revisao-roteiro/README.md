@@ -4,7 +4,7 @@ API para a revisão de roteiro de uma missão: o criador manda **versões**, a m
 
 ```bash
 npm install
-npm test            # 160 testes: prazo, máquina de estados, fluxo, rodadas e retry de envio, e2e HTTP, corrida entre conexões
+npm test            # 165 testes: prazo, máquina de estados, fluxo, rodadas e retry de envio, e2e HTTP, corrida entre conexões
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 npm start           # http://127.0.0.1:3013   (DB_PATH=arquivo.db para persistir)
@@ -33,7 +33,7 @@ Toda resposta traz `state` e `allowed_actions`, então dá para seguir o fluxo s
 | `POST /scripts/:id/approve` `{expected_version?}` | a marca aprova a versão atual (só em `awaiting_review`); com `expected_version`, só se for a atual. |
 | `POST /scripts/:id/change-requests/:requestId/cancel` `{reason, cancelled_by}` | a marca cancela um pedido de alteração em aberto, com histórico (ver "Cancelar um pedido de alteração"). |
 
-Erros: `400 validation_error` (com o `field`), `404 not_found`, `409` com `error` = `invalid_state` / `script_approved` / `mission_already_has_script` (com `state` e `allowed_actions`), `stale_round` (com `open_change_request_id`), `round_cancelled`, `submission_conflict`, `stale_version` (com `expected_version` e `current_version`) ou `request_not_open`, e `422 deadline_in_past`.
+Erros: `400 validation_error` (com o `field`), `404 not_found`, `409` com `error` = `invalid_state` / `script_approved` / `mission_already_has_script` (com `state` e `allowed_actions`), `stale_round` (com `open_change_request_id`), `round_cancelled`, `submission_conflict`, `stale_version` (com `expected_version` e `current_version`) ou `request_not_open`, e `422 deadline_in_past`. As rotas de decisão (`change-requests`, `versions`, `cancel` e `approve`) recusam **campo desconhecido** com `400 validation_error` (`field: "body"`): `expected_verison` escrito errado não vira, em silêncio, uma decisão sobre a versão atual. O `GET` lê o roteiro, as versões e os pedidos num único snapshot de leitura (uma versão enviada por outra conexão no meio da leitura não aparece pela metade).
 
 ## O prazo
 
@@ -128,8 +128,8 @@ Aprovar: `{ "state": "approved", "allowed_actions": [], "approved": { "version":
 
 ## Verificação
 
-- 160 testes em Node 22.15.0 e 24.7.0. O relatório e o script para repetir estão em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): 433 de 486 (89,1%): `transitions` 100%, `store` 99,4%, `deadline.ts` 92,8%, `app.ts` 80,4% (a rota nova de cancelamento trouxe mensagens de erro). Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
+- 165 testes em Node 22.15.0 e 24.7.0. O relatório e o script para repetir estão em [`../verificacao`](../verificacao/README.md).
+- Mutação (Stryker): 465 de 523 (88,9%; o escopo cresceu com `db.ts` e as rotas novas): `transitions` 100%, `store` 99,4%, `deadline.ts` 92,8%, `app.ts` 80,4% (a rota nova de cancelamento trouxe mensagens de erro). Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
 - Mutação manual nos pontos críticos, todos pegos: dia em UTC, fuso UTC, `-03:00` fixo, `>=` e `<` no prazo, aprovado reabrindo (versão e pedido), aprovar com alteração pendente, `late` sempre/nunca, pedido que ignora o prazo, aprovação repetida virando erro, versão aprovada errada, pedido na versão errada, motivo sem aparar, data sem validar, mês de 31 dias, bissexto fixo e `BEGIN` no lugar de `BEGIN IMMEDIATE`.
 
 ## O que ficou de fora

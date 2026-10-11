@@ -6,7 +6,7 @@ import { openDatabase } from "../src/db.ts";
 import { extendCooldown, getConnection } from "../src/store.ts";
 import { tsWorker } from "./spawn-worker.ts";
 import { createApp } from "../src/app.ts";
-import { FakeClock, FakeProvider, limited, snap, timeout } from "./fakes.ts";
+import { FakeClock, FakeProvider, limited, network, snap, timeout } from "./fakes.ts";
 import { ALL, DEFAULT_POLICY, setup } from "./helpers.ts";
 
 const dir = mkdtempSync(join(tmpdir(), "metricas-cooldown-"));
@@ -193,28 +193,49 @@ describe("o prazo não regride", () => {
 describe("casos extremos do prazo", () => {
   const DAY = 24 * 60 * 60 * 1000;
 
-  it("Retry-After absurdo (ano 9999+) é limitado a 7 dias: a sync termina adiada, não fica presa em 'running', e o cooldown vale", async () => {
+  const LIMIT = "9999-12-31T23:59:59.999Z";
+
+  it("Retry-After de 7 dias e 1 ms vale por inteiro: o prazo não é encurtado", async () => {
     const t = setup();
     t.provider.posts = [snap("p1", P1, T1, 1000)];
     const id = await t.connect();
-    t.provider.failNext(limited(9_000_000_000_000_000));
+    t.provider.failNext(limited(7 * DAY + 1));
+    const run = await t.sync(id);
+    expect(run.body).toMatchObject({ status: "deferred", retry_at: new Date(Date.parse(START) + 7 * DAY + 1).toISOString() });
+    expect(run.body.error).toBe(`rate_limited: o provedor pediu para esperar ${7 * DAY + 1} ms`);
+    t.clock.set(new Date(Date.parse(START) + 7 * DAY).toISOString());
+    expect((await t.sync(id)).body).toMatchObject({ error: "cooldown_active" });
+  });
+
+  it.each([[9_000_000_000_000_000], [300_000_000_000_000]])("Retry-After de %s ms passa do que o banco representa: o cooldown fica no limite, dito na execução, e nada é antecipado", async (ms) => {
+    const t = setup();
+    t.provider.posts = [snap("p1", P1, T1, 1000)];
+    const id = await t.connect();
+    t.provider.failNext(limited(ms));
     const run = await t.sync(id);
     expect(run.status).toBe(202);
-    expect(run.body).toMatchObject({ status: "deferred", retry_at: new Date(Date.parse(START) + 7 * DAY).toISOString() });
+    expect(run.body).toMatchObject({ status: "deferred", retry_at: LIMIT });
+    expect(run.body.error).toBe(`rate_limited: o provedor pediu para esperar ${ms} ms (acima do máximo representável; cooldown fixado em ${LIMIT})`);
     expect(run.body.finished_at).not.toBeNull();
+    t.clock.set("2100-01-01T00:00:00.000Z");
     const blocked = await t.sync(id);
-    expect(blocked.body).toMatchObject({ error: "cooldown_active" });
+    expect(blocked.body).toMatchObject({ error: "cooldown_active", retry_at: LIMIT });
+    expect(t.provider.calls).toHaveLength(1);
     expect((await t.runs(id)).body.every((r: any) => r.status !== "running")).toBe(true);
   });
 
-  it("Retry-After de 300 bilhões de ms (ano 11533) também vira 7 dias e bloqueia de verdade", async () => {
+  it("o limite é exato: o último milissegundo representável ainda é o prazo pedido, e um a mais cai na mensagem de limite", async () => {
     const t = setup();
     t.provider.posts = [snap("p1", P1, T1, 1000)];
     const id = await t.connect();
-    t.provider.failNext(limited(300_000_000_000));
-    await t.sync(id);
-    expect((await t.sync(id)).body.error).toBe("cooldown_active");
-    expect(t.provider.calls).toHaveLength(1);
+    const exact = Date.UTC(9999, 11, 31, 23, 59, 59, 999) - Date.parse(START);
+    t.provider.failNext(limited(exact));
+    const first = await t.sync(id);
+    expect(first.body).toMatchObject({ retry_at: LIMIT, error: `rate_limited: o provedor pediu para esperar ${exact} ms` });
+    const t2 = setup();
+    const id2 = await t2.connect();
+    t2.provider.failNext(limited(exact + 1));
+    expect((await t2.sync(id2)).body.error).toContain("acima do máximo representável");
   });
 
   it("uma exceção no meio da sync não deixa a execução em 'running': termina 'failed' com a classe do erro", async () => {
@@ -290,5 +311,42 @@ describe("falha inesperada dentro da sync", () => {
     expect(run.error).toBe("unexpected: TypeError");
     expect(run.finished_at).not.toBeNull();
     expect(JSON.stringify(run)).not.toContain("segredo");
+  });
+});
+
+describe("cooldown gravado por outra sync durante o backoff", () => {
+  const WINDOW_ALL = ALL;
+  const makeApp = (hook: (db: ReturnType<typeof openDatabase>, id: () => string, clock: FakeClock) => void) => {
+    const clock = new FakeClock(START);
+    const db = openDatabase(":memory:");
+    const provider = new FakeProvider(clock);
+    let connectionId = "";
+    const app = createApp({
+      db,
+      providerFor: () => provider,
+      now: clock.now,
+      sleep: async (ms: number) => {
+        hook(db, () => connectionId, clock);
+        await clock.sleep(ms);
+      },
+      policy: DEFAULT_POLICY,
+      maxPages: 50,
+    });
+    const post = async (path: string, body: unknown) => (await app.request(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })).json() as Promise<any>;
+    return { app, db, clock, provider, post, setId: (id: string) => (connectionId = id) };
+  };
+
+  it("a nova tentativa relê o prazo: termina adiada, sem nova chamada, e mantém as páginas já gravadas", async () => {
+    const t = makeApp((db, id) => extendCooldown(db, id(), "2026-06-01T12:10:00.000Z"));
+    t.provider.pageSize = 1;
+    t.provider.posts = [snap("p1", P1, T1, 100), snap("p2", P1, T1, 200)];
+    const id = (await t.post("/connections", { provider: "instagram", account_id: "acc_1", token: "tok-ok" })).id as string;
+    t.setId(id);
+    t.provider.failOnCall(2, network()); // a 1ª página entra; a 2ª falha de rede e entra em backoff
+    const run = await t.post(`/connections/${id}/sync`, WINDOW_ALL);
+    expect(run).toMatchObject({ status: "deferred", error: "cooldown_active", retry_at: "2026-06-01T12:10:00.000Z", pages: 1, new_snapshots: 1 });
+    expect(t.provider.calls).toHaveLength(2); // a 1ª página e a 2ª que falhou; a repetição não foi feita
+    const metrics = (await (await t.app.request(`/connections/${id}/metrics`)).json()) as any;
+    expect(metrics.totals.views).toBe(100);
   });
 });

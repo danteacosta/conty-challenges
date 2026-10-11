@@ -14,4 +14,5 @@ const results: string[] = [];
 for (let i = 0; i < users; i += 1) {
   results.push(signUp(db, { userId: `usr_${i}`, installId, signedUpAt: "2026-06-02T12:00:00.000Z" }).result);
 }
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage({ installId, results });

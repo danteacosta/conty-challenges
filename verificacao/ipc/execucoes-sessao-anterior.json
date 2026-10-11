@@ -1,0 +1,7506 @@
+[
+ {
+  "braço": "carga22",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:24"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:24"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:24"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:24"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:24"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:44"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:44"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:44"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:44"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:44"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:01"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:02"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:02"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:02"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:02"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:17"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:18"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:18"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:18"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:18"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:32"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:32"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:33"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:32"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:32"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:47"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:47"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:46"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:47"
+ },
+ {
+  "braço": "carga22",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:10:47"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:01"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:39:00"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:01"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:01"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:00"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:40:52"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:09"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:09"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:09"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:09"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:09"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:24"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:24"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:24"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:24"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:24"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:38"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:38"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:38"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:38"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:38"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:51"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:51"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:51"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:51"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:41:51"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:05"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:05"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:05"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:05"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:05"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:19"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:19"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:19"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:19"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:18"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:32"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:32"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:32"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:32"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:32"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:45"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:46"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:46"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:46"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:42:46"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:00"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:00"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:00"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:00"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:00"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:14"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:14"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:14"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:14"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:14"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:13"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:13"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:13"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:13"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:13"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:41"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:41"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:40"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:40"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:40"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:43:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:09"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:08"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:08"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:08"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:08"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:22"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:22"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:22"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:22"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:22"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:37"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:37"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:37"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:37"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:37"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:53"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:53"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:44:54"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:11"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:11"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:11"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:10"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:11"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:26"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:27"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:47"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:48"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:47"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:45:48"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:45:47"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:39"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:39"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:40"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:39"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:40"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:52"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:52"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:52"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:52"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:39:52"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:04"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:04"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:04"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:04"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:04"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:17"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:17"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:18"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:17"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:18"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:30"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:42"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:42"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:42"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:42"
+ },
+ {
+  "braço": "ctrl22b",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:40:42"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:55:08"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:10"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:11"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:24"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:37"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:37"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:37"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:37"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:37"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:50"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:49"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:49"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:50"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:55:50"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:55:56"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:29"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:29"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:29"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:29"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:29"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:45"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:45"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:45"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:56:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:22"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:53:20"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:47"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:57:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:02"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:16"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:31"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:31"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:31"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:31"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:49"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:49"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:49"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:49"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:58:49"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:06"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:06"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:06"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:05"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:06"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:24"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:23"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:24"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:41"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:42"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:41"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:42"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:42"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:57"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:58"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:58"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:58"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:59:57"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:34"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:34"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:34"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:34"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:35"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:14"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:14"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:14"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:14"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:14"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:47"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:53:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:01"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:17"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:31"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:32"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:45"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:45"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:46"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:58"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:59"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:58"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:58"
+ },
+ {
+  "braço": "ctrl22c",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:54:58"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:16"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:16"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:16"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:16"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:15"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:28"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:28"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:28"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:28"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:28"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:41"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:41"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:53"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:53"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:53"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:53"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:53"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:07"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:07"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:07"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:07"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:20"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:20"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:20"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:20"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:20"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:33"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:33"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:33"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:33"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:47"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:46"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:47"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:47"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:35:46"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:14"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:13"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:14"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:14"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:14"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:27"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:27"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:27"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:27"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:27"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:40"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:54"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:54"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:54"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:54"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:36:54"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:07"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:08"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:07"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:47"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:47"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:46"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:47"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:37:46"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:00"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:13"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:13"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:13"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:13"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:13"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:26"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:26"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:26"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:26"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:26"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:33"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:34"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:39"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:39"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:39"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:39"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:38:39"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:48"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:48"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:48"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:48"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:32:48"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:05"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:05"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:05"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:05"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:05"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:21"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:36"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:36"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:36"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:36"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:36"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:50"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:50"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:50"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:50"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:33:50"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:03"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:03"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:03"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:03"
+ },
+ {
+  "braço": "flag22",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:34:03"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:16"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:16"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:16"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:16"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:16"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:31"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:31"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:31"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:31"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:31"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:48"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:48"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:48"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:48"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:48"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:03"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:03"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:03"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:03"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:03"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:36"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:36"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:36"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:36"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:36"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:53"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:53"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:53"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:53"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:49:53"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:11"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:11"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:11"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:11"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:11"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:27"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:27"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:27"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:27"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:27"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:40"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:41"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:40"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:40"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:40"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:54"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:54"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:54"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:54"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:50:54"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:07"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:08"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:08"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:08"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:08"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:20"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:33"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:33"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:33"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:33"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:33"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:46"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:46"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:46"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:46"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:46"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:58"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:58"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:58"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:58"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:51:58"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:10"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:10"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:10"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:10"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:10"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:23"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:23"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:22"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:23"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:23"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:34"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:34"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:35"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:59"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:59"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:59"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:59"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:52:59"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:51"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:51"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:51"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:51"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:46:50"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:06"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:06"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:06"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:06"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:06"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:19"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:33"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:34"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:34"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:33"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:34"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:47:47"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:02"
+ },
+ {
+  "braço": "flag22b",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:48:02"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:33"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:32"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:32"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:33"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:32"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:39"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:05"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:28"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:28"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:28"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:28"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:28"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:53"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:53"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:53"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:53"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:04:53"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:11"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:11"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:12"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:12"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:12"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:34"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:34"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:35"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:35"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:05:34"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:05"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:06"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:58"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:58"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:58"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:58"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:06:58"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:49"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:49"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:49"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:49"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:00:49"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:07:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:08"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:08"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:08"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:08"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:31"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:31"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:31"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:31"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:31"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:55"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:55"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:55"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:55"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:08:55"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:19"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:20"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:09:43"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:05"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:05"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:05"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:05"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:05"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:28"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:28"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:10:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 1,
+  "resultado": "timeout de teste (5000ms)",
+  "termino": "14:12:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 1,
+  "resultado": "timeout de teste (5000ms)",
+  "termino": "14:12:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 1,
+  "resultado": "timeout de teste (5000ms)",
+  "termino": "14:12:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 1,
+  "resultado": "timeout de teste (5000ms)",
+  "termino": "14:12:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 1,
+  "resultado": "timeout de teste (5000ms)",
+  "termino": "14:12:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:12:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:12:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:12:41"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:12:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:12:40"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:08"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:08"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:07"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:13:25"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:13:24"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:13:24"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:13:24"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:13:23"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:29"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:46"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:46"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:46"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:46"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:01:46"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:03"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:04"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:04"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:04"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:04"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:25"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:25"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:25"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:25"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:25"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:47"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:47"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:47"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:47"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:02:47"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:14"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:14"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:14"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:14"
+ },
+ {
+  "braço": "flag22c",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "14:03:13"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:08:44"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:08:47"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:08:51"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:08:54"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:08:58"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:01"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:05"
+ },
+ {
+  "braço": "iso22",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:09:08"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 1,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:09"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 1,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:09"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 1,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:09"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 1,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:09"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 1,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:09"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 10,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:18"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 10,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:18"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 10,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:18"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 10,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:18"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 10,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:18"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 11,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:32"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 11,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:32"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 11,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:32"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 11,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:32"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 11,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:32"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 12,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:46"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 12,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:46"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 12,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:46"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 12,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:46"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 12,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:46"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 13,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 13,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 13,
+  "posição": 3,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:14:00"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 13,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 13,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 14,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 14,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 14,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 14,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 14,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 15,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 15,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 15,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 15,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 15,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:30"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 16,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:44"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 16,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:44"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 16,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:44"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 16,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:44"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 16,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:44"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 17,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:57"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 17,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:57"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 17,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:57"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 17,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:57"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 17,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:14:57"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 18,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:11"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 18,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:11"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 18,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:11"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 18,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:11"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 18,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:11"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 19,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:26"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 19,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:26"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 19,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:26"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 19,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:26"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 19,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:26"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 2,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:24"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 2,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:23"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 2,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:23"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 2,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:23"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 2,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:23"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 20,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:39"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 20,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:39"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 20,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:39"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 20,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:39"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 20,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:39"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 21,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:54"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 21,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:54"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 21,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:54"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 21,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:54"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 21,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:15:54"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 22,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:07"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 22,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:07"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 22,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:07"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 22,
+  "posição": 4,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:16:06"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 22,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:07"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 23,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:20"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 23,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:20"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 23,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:20"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 23,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:20"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 23,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:20"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 24,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:34"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 24,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:34"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 24,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:34"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 24,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:34"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 24,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:34"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 25,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:48"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 25,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:48"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 25,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:48"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 25,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:48"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 25,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:16:48"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 26,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 26,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 26,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 26,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 26,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:01"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 27,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:14"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 27,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 27,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 27,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 27,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:15"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 28,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 28,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 28,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:28"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 28,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 28,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:29"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 29,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:42"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 29,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:42"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 29,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:42"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 29,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:42"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 29,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:42"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 3,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:37"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 3,
+  "posição": 2,
+  "código_de_saída": 1,
+  "resultado": "ERR_IPC_CHANNEL_CLOSED",
+  "termino": "13:11:35"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 3,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:37"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 3,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:37"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 3,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:37"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 30,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:56"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 30,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:56"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 30,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:56"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 30,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:56"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 30,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:17:56"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 4,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:51"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 4,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:51"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 4,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:50"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 4,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:51"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 4,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:11:51"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 5,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:06"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 5,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:07"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 5,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:07"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 5,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:07"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 5,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:06"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 6,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:21"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 6,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:21"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 6,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:21"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 6,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:21"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 6,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:21"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 7,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:36"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 7,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:36"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 7,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:36"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 7,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:36"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 7,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:36"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 8,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:50"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 8,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:50"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 8,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:50"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 8,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:50"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 8,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:12:50"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 9,
+  "posição": 1,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:05"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 9,
+  "posição": 2,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:05"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 9,
+  "posição": 3,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:05"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 9,
+  "posição": 4,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:05"
+ },
+ {
+  "braço": "roteiro22",
+  "rodada": 9,
+  "posição": 5,
+  "código_de_saída": 0,
+  "resultado": "passou",
+  "termino": "13:13:04"
+ }
+]

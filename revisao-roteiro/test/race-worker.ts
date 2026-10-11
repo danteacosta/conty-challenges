@@ -24,4 +24,5 @@ const outcome =
       : action === "cancel_changes"
         ? cancelChangeRequest(db, { id, requestId: 1, reason: `cancelamento de ${label}`, by: label }, now)
         : submitVersion(db, { id, content: `versão de ${label}` }, now);
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage({ action, result: outcome.ok ? "ok" : outcome.code });

@@ -30,4 +30,5 @@ for (const delivery of job.deliveries) {
     results.push({ delivery, ok: out.ok, ...(out.ok ? {} : { code: out.code }) });
   }
 }
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage(results);

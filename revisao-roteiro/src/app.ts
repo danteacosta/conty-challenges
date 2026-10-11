@@ -44,6 +44,12 @@ const STATUS: Record<Failure["code"], 404 | 409 | 422> = {
   stale_version: 409,
 };
 
+/** Chaves do corpo fora da lista: uma chave escrita errada não pode virar, em silêncio, uma decisão sem a salvaguarda que ela pedia. */
+function unknownKeys(body: unknown, allowed: readonly string[]): string[] {
+  if (typeof body !== "object" || body === null || Array.isArray(body)) return [];
+  return Object.keys(body).filter((key) => !allowed.includes(key));
+}
+
 export function createApp({ db, now }: AppOptions) {
   const app = new Hono();
 
@@ -76,8 +82,15 @@ export function createApp({ db, now }: AppOptions) {
 
   app.get("/scripts/:id", (c) => respond(c, getScript(db, c.req.param("id")), 200));
 
+  const rejectUnknown = (c: { json: (body: unknown, status: 400) => Response }, body: unknown, allowed: readonly string[]) => {
+    const extra = unknownKeys(body, allowed);
+    return extra.length === 0 ? null : invalid(c, "body", `campo desconhecido: ${extra.slice(0, 3).join(", ")}; aceitos: ${allowed.join(", ")}`);
+  };
+
   app.post("/scripts/:id/change-requests", async (c) => {
     const body = await c.req.json().catch(() => null);
+    const unknown = rejectUnknown(c, body, ["reason", "deadline_date", "expected_version"]);
+    if (unknown) return unknown;
     const reason = required(body?.reason);
     const deadlineDate = parseCalendarDate(body?.deadline_date);
     if (!reason) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");
@@ -89,6 +102,8 @@ export function createApp({ db, now }: AppOptions) {
 
   app.post("/scripts/:id/versions", async (c) => {
     const body = await c.req.json().catch(() => null);
+    const unknown = rejectUnknown(c, body, ["content", "change_request_id", "submission_id"]);
+    if (unknown) return unknown;
     const content = required(body?.content);
     if (!content) return invalid(c, "content", "content é obrigatório");
     const changeRequestId = optionalPositiveInteger(body?.change_request_id);
@@ -100,6 +115,8 @@ export function createApp({ db, now }: AppOptions) {
 
   app.post("/scripts/:id/change-requests/:requestId/cancel", async (c) => {
     const body = await c.req.json().catch(() => null);
+    const unknown = rejectUnknown(c, body, ["reason", "cancelled_by"]);
+    if (unknown) return unknown;
     const reason = required(body?.reason);
     const by = required(body?.cancelled_by, 200);
     if (!reason) return invalid(c, "reason", "o motivo do cancelamento é obrigatório");

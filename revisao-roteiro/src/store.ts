@@ -1,5 +1,5 @@
 import type { DatabaseSync } from "node:sqlite";
-import { inTransaction } from "./db.ts";
+import { inTransaction, readSnapshot } from "./db.ts";
 import { isDeadlineInPast, isLateFor } from "./domain/deadline.ts";
 import { allowedActions, nextState, type Action, type State } from "./domain/transitions.ts";
 
@@ -75,8 +75,11 @@ function stateFailure(script: ScriptRow): Failure {
 }
 
 export function getScript(db: DatabaseSync, id: string): Outcome {
-  const script = find(db, id);
-  return script ? { ok: true, view: toView(db, script) } : { ok: false, code: "not_found" };
+  // Roteiro, versões e pedidos de um retrato só: sem isso, uma versão enviada no meio da leitura aparecia com o estado antigo.
+  return readSnapshot(db, () => {
+    const script = find(db, id);
+    return script ? ({ ok: true, view: toView(db, script) } as const) : ({ ok: false, code: "not_found" } as const);
+  });
 }
 
 export function createScript(db: DatabaseSync, input: { id: string; missionId: string; content: string }, now: () => Date): Outcome {

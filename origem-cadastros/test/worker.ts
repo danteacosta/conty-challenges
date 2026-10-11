@@ -15,4 +15,5 @@ for (let round = 0; round < 25; round += 1) {
   origins.push(JSON.stringify(out.view.origin));
   results.push(out.result);
 }
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage({ origins, results });

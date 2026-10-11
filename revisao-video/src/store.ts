@@ -1,5 +1,5 @@
 import type { DatabaseSync } from "node:sqlite";
-import { inTransaction } from "./db.ts";
+import { inTransaction, readSnapshot } from "./db.ts";
 import { deliveryStatus, pendingPieces, type DeliveryStatus, type Pending, type PieceView } from "./domain/approval.ts";
 import { PIECE_TYPES, type PieceType } from "./domain/pieces.ts";
 import { nextVersionState, type VersionAction, type VersionState } from "./domain/versions.ts";
@@ -38,10 +38,13 @@ export function requiredPieces(db: DatabaseSync, campaignId: string): PieceType[
   return (db.prepare("SELECT piece_type FROM campaign_required_pieces WHERE campaign_id = ? ORDER BY position").all(campaignId) as Array<{ piece_type: PieceType }>).map((r) => r.piece_type);
 }
 
-export function getCampaign(db: DatabaseSync, id: string) {
+/** Sem retrato próprio, para uso dentro de uma transação de escrita. */
+function readCampaign(db: DatabaseSync, id: string) {
   const row = db.prepare("SELECT id FROM campaigns WHERE id = ?").get(id) as { id: string } | undefined;
   return row ? { id: row.id, required_pieces: requiredPieces(db, id) } : null;
 }
+
+export const getCampaign = (db: DatabaseSync, id: string) => readSnapshot(db, () => readCampaign(db, id));
 
 // ---------- leitura de uma entrega
 
@@ -138,15 +141,19 @@ export type DeliveryView = ReturnType<typeof deliveryView>;
 
 export function createDelivery(db: DatabaseSync, input: { id: string; campaignId: string }, now: () => Date) {
   return inTransaction(db, () => {
-    if (!getCampaign(db, input.campaignId)) return fail("not_found", { what: "campaign" });
+    if (!readCampaign(db, input.campaignId)) return fail("not_found", { what: "campaign" });
     db.prepare("INSERT INTO deliveries (id, campaign_id, created_at) VALUES (?, ?, ?)").run(input.id, input.campaignId, now().toISOString());
     return { ok: true as const, view: deliveryView(db, findDelivery(db, input.id) as DeliveryRow) };
   });
 }
 
 export function getDelivery(db: DatabaseSync, id: string): { ok: true; view: DeliveryView } | Failure {
-  const delivery = findDelivery(db, id);
-  return delivery ? { ok: true, view: deliveryView(db, delivery) } : fail("not_found", { what: "delivery" });
+  // Entrega, peças, versões atuais e eventos de um retrato só: sem isso, uma versão nova no meio da leitura deixava
+  // "approved" ao lado de uma versão atual pendente.
+  return readSnapshot(db, () => {
+    const delivery = findDelivery(db, id);
+    return delivery ? ({ ok: true, view: deliveryView(db, delivery) } as const) : fail("not_found", { what: "delivery" });
+  });
 }
 
 // ---------- versões
@@ -289,19 +296,21 @@ export function approveDelivery(db: DatabaseSync, input: { id: string }, now: ()
 // ---------- comentários
 
 export function getVersion(db: DatabaseSync, deliveryId: string, piece: PieceType, number: number) {
-  const delivery = findDelivery(db, deliveryId);
-  if (!delivery) return fail("not_found", { what: "delivery" });
-  const version = findVersion(db, deliveryId, piece, number);
-  if (!version) return fail("not_found", { what: "version" });
-  const comments = db.prepare("SELECT * FROM comments WHERE version_id = ? ORDER BY second, id").all(version.id) as CommentRow[];
-  return {
-    ok: true as const,
-    version: {
-      ...versionView(version, number === currentNumber(db, deliveryId, piece), comments.length),
-      piece,
-      comments: comments.map((c) => commentView(c, number, c.copied_from_comment_id ? originVersionOf(db, c.copied_from_comment_id) : null)),
-    },
-  };
+  return readSnapshot(db, () => {
+    const delivery = findDelivery(db, deliveryId);
+    if (!delivery) return fail("not_found", { what: "delivery" });
+    const version = findVersion(db, deliveryId, piece, number);
+    if (!version) return fail("not_found", { what: "version" });
+    const comments = db.prepare("SELECT * FROM comments WHERE version_id = ? ORDER BY second, id").all(version.id) as CommentRow[];
+    return {
+      ok: true as const,
+      version: {
+        ...versionView(version, number === currentNumber(db, deliveryId, piece), comments.length),
+        piece,
+        comments: comments.map((c) => commentView(c, number, c.copied_from_comment_id ? originVersionOf(db, c.copied_from_comment_id) : null)),
+      },
+    };
+  });
 }
 
 const commentView = (c: CommentRow, version: number, copiedFromVersion: number | null = null) => ({

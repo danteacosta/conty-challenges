@@ -16,4 +16,5 @@ for (let i = 0; i < clicks; i += 1) {
   const out = recordTouch(db, { installId: "ins_1", cid, src: "campaign", ref: `ref-do-worker-${worker}`, touchedAt: "2026-06-01T13:00:00.000Z" }, "x");
   results.push({ cid, result: out.result, canonicalRef: out.result === "conflict" ? out.canonical.ref : undefined });
 }
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage(results);

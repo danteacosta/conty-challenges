@@ -70,6 +70,19 @@ describe("repetição mecânica: cada limite exatamente na borda", () => {
     expect(findRepetition(withRange(background(), 52, 59, (_, k) => 100 + 10 * k))).toMatchObject({ from: 52, to: 59 });
   });
 
+  it.each([
+    [4, [300, 500, 700, 900]],
+    [5, [300, 500, 900, 400, 700]],
+  ])("ciclo de período %i repetido 4 vezes é repetição mecânica", (period, pattern) => {
+    const hours = period * 4;
+    expect(findRepetition(withRange(background(), 20, 20 + hours - 1, (_, k) => pattern[k % period]!))).toEqual({ kind: "cycle", from: 20, to: 20 + hours - 1, period, repeats: 4 });
+  });
+
+  it("ciclo de período 7 não é detectado: a lista de períodos (2 a 6) é o contrato, e mudar para mais ou para menos muda o resultado", () => {
+    const pattern = [300, 500, 900, 400, 700, 350, 600];
+    expect(findRepetition(withRange(background(), 20, 47, (_, k) => pattern[k % 7]!))).toBeUndefined();
+  });
+
   it("ciclo exato repetido 4 vezes vale, 3 não; conta só as repetições inteiras; abaixo de 30 não vale", () => {
     expect(findRepetition(withRange(background(), 20, 27, (_, k) => (k % 2 === 0 ? 300 : 900)))).toEqual({ kind: "cycle", from: 20, to: 27, period: 2, repeats: 4 });
     expect(findRepetition(withRange(background(), 20, 25, (_, k) => (k % 2 === 0 ? 300 : 900)))).toBeUndefined();

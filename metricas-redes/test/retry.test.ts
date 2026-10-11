@@ -92,6 +92,10 @@ describe("Retry-After: segundos ou data HTTP", () => {
     expect(parseRetryAfter(value, now)).toBe(ms);
   });
 
+  it.each([["9007199254741"], ["99999999999999999999"], ["9".repeat(400)]])("inteiro decimal válido e enorme (%#) é prazo, saturado em Number.MAX_SAFE_INTEGER ms, nunca ausente", (value) => {
+    expect(parseRetryAfter(value, now)).toBe(Number.MAX_SAFE_INTEGER);
+  });
+
   it("data HTTP vira a diferença para agora", () => {
     expect(parseRetryAfter("Mon, 01 Jun 2026 12:00:10 GMT", now)).toBe(10_000);
   });
@@ -100,7 +104,7 @@ describe("Retry-After: segundos ou data HTTP", () => {
     expect(parseRetryAfter("Mon, 01 Jun 2026 11:59:00 GMT", now)).toBe(0);
   });
 
-  it.each(["", "abc", "-5", "1.5", "5s", "NaN", "Infinity", "99999999999999999999"])("valor inválido %j é ausente (null), não um número", (value) => {
+  it.each(["", "abc", "-5", "1.5", "5s", "NaN", "Infinity", "+5", "0x10", "1e3"])("valor inválido %j é ausente (null), não um número", (value) => {
     expect(parseRetryAfter(value, now)).toBeNull();
   });
 

@@ -128,7 +128,7 @@ export function runView(row: RunRow) {
 }
 
 const KINDS_PATTERN = "timeout|network|server|rate_limited|client|invalid_payload";
-const STATIC_FORMS = [/^rate_limited: o provedor pediu para esperar \d+ ms$/, /^(too_many_pages|pagination_loop|cooldown_active)$/];
+const STATIC_FORMS = [/^rate_limited: o provedor pediu para esperar \d+ ms( \(acima do máximo representável; cooldown fixado em 9999-12-31T23:59:59\.999Z\))?$/, /^(too_many_pages|pagination_loop|cooldown_active)$/];
 
 /**
  * Linhas gravadas antes da correção de segurança podem ter texto livre (`unexpected: <mensagem>`, `server: <mensagem>`). Na

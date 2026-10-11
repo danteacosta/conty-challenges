@@ -9,4 +9,5 @@ const flags = new Int32Array(barrier);
 Atomics.add(flags, 1, 1);
 Atomics.wait(flags, 0, 0);
 extendCooldown(db, connectionId, until);
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage("ok");

@@ -20,4 +20,5 @@ for (let id = 1; id <= orders; id += 1) {
     ).result,
   );
 }
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage(results);

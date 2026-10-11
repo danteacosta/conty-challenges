@@ -17,4 +17,5 @@ Atomics.add(flags, 1, 1);
 Atomics.wait(flags, 0, 0);
 
 const outcome = submitVersion(db, { id, content, submissionId, changeRequestId }, () => new Date("2026-03-10T15:00:00.000Z"));
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage(outcome.ok ? { result: "ok", version: outcome.submission?.version, replayed: outcome.submission?.replayed } : { result: outcome.code });

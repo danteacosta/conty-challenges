@@ -97,3 +97,19 @@ describe("jornada completa, pela API e pelo provedor simulado por HTTP", () => {
     expect(run.body).toMatchObject({ status: "failed", attempts: 1 });
   });
 });
+
+describe("Retry-After enorme pela fronteira HTTP real", () => {
+  it("9007199254741 s: uma chamada só, adiada com o cooldown no limite, e a segunda sync não chama o provedor", async () => {
+    sim.state.setPosts("instagram", "acc_1", posts);
+    const connection = await call("POST", "/connections", { provider: "instagram", account_id: "acc_1", token: "tok" });
+    const id = connection.body.id as string;
+    sim.state.behaviors = [{ status: 429, retryAfter: "9007199254741" }];
+    const first = await call("POST", `/connections/${id}/sync`, { since: "2026-01-01T00:00:00.000Z", until: "2026-12-31T23:59:59.999Z" });
+    expect(first.body).toMatchObject({ status: "deferred", attempts: 1, retry_at: "9999-12-31T23:59:59.999Z" });
+    expect(first.body.error).toContain("acima do máximo representável");
+    const requestsAfterFirst = sim.state.requests.length;
+    const second = await call("POST", `/connections/${id}/sync`, { since: "2026-01-01T00:00:00.000Z", until: "2026-12-31T23:59:59.999Z" });
+    expect(second.body).toMatchObject({ status: "deferred", error: "cooldown_active" });
+    expect(sim.state.requests).toHaveLength(requestsAfterFirst);
+  });
+});

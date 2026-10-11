@@ -24,4 +24,5 @@ Atomics.add(flags, 1, 1);
 Atomics.wait(flags, 0, 0);
 
 const summary = await syncConnection(db, { provider, now: clock.now, sleep: clock.sleep, policy: DEFAULT_POLICY, maxPages: 50 }, connection, window);
+db.close(); // fecha o SQLite antes de sair: o destrutor no fim do worker é o que o Node 24.7 derruba em parte das saídas
 parentPort?.postMessage(summary);
