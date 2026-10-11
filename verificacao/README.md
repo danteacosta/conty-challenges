@@ -42,7 +42,7 @@ Um mutante só conta como morto com resultado estruturado do vitest: mesma quant
 
 ## IPC no Node 22.15 / macOS
 
-Diagnóstico, números do estresse (com os cinco timeouts preservados), excertos dos crashes e a mitigação restrita: [`ipc/README.md`](ipc/README.md).
+Diagnóstico (crash dentro do Node, mitigação eficaz no ambiente reproduzido, causa raiz **não** confirmada), números do estresse (750 execuções com a mitigação: 745 passaram, 5 timeout, 0 IPC; os timeouts ficam registrados), excertos dos crashes e a mitigação restrita: [`ipc/README.md`](ipc/README.md) ([no GitHub](https://github.com/danteacosta/conty-challenges/blob/main/verificacao/ipc/README.md)).
 
 ## O que esta pasta não prova
 

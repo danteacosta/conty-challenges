@@ -25,8 +25,12 @@ Ou seja: coleta de lixo de **código WebAssembly** (o carregamento de `.ts` com 
 worker, com `EXC_BAD_ACCESS` em 0x78. O processo irmão do mesmo vitest fica órfão e é abortado por falta de memória minutos
 depois (SIGABRT, `ppid 1`), o que explica relatórios de OOM sem teste falhando.
 
-Limite do que está provado: a pilha, a correlação 1 a 1 entre as 3 falhas do estresse de 13:12–13:16 e 3 relatórios, e o efeito da
-flag abaixo. **Não** provei qual módulo wasm dispara nem reportei o defeito ao Node.
+**O que está e o que não está provado.** Provado: o crash acontece dentro do Node (a pilha acima), a correlação 1 a 1 entre as 3
+falhas do estresse de 13:12–13:16 e 3 relatórios de crash, e que a flag abaixo é **eficaz no ambiente reproduzido** (Node 22.15.0 no
+macOS, este equipamento). **Não** está provado: a causa raiz. Não identifiquei qual módulo wasm dispara, não tenho uma reprodução
+mínima (o script mínimo com workers `.ts` em loop não reproduziu), não reportei o defeito ao Node, e vários arquivos `.ips`
+originais foram rotacionados pelo macOS: os excertos desses estão transcritos da minha saída de diagnóstico, o que não substitui o
+arquivo. A mitigação é empírica.
 
 ## Isolado × carga
 
@@ -34,9 +38,9 @@ flag abaixo. **Não** provei qual módulo wasm dispara nem reportei o defeito ao
 |---|---|---|
 | 1 vitest por vez | 8 | 0 |
 | 5 vitests em paralelo, sem flag | 450 + 300 | 9 + 3 |
-| 5 vitests em paralelo, `--no-wasm-code-gc` | 445 válidas + 300 | 0 + 0 |
+| 5 vitests em paralelo, `--no-wasm-code-gc` | 450 (445 passaram, 5 timeout) + 300 | 0 + 0 |
 
-As 450 do braço sem flag e as 445 do braço com flag são da sessão anterior ([`execucoes-sessao-anterior.json`](execucoes-sessao-anterior.json));
+**Com a mitigação, 750 execuções: 745 passaram, 5 deram timeout de teste e 0 apresentaram IPC** (450 da sessão anterior, 445 + 5, mais 300 desta sessão). Sem a mitigação, 750 execuções: 738 passaram e 12 deram IPC. As 450 do braço sem flag e as 450 do braço com flag são da sessão anterior ([`execucoes-sessao-anterior.json`](execucoes-sessao-anterior.json));
 nelas a flag entrava por `v8.setFlagsFromString` num setupFile. As 300 + 300 seguintes
 ([`execucoes-v2.json`](execucoes-v2.json), [`estresse-v2-resumo.txt`](estresse-v2-resumo.txt)) usam a configuração definitiva
 (`poolOptions.forks.execArgv`), alternando braços: com flag 0 de 300; sem flag 3 de 300.
