@@ -10,7 +10,7 @@ const dir = mkdtempSync(join(tmpdir(), "roteiro-"));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
 const now = () => new Date("2026-03-10T15:00:00.000Z");
 
-type Action = "approve" | "request_changes" | "submit_version";
+type Action = "approve" | "request_changes" | "submit_version" | "cancel_changes";
 
 /** Sobe um worker por ação, espera todos prontos na barreira e libera a largada de uma vez. */
 async function race(path: string, id: string, actions: Action[]) {
@@ -78,6 +78,30 @@ describe("concorrência, com as conexões largando juntas", () => {
       expect(view.view.versions.map((v) => v.number)).toEqual([1, 2]);
       expect(view.view.state).toBe("awaiting_review");
       expect(view.view.change_requests[0]?.answered_by_version).toBe(2);
+    }
+  }, 60_000);
+
+  it("cancelar o pedido e responder a ele ao mesmo tempo: um só vence e o histórico fica coerente, 12 vezes em bancos novos", async () => {
+    for (let round = 0; round < 12; round += 1) {
+      const path = freshScript(`cancela-${round}.sqlite`, "changes_requested");
+      const results = await race(path, "scr_1", ["cancel_changes", "cancel_changes", "submit_version", "submit_version"]);
+      const check = openDatabase(path);
+      const view = getScript(check, "scr_1");
+      check.close();
+      if (!view.ok) throw new Error("roteiro sumiu");
+      const request = view.view.change_requests[0]!;
+      const byAction = (action: Action) => results.filter((r) => r.action === action).map((r) => r.result).sort();
+      if (request.status === "cancelled") {
+        expect(view.view.state, `rodada ${round}`).toBe("awaiting_review");
+        expect(view.view.current_version).toBe(1);
+        expect(byAction("cancel_changes")).toEqual(["ok", "ok"]); // repetir o cancelamento é inofensivo
+        expect(byAction("submit_version")).toEqual(["invalid_state", "invalid_state"]);
+      } else {
+        expect(request.status, `rodada ${round}`).toBe("answered");
+        expect(view.view.current_version).toBe(2);
+        expect(byAction("submit_version")).toEqual(["invalid_state", "ok"]);
+        expect(byAction("cancel_changes")).toEqual(["request_not_open", "request_not_open"]);
+      }
     }
   }, 60_000);
 });

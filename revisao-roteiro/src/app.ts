@@ -1,17 +1,17 @@
 import type { DatabaseSync } from "node:sqlite";
 import { Hono } from "hono";
 import { parseCalendarDate } from "./domain/deadline.ts";
-import { approve, createScript, getScript, requestChanges, submitVersion, type Failure, type Outcome } from "./store.ts";
+import { approve, cancelChangeRequest, createScript, getScript, requestChanges, submitVersion, type Failure, type Outcome } from "./store.ts";
 
 export type AppOptions = { db: DatabaseSync; now: () => Date };
 
 const MAX_TEXT = 20_000;
 
 /** Texto obrigatório, sem espaços nas pontas. Só espaços ou vazio não passa. */
-function required(value: unknown): string | null {
+function required(value: unknown, max = MAX_TEXT): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
-  return trimmed === "" || trimmed.length > MAX_TEXT ? null : trimmed;
+  return trimmed === "" || trimmed.length > max ? null : trimmed;
 }
 
 const MAX_SUBMISSION_ID = 200;
@@ -34,6 +34,8 @@ const STATUS: Record<Failure["code"], 404 | 409 | 422> = {
   mission_already_has_script: 409,
   stale_round: 409,
   submission_conflict: 409,
+  round_cancelled: 409,
+  request_not_open: 409,
 };
 
 export function createApp({ db, now }: AppOptions) {
@@ -78,6 +80,17 @@ export function createApp({ db, now }: AppOptions) {
     const submissionId = optionalText(body?.submission_id, MAX_SUBMISSION_ID);
     if (submissionId === null) return invalid(c, "submission_id", `submission_id deve ser um texto de 1 a ${MAX_SUBMISSION_ID} caracteres`);
     return respond(c, submitVersion(db, { id: c.req.param("id"), content, changeRequestId, submissionId }, now), 201);
+  });
+
+  app.post("/scripts/:id/change-requests/:requestId/cancel", async (c) => {
+    const body = await c.req.json().catch(() => null);
+    const reason = required(body?.reason);
+    const by = required(body?.cancelled_by, 200);
+    if (!reason) return invalid(c, "reason", "o motivo do cancelamento é obrigatório");
+    if (!by) return invalid(c, "cancelled_by", "cancelled_by (quem cancela) é obrigatório");
+    const raw = c.req.param("requestId");
+    if (!/^[1-9]\d*$/.test(raw) || !Number.isSafeInteger(Number(raw))) return c.json({ error: "not_found" }, 404);
+    return respond(c, cancelChangeRequest(db, { id: c.req.param("id"), requestId: Number(raw), reason, by }, now), 200);
   });
 
   app.post("/scripts/:id/approve", (c) => respond(c, approve(db, { id: c.req.param("id") }, now), 200));

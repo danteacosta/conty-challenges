@@ -4,7 +4,7 @@ import { checkDelays, listAlerts, type Notifier } from "./alerts.ts";
 import { AggregatorError, type TrackingAggregator } from "./aggregator/port.ts";
 import { assessDelay } from "./domain/delay.ts";
 import { SUPPORTED_CARRIERS } from "./domain/dialects.ts";
-import { findShipment, ingestEvents, loadShipment, normalizeCode, registerShipment } from "./store.ts";
+import { findShipment, ingestEvents, linkConflicts, loadShipment, normalizeCode, registerShipment } from "./store.ts";
 
 export type AppOptions = {
   db: DatabaseSync;
@@ -23,6 +23,18 @@ export function createApp(options: AppOptions) {
     throw new Error(`thresholdHours inválido: ${thresholdHours} (esperado um número de horas maior que 0)`);
   }
   const app = new Hono();
+  // Cadastros simultâneos do mesmo código e transportadora, nesta instância, compartilham UMA chamada ao agregador. A transação
+  // do banco continua curta e fora da espera de rede; não há coordenação entre processos.
+  const pendingRegistrations = new Map<string, Promise<void>>();
+  const registerOnce = (code: string, carrier: string): Promise<void> => {
+    const key = `${code}\u0000${carrier}`;
+    let pending = pendingRegistrations.get(key);
+    if (!pending) {
+      pending = aggregator.register(code, carrier).finally(() => pendingRegistrations.delete(key));
+      pendingRegistrations.set(key, pending);
+    }
+    return pending;
+  };
 
   app.onError((error, c) => {
     if (error instanceof AggregatorError) {
@@ -42,14 +54,19 @@ export function createApp(options: AppOptions) {
       return c.json({ error: "unsupported_carrier", supported_carriers: SUPPORTED_CARRIERS }, 400);
     }
     const code = normalizeCode(rawCode);
+    const links = { creatorId: text(body?.creator_id), campaignId: text(body?.campaign_id) };
+    const linkError = (stored: { creator_id: string | null; campaign_id: string | null }) =>
+      c.json({ error: "link_conflict", tracking_code: code, conflicts: linkConflicts(stored, links), message: "o envio já está cadastrado com outro vínculo; nada foi alterado" }, 409);
+
     const known = findShipment(db, code);
     if (known) {
-      return known.carrier === carrier
-        ? c.json({ result: "exists", tracking_code: code, carrier }, 200)
-        : c.json({ error: "carrier_conflict", carrier: known.carrier }, 409);
+      if (known.carrier !== carrier) return c.json({ error: "carrier_conflict", carrier: known.carrier }, 409);
+      if (linkConflicts(known, links).length > 0) return linkError(known); // conflito conhecido não chama o agregador
+      return c.json({ result: "exists", tracking_code: code, carrier }, 200);
     }
-    await aggregator.register(code, carrier);
-    const result = registerShipment(db, { code, carrier, creatorId: text(body?.creator_id), campaignId: text(body?.campaign_id) }, now);
+    await registerOnce(code, carrier);
+    const result = registerShipment(db, { code, carrier, ...links }, now);
+    if (result === "link_conflict") return linkError(findShipment(db, code) as NonNullable<typeof known>);
     return c.json({ result, tracking_code: code, carrier }, result === "created" ? 201 : result === "exists" ? 200 : 409);
   });
 

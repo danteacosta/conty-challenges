@@ -226,6 +226,76 @@ export function creatorSales(db: DatabaseSync, creatorId: string) {
   };
 }
 
+// ---------- reconciliação
+
+const REFUNDED_OF = "(SELECT COALESCE(SUM(r.applied_cents), 0) FROM refunds r WHERE r.order_id = o.id)";
+
+type Group = { creator: string | null; orders: bigint; gross: bigint; refunded: bigint };
+
+/** Um grupo por criador (e um para "sem criador"), em BigInt; se o SQLite estourar 64 bits em algum SUM, soma linha a linha. */
+function counted(db: DatabaseSync, groupBy: boolean): Group[] {
+  const key = groupBy ? "o.creator_id" : "NULL";
+  try {
+    const statement = db.prepare(
+      `SELECT ${key} AS creator, COUNT(*) AS orders, COALESCE(SUM(o.total_cents), 0) AS gross, COALESCE(SUM(${REFUNDED_OF}), 0) AS refunded
+         FROM orders o WHERE o.counted = 1 ${groupBy ? "GROUP BY o.creator_id" : ""}`,
+    );
+    statement.setReadBigInts(true);
+    return (statement.all() as Group[]).filter((g) => g.orders > 0n);
+  } catch (error) {
+    if (!/integer overflow/i.test(String(error))) throw error;
+    const rows = db.prepare(`SELECT ${key} AS creator, o.total_cents AS gross, ${REFUNDED_OF} AS refunded FROM orders o WHERE o.counted = 1`);
+    rows.setReadBigInts(true);
+    const groups = new Map<string | null, Group>();
+    for (const row of rows.all() as Array<{ creator: string | null; gross: bigint; refunded: bigint }>) {
+      const group = groups.get(row.creator) ?? { creator: row.creator, orders: 0n, gross: 0n, refunded: 0n };
+      group.orders += 1n;
+      group.gross += row.gross;
+      group.refunded += row.refunded;
+      groups.set(row.creator, group);
+    }
+    return [...groups.values()];
+  }
+}
+
+const sumGroups = (groups: Group[]): Group => groups.reduce((sum, g) => ({ creator: null, orders: sum.orders + g.orders, gross: sum.gross + g.gross, refunded: sum.refunded + g.refunded }), { creator: null, orders: 0n, gross: 0n, refunded: 0n });
+
+function amounts(group: Group) {
+  const net = group.gross - group.refunded;
+  return {
+    orders: Number(group.orders),
+    gross_cents: asSafeNumber(group.gross),
+    refunded_cents: asSafeNumber(group.refunded),
+    net_cents: asSafeNumber(net),
+    exact: { gross_cents: String(group.gross), refunded_cents: String(group.refunded), net_cents: String(net) },
+  };
+}
+
+/**
+ * Total da loja = atribuído a criadores + sem criador. Só pedidos creditados (pagos) entram, e cada pedido e cada estorno
+ * aplicado conta uma vez. Tudo é lido do mesmo retrato do banco; os valores seguem o contrato de `creatorSales`
+ * (número enquanto exato, `null` acima de 2^53, `exact` sempre). `reconciles` compara o total, calculado à parte, com a soma.
+ */
+export function reconciliation(db: DatabaseSync) {
+  return readSnapshot(db, () => {
+    const total = sumGroups(counted(db, false));
+    const groups = counted(db, true);
+    const attributedGroups = groups.filter((g) => g.creator !== null).sort((a, b) => (a.creator! < b.creator! ? -1 : 1));
+    const attributed = sumGroups(attributedGroups);
+    const unattributed = sumGroups(groups.filter((g) => g.creator === null));
+    const reconciles =
+      total.orders === attributed.orders + unattributed.orders &&
+      total.gross === attributed.gross + unattributed.gross &&
+      total.refunded === attributed.refunded + unattributed.refunded;
+    return {
+      total: amounts(total),
+      attributed: { ...amounts(attributed), creators: attributedGroups.map((g) => ({ creator_id: g.creator as string, ...amounts(g) })) },
+      unattributed: amounts(unattributed),
+      reconciles,
+    };
+  });
+}
+
 type RefundStatus = "pending" | "applied" | "clamped";
 
 function refundView(row: RefundRow & { received_at: string }) {

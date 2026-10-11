@@ -1,27 +1,27 @@
-data: 2026-10-09T21:31:32Z  repetições por projeto e versão: 6  logs completos em: LOG_DIR
+data: 2026-10-11T01:51:12Z  repetições por projeto e versão: 6  logs completos em: LOG_DIR
 
 == node v22.15.0 (/Users/dantecosta/.nvm/versions/node/v22.15.0/bin)
-   vendas-shopify         Tests 115 passed (115) | typecheck ok
+   vendas-shopify         Tests 127 passed (127) | typecheck ok
    origem-cadastros       Tests 117 passed (117) | typecheck ok
-   rastreio-envio         Tests 245 passed (245) | typecheck ok
-   revisao-roteiro        Tests 115 passed (115) | typecheck ok
-   metricas-redes         Tests 224 passed (224) | typecheck ok
-   revisao-video          Tests 83 passed (83) | typecheck ok
-   views-suspeitas        Tests 166 passed (166) | typecheck ok
+   rastreio-envio         Tests 257 passed (257) | typecheck ok
+   revisao-roteiro        Tests 128 passed (128) | typecheck ok
+   metricas-redes         Tests 239 passed (239) | typecheck ok
+   revisao-video          Tests 120 passed (120) | typecheck ok
+   views-suspeitas        Tests 174 passed (174) | typecheck ok
    conty-challenge-debug  Tests 46 passed (46) | typecheck ok
-   conty-challenge-optimize Tests 30 passed (30) | typecheck ok
+   conty-challenge-optimize Tests 34 passed (34) | typecheck ok
    -> node v22.15.0: 54 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
 
 == node v24.7.0 (/opt/homebrew/bin)
-   vendas-shopify         Tests 115 passed (115) | typecheck ok
+   vendas-shopify         Tests 127 passed (127) | typecheck ok
    origem-cadastros       Tests 117 passed (117) | typecheck ok
-   rastreio-envio         Tests 245 passed (245) | typecheck ok
-   revisao-roteiro        Tests 115 passed (115) | typecheck ok
-   metricas-redes         Tests 224 passed (224) | typecheck ok
-   revisao-video          Tests 83 passed (83) | typecheck ok
-   views-suspeitas        Tests 166 passed (166) | typecheck ok
+   rastreio-envio         Tests 257 passed (257) | typecheck ok
+   revisao-roteiro        Tests 128 passed (128) | typecheck ok
+   metricas-redes         Tests 239 passed (239) | typecheck ok
+   revisao-video          Tests 120 passed (120) | typecheck ok
+   views-suspeitas        Tests 174 passed (174) | typecheck ok
    conty-challenge-debug  Tests 46 passed (46) | typecheck ok
-   conty-challenge-optimize Tests 30 passed (30) | typecheck ok
+   conty-challenge-optimize Tests 34 passed (34) | typecheck ok
    -> node v24.7.0: 54 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
 
 TOTAL: 108 execuções completas, 0 com falha, 0 erro(s) de typecheck

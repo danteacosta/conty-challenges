@@ -4,7 +4,7 @@ API de revisão das peças de uma entrega: **roteiro, vídeo, capa e legenda**, 
 
 ```bash
 npm install
-npm test            # 83 testes: regras puras, API, modelo de referência com propriedades, e2e HTTP, corrida entre conexões
+npm test            # 120 testes: regras puras, API, modelo de referência com propriedades, e2e HTTP, corrida entre conexões
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 npm start           # http://127.0.0.1:3015   (DB_PATH=arquivo.db para persistir)
@@ -77,6 +77,12 @@ POST /deliveries/5c1e…/pieces/video/versions
 
 Depois de `POST …/video/versions/2/approve` a entrega volta a `approved`, e o log fica `[approved, invalidated(video v2), restored(video v2)]`. O comentário da v1 (`{"second": 12, "text": "Cortar aqui"}`) continua na v1 e a v2 começa sem nenhum.
 
+## Envio idempotente, segundos seguros e cópia de comentários
+
+- **`submission_id` no envio de versão** (opcional, 1 a 200 caracteres). O mesmo id, na mesma peça da mesma entrega, com a mesma URL e a mesma duração, devolve a **versão original** (200, `submission: { id, replayed: true }`), em qualquer estado: depois da aprovação da entrega o retry não cria outra versão nem reabre a revisão. Com outra URL ou outra duração é **409 `submission_conflict`** e nada é gravado. Não deduplico só pela URL: a mesma URL com outro id é outro envio. Sem o campo, o comportamento é o de sempre. `test/submission-race.test.ts` dispara 4 conexões largando juntas, 12 bancos novos, com o mesmo conteúdo (uma versão e três repetições) e com URLs diferentes (um vencedor, 409 para o outro); trocar `BEGIN IMMEDIATE` por `BEGIN` faz os dois falharem.
+- **Segundo e duração só em inteiro seguro.** `second` e `duration_seconds` acima de 2^53 − 1 são 400 (antes, um segundo de `1e16` era aceito e depois a consulta respondia 500). O número da versão na rota também precisa ser um inteiro seguro (senão 404).
+- **Copiar comentários, só quando o revisor pede.** `POST /deliveries/:id/pieces/:piece/versions/:n/comments/copy` com `{ from_version, comment_ids }` copia os comentários escolhidos de outra versão da mesma peça para a versão `n`. Nada migra sozinho. O original não muda; a cópia guarda de onde veio (`copied_from: { version, comment_id }`); copiar de novo o mesmo comentário não duplica (vai em `already_copied`). Se algum segundo cai fora da duração do vídeo novo, a cópia **inteira é recusada** (400, `out_of_range` lista os comentários) e nada é copiado. A resposta traz um `warning`: a posição pode ter mudado no vídeo novo.
+
 ## Testes
 
 - **Regras puras** ([`domain.test.ts`](test/domain.test.ts)): peças exigidas, estados da versão, pendências e status, com uma propriedade (aprovada se e só se houve aprovação explícita e nenhuma peça exigida está pendente).
@@ -86,8 +92,8 @@ Depois de `POST …/video/versions/2/approve` a entrega volta a `approved`, e o 
 
 ## Verificação
 
-- 83 testes em Node 22.15.0 e 24.7.0; relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): ver o resumo em [`../verificacao/mutacao`](../verificacao/mutacao/RESUMO.md). O domínio (`approval`, `versions`) está em 100% e `pieces` em 95,5% (o vivo é equivalente: `typeof value === "string"` antes de `includes`, que já recusa o que não é texto). `store.ts` está em 92,4% e `app.ts` em 71,7% (no total, 431 de 507 = 85,0%): os vivos de `app.ts` são o texto das mensagens de erro (os testes afirmam `error`, `field` e `what`, não a frase), `body?.x` (equivale a `undefined` e cai na mesma validação) e a checagem `n === null`, que cai em 404 do mesmo jeito. Alguns mutantes do `store.ts` (por exemplo o evento `restored` sempre registrado) o Stryker mantém vivos, mas aplicados à mão derrubam 6 testes; registro a divergência em vez de esconder.
+- 120 testes em Node 22.15.0 e 24.7.0; relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
+- Mutação (Stryker): ver o resumo em [`../verificacao/mutacao`](../verificacao/mutacao/RESUMO.md). O domínio (`approval`, `versions`) está em 100% e `pieces` em 95,5% (o vivo é equivalente: `typeof value === "string"` antes de `includes`, que já recusa o que não é texto). `store.ts` está em 91,3% e `app.ts` em 71,9% (no total, 605 de 723 = 83,7%; a porcentagem caiu porque o código novo trouxe rotas e mensagens de erro, e os testes afirmam o status e o campo, não a frase): os vivos de `app.ts` são o texto das mensagens de erro (os testes afirmam `error`, `field` e `what`, não a frase), `body?.x` (equivale a `undefined` e cai na mesma validação) e a checagem `n === null`, que cai em 404 do mesmo jeito. Alguns mutantes do `store.ts` (por exemplo o evento `restored` sempre registrado) o Stryker mantém vivos, mas aplicados à mão derrubam 6 testes; registro a divergência em vez de esconder.
 - Mutação manual nos pontos críticos, todos pegos: peça não exigida bloqueando, exigida sem versão não bloqueando, entrega aprovada sem aprovação explícita, status ignorando as pendências, alteração pedida não bloqueando, versão aprovada recebendo alteração, versão com alteração aprovável, lista de peças com repetição ou vazia, versão antiga aprovável, evento de desfazer ou de restaurar ausente ou sempre presente, aprovação repetida duplicando o evento, numeração a partir de 0, comentário sem checar a duração, segundo `>` por `>=`, comentário do vídeo sem segundo, comentário com segundo fora do vídeo, comentários migrando entre versões, pendência sem `current_version` e ordem das peças ignorada.
 - `BEGIN IMMEDIATE` por `BEGIN` (em todas as ocorrências do `db.ts`) faz os testes de corrida falharem, 3 de 3: aqui as transações **leem antes de escrever** (conferem a entrega e o estado), então o lock tomado na primeira instrução é o que impede dois processos de decidirem sobre o mesmo estado.
 

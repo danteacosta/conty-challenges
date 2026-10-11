@@ -4,7 +4,7 @@ Ingestão de webhook de pedido (formato próximo ao do Shopify) com atribuição
 
 ```bash
 npm install
-npm test            # 115 testes: aceitação, entrada, pendente→pago, estorno em conflito, agregados exatos, propriedades, concorrência, e2e HTTP
+npm test            # 127 testes: aceitação, entrada, pendente→pago, estorno em conflito, agregados exatos, propriedades, concorrência, e2e HTTP
 npm run typecheck
 npm run mutation    # Stryker nas regras de negócio (relatório em reports/)
 npm start           # http://127.0.0.1:3010 (DB_PATH=arquivo.db para persistir)
@@ -63,6 +63,11 @@ O **crédito** da venda nasce no primeiro evento pago do pedido (`paid`, `partia
 - Os **estornos antecipados** são aplicados **uma vez**, na ordem de chegada e respeitando o teto, quando o crédito nasce; reenviar o pago ou o estorno não aplica de novo.
 - Pedido pendente que nunca for pago nunca conta, e seus estornos ficam `pending`.
 
+## Banco ocupado, reconciliação e leitura consistente
+
+- **Contenção do SQLite é 503, não 500.** `SQLITE_BUSY` e `SQLITE_LOCKED` (o `errcode` real do erro, com os 8 bits baixos do código estendido) viram **503 `database_busy`** com `Retry-After: 1`. A transação falhou inteira, então nada foi gravado, e repetir o evento depois do bloqueio grava exatamente uma vez. Qualquer outro erro de SQL continua sendo 500 `internal_error`. `openDatabase` aceita `busyTimeoutMs` (padrão 5000) para os testes não esperarem 5 s.
+- **`GET /reconciliation`**: total da loja = atribuído a criadores + sem criador, contando cada pedido creditado e cada estorno aplicado uma vez, tudo no mesmo retrato do banco e com o contrato dos valores exatos (`gross_cents`/`refunded_cents`/`net_cents` em número enquanto exato, `null` acima de 2^53, `exact` sempre em texto, BigInt). Traz `attributed.creators[]` (cada um bate com `/creators/:id/sales`), `unattributed` e `reconciles`. Pedido pendente fica fora; estorno que chegou antes do pedido pago só entra quando o crédito nasce.
+
 ## Concorrência
 
 A idempotência é garantida pelo banco, não por "consulta e depois insere": `PRIMARY KEY` / `UNIQUE` com `ON CONFLICT DO NOTHING`, dentro de `BEGIN IMMEDIATE` (WAL + `busy_timeout`). Pedido gravado e estornos pendentes aplicados são atômicos. [`test/concurrency.test.ts`](test/concurrency.test.ts) sobe 4 `worker_threads`, cada um com sua conexão ao mesmo arquivo, reenviando pedido e estornos: o resultado não duplica e não passa do teto.
@@ -72,7 +77,7 @@ A idempotência é garantida pelo banco, não por "consulta e depois insere": `P
 - Aceitação por HTTP ([`orders`](test/orders.test.ts), [`refunds`](test/refunds.test.ts)): pedido duplicado, estorno parcial, repetido, antes do pedido, teto.
 - Propriedades (fast-check, [`properties`](test/properties.test.ts)): para qualquer ordem de chegada, `estornado = min(total, soma pedida)`; reenviar eventos não muda nada.
 - E2E por servidor HTTP real em porta efêmera ([`e2e`](test/e2e.test.ts)).
-- Mutação (Stryker, 333 de 379 = 87,9%; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)): 100% em `attribution` e `refunds`, 99,2% em `store` (o único sobrevivente é a guarda que só trata o erro `integer overflow` e relança os outros: se ela fosse removida, a consulta de fallback falharia com o mesmo erro, não encontrei comportamento observável diferente, mas não provei a equivalência), 96,4% em `money` (o sobrevivente é equivalente: `Number.isFinite` antes de um regex que já recusa `NaN`/`Infinity`). `src/app.ts` entra na mutação com 76,8%: os sobreviventes são sobretudo o texto das mensagens de erro (os testes afirmam o status, não a frase) e helpers de módulo (`str`, `idOf`); os mutantes de `idOf` e da checagem de moeda eu refiz à mão e todos morrem.
+- Mutação (Stryker, 407 de 471 = 86,4%; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)): 100% em `attribution` e `refunds`, 96,4% em `money` (o sobrevivente é equivalente: `Number.isFinite` antes de um regex que já recusa `NaN`/`Infinity`) e 90,9% em `store`. Os vivos de `store` são, pelo que olhei: a guarda que só trata o erro `integer overflow` e relança os outros (a consulta de fallback falharia com o mesmo erro; não provei a equivalência); o filtro de grupos vazios e o `total` calculado agrupado, que dão o mesmo resultado; o `sort` por criador, que o `GROUP BY` pelo índice já entrega ordenado; e as três comparações de `reconciles`, que fecham por construção porque as três contas saem do mesmo retrato do banco (o teste prova o valor `true`, não que a checagem pegaria uma divergência). `src/app.ts` entra na mutação com 77,9%: os sobreviventes são sobretudo o texto das mensagens de erro (os testes afirmam o status, não a frase) e helpers de módulo (`str`, `idOf`); os mutantes de `idOf` e da checagem de moeda eu refiz à mão e todos morrem.
 - Concorrência: os workers largam juntos (barreira). Um teste usa cupom conhecido (a atribuição lê o cadastro antes de gravar) e outro dispara pendente e pago de 250 pedidos por 4 conexões, com estorno antecipado em cada um: cada crédito nasce uma vez e cada estorno é aplicado uma vez. Trocar `BEGIN IMMEDIATE` por `BEGIN` (em todas as ocorrências do `db.ts`) faz esses testes falharem; verificado à mão, 3 de 3 com 250 pedidos por worker e 5 de 5 com apenas 30.
 
 ## Fora de escopo (decisões declaradas)

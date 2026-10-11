@@ -4,7 +4,7 @@ Integra com um agregador de rastreio (fictício, "TrackHub"), traduz o dialeto d
 
 ```bash
 npm install
-npm test            # 245 testes: normalização, status, atraso, aviso, API, cliente HTTP, configuração, datas, reinício, concorrência, migração, e2e
+npm test            # 257 testes: normalização, status, atraso, aviso, API, cliente HTTP, configuração, datas, reinício, concorrência, migração, e2e
 npm run typecheck
 npm run mutation    # Stryker nas regras (relatório em reports/)
 npm start           # http://127.0.0.1:3012
@@ -92,6 +92,11 @@ O erro clássico é comparar "agora" com o início mesmo para pacotes já entreg
 
 O resto do código só conhece a interface [`TrackingAggregator`](src/aggregator/port.ts) (`register`, `fetchEvents(code, carrier)`) e os `CarrierEvent` internos. O formato do TrackHub vive só em [`src/aggregator/trackhub/`](src/aggregator/trackhub/) (`client.ts` com timeout e erros tipados `http | timeout | network | invalid_payload`, e `mapper.ts`). Um segundo agregador é outra classe que implementa a interface; o teste e2e roda o mesmo fluxo com o cliente HTTP real e com um agregador em memória.
 
+## Recadastro com outro vínculo e cadastros simultâneos
+
+- **Outro vínculo explícito é conflito.** Mesmo código e transportadora com `creator_id` ou `campaign_id` diferente do guardado é **409 `link_conflict`** (com `conflicts: [{ field, stored, provided }]`), e o cadastro original fica como está. Campo omitido não é atualização: recadastrar sem vínculo é 200 `exists`. Informar um vínculo onde o cadastro original não tinha nenhum também é 409 (não há atualização silenciosa por recadastro). A regra vale no caminho rápido e dentro da transação; um conflito já conhecido **não chama o agregador**.
+- **Uma chamada externa por código e transportadora.** Dez requisições iguais e simultâneas compartilham uma única chamada ao agregador dentro da instância (um mapa de operações pendentes por `código + transportadora`, limpo ao terminar, com sucesso ou falha). Uma falha chega a todas as que esperavam e a próxima requisição tenta de novo. A transação do banco continua curta e fora da rede; **não há coordenação entre processos**.
+
 ## Identidade do envelope
 
 O adapter confere, antes de mapear, que a resposta é do envio pedido: `tracking_number` igual ao código consultado e `courier` igual à transportadora cadastrada (sem diferenciar caixa nem espaços). Ausente, de outro tipo ou diferente é `invalid_payload`: a API responde 502 e o envio consultado **não** é alterado. Sem isso, um envelope de outro código ou de uma transportadora desconhecida seria lido com o dialeto do envio consultado (um `40` qualquer viraria entrega). Só o adapter conhece esses campos; a interface recebe a transportadora esperada justamente para poder conferir.
@@ -127,7 +132,7 @@ Com `DB_PATH` apontando para um arquivo, envios, histórico, status e avisos (in
 - API: cadastro, reconsulta sem duplicar, fora de ordem, status inventado, falha do agregador, aviso de atraso (limite exato, entrega normal, execução repetida, destino que falha).
 - Cliente HTTP contra um servidor TrackHub falso real (porta efêmera): chave de API, 404, 500, JSON malformado, timeout, rede fora do ar.
 - Jornada e2e por HTTP.
-- Mutação (Stryker): 96,0% (498 de 519; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)): `mapper` 100%, `delay` e `dialects` 100%, `config` 97,9%, `instant` 98,3%, `store` 97,8%, `normalize` 94,7%, `alerts` 90,7%, `status` 83,3%. Os vivos de `status.ts` são a `dedupeKey` como último critério do desempate (dentro de um mesmo envio todos os eventos têm a mesma transportadora, então o motivo depende só de haver ou não motivo, e esse critério final não altera nenhum resultado observável). Em `alerts.ts` o Stryker mantém vivos mutantes que, aplicados à mão, derrubam os testes (descarte nunca acontecendo, motivo de descarte fixo): registro a divergência em vez de esconder. Os demais são texto de mensagem, `ConsoleNotifier` (log) e os 2 equivalentes de `instant.ts` (o ramo do fuso `Z`). Um mutante de `index.ts` (sem `process.exit(1)`) é equivalente: o processo cai logo depois no `TypeError`, com a mesma mensagem e o código 1.
+- Mutação (Stryker): 96,3% (522 de 542; relatório em [`verificacao/mutacao`](../verificacao/mutacao/RESUMO.md)): `mapper` 100%, `delay` e `dialects` 100%, `config` 97,9%, `instant` 98,3%, `store` 100%, `normalize` 94,7%, `alerts` 90,7%, `status` 83,3%. Os vivos de `status.ts` são a `dedupeKey` como último critério do desempate (dentro de um mesmo envio todos os eventos têm a mesma transportadora, então o motivo depende só de haver ou não motivo, e esse critério final não altera nenhum resultado observável). Em `alerts.ts` o Stryker mantém vivos mutantes que, aplicados à mão, derrubam os testes (descarte nunca acontecendo, motivo de descarte fixo): registro a divergência em vez de esconder. Os demais são texto de mensagem, `ConsoleNotifier` (log) e os 2 equivalentes de `instant.ts` (o ramo do fuso `Z`). Um mutante de `index.ts` (sem `process.exit(1)`) é equivalente: o processo cai logo depois no `TypeError`, com a mesma mensagem e o código 1.
 - Concorrência: 4 workers com conexões separadas ao mesmo arquivo (a ingestão repetida de eventos e a verificação de atrasos **sem barreira de largada**: eles competem, mas não partem no mesmo instante); cada evento entra uma vez e cada aviso é entregue exatamente uma vez. Só o teste de migração abaixo usa uma barreira (`SharedArrayBuffer`) para largar as oito conexões juntas. Trocar `BEGIN IMMEDIATE` por `BEGIN` faz os testes de concorrência falharem mesmo sem barreira (verificado à mão).
 - Migração: oito conexões abrem juntas um banco com o esquema antigo; a inicialização transacional preserva envio, histórico e aviso pendente, e acrescenta as colunas de descarte uma vez. O teste repete a abertura em oito arquivos independentes.
 

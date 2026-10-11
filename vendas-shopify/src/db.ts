@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS refunds (
 CREATE INDEX IF NOT EXISTS refunds_order ON refunds (order_id, seq);
 `;
 
-export function openDatabase(path = ":memory:"): DatabaseSync {
+export function openDatabase(path = ":memory:", options: { busyTimeoutMs?: number } = {}): DatabaseSync {
   const db = new DatabaseSync(path);
-  db.exec("PRAGMA busy_timeout = 5000");
+  db.exec(`PRAGMA busy_timeout = ${Math.trunc(options.busyTimeoutMs ?? 5000)}`);
   if (path !== ":memory:") db.exec("PRAGMA journal_mode = WAL");
   db.exec(SCHEMA);
   return db;
@@ -65,4 +65,16 @@ export function readSnapshot<T>(db: DatabaseSync, read: () => T): T {
   } finally {
     db.exec("COMMIT");
   }
+}
+
+const SQLITE_BUSY = 5;
+const SQLITE_LOCKED = 6;
+
+/** Contenção do SQLite (banco ocupado ou tabela travada), pelo código real do erro: `errcode` pode ser estendido, o primário são os 8 bits baixos. */
+export function isContention(error: unknown): boolean {
+  if (typeof error !== "object" || error === null) return false;
+  const { code, errcode } = error as { code?: unknown; errcode?: unknown };
+  if (code !== "ERR_SQLITE_ERROR" || typeof errcode !== "number") return false;
+  const primary = errcode & 0xff;
+  return primary === SQLITE_BUSY || primary === SQLITE_LOCKED;
 }

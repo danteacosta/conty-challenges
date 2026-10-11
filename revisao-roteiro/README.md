@@ -4,7 +4,7 @@ API para a revisão de roteiro de uma missão: o criador manda **versões**, a m
 
 ```bash
 npm install
-npm test            # 115 testes: prazo, máquina de estados, fluxo, rodadas e retry de envio, e2e HTTP, corrida entre conexões
+npm test            # 128 testes: prazo, máquina de estados, fluxo, rodadas e retry de envio, e2e HTTP, corrida entre conexões
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 npm start           # http://127.0.0.1:3013   (DB_PATH=arquivo.db para persistir)
@@ -56,6 +56,10 @@ Sem os campos opcionais, o envio responde ao pedido de alteração que estiver a
 - `submission_id`: o id do envio, único por roteiro. Repetir o mesmo id com o mesmo conteúdo e a mesma rodada devolve a **versão original** (200, `submission.replayed: true`), em qualquer estado, inclusive depois da aprovação. O mesmo id com outro conteúdo ou outra rodada é **409 `submission_conflict`**.
 
 Não deduplico só pelo texto: conteúdo igual numa rodada nova pode ser intencional. Os campos são opcionais para não quebrar quem já usa a rota; quem os omite continua sujeito ao problema acima. O retry simultâneo do mesmo `submission_id` por várias conexões é serializado pelo `BEGIN IMMEDIATE` e pela chave primária `(script_id, submission_id)`. `test/submission-race.test.ts` dispara 4 workers com conexões separadas largando juntos, 12 vezes em bancos novos: mesmo conteúdo dá uma versão e três repetições; dois conteúdos diferentes dão um vencedor e 409 para o outro, sem versão extra. Trocar `BEGIN IMMEDIATE` por `BEGIN` faz os dois testes falharem.
+
+## Cancelar um pedido de alteração
+
+`POST /scripts/:id/change-requests/:requestId/cancel` com `{ reason, cancelled_by }` (os dois obrigatórios). O pedido **continua no histórico** (`status: "cancelled"`, com `cancellation: { at, by, reason }`) e o roteiro volta para `awaiting_review`. Um envio que declara o pedido cancelado não cria versão: se o roteiro não está pedindo alteração é `invalid_state`; se já há um pedido novo aberto é **409 `round_cancelled`** (com `open_change_request_id`), e a rodada nova não é respondida por engano. As proteções de `change_request_id` e `submission_id` continuam. Repetir o cancelamento é inofensivo e não troca o motivo; pedido já respondido é 409 `request_not_open`; roteiro aprovado é 409 `script_approved`. Cada pedido tem `status`: `open`, `answered` ou `cancelled`. `allowed_actions` em `changes_requested` agora inclui `cancel_changes`. Corrida de cancelar × responder, 4 conexões, 12 bancos novos: um só vence.
 
 ## Exemplos
 
@@ -116,8 +120,8 @@ Aprovar: `{ "state": "approved", "allowed_actions": [], "approved": { "version":
 
 ## Verificação
 
-- 115 testes em Node 22.15.0 e 24.7.0. O relatório e o script para repetir estão em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): 300 de 325 (92,3%): `transitions` e `store` 100%, `deadline.ts` 92,8%, `app.ts` 85,3%. Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
+- 128 testes em Node 22.15.0 e 24.7.0. O relatório e o script para repetir estão em [`../verificacao`](../verificacao/README.md).
+- Mutação (Stryker): 353 de 393 (89,8%): `transitions` 100%, `store` 99,3%, `deadline.ts` 92,8%, `app.ts` 79,5% (a rota nova de cancelamento trouxe mensagens de erro). Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
 - Mutação manual nos pontos críticos, todos pegos: dia em UTC, fuso UTC, `-03:00` fixo, `>=` e `<` no prazo, aprovado reabrindo (versão e pedido), aprovar com alteração pendente, `late` sempre/nunca, pedido que ignora o prazo, aprovação repetida virando erro, versão aprovada errada, pedido na versão errada, motivo sem aparar, data sem validar, mês de 31 dias, bissexto fixo e `BEGIN` no lugar de `BEGIN IMMEDIATE`.
 
 ## O que ficou de fora

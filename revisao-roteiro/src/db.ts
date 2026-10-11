@@ -47,6 +47,11 @@ export function openDatabase(path = ":memory:"): DatabaseSync {
   db.exec("PRAGMA busy_timeout = 5000");
   if (path !== ":memory:") db.exec("PRAGMA journal_mode = WAL");
   db.exec(SCHEMA);
+  // Cancelamento de pedido de alteração (auditoria): o pedido original continua, só ganha quem, quando e por quê.
+  const columns = db.prepare("PRAGMA table_info(change_requests)").all() as Array<{ name: string }>;
+  for (const column of ["cancelled_at", "cancelled_by", "cancel_reason"]) {
+    if (!columns.some((c) => c.name === column)) db.exec(`ALTER TABLE change_requests ADD COLUMN ${column} TEXT`);
+  }
   return db;
 }
 

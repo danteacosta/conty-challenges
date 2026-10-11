@@ -1,7 +1,8 @@
 import type { DatabaseSync } from "node:sqlite";
 import { Hono } from "hono";
+import { isContention } from "./db.ts";
 import { toCents } from "./money.ts";
-import { creatorSales, getOrder, getRefund, ingestOrder, ingestRefund, listRefunds, registerCreator } from "./store.ts";
+import { creatorSales, getOrder, getRefund, ingestOrder, ingestRefund, listRefunds, reconciliation, registerCreator } from "./store.ts";
 
 const str = (v: unknown): string | null =>
   typeof v === "string" && v.trim() !== "" ? v.trim() : typeof v === "number" && Number.isFinite(v) ? String(v) : null;
@@ -17,6 +18,15 @@ export function createApp(db: DatabaseSync, now: () => string = () => new Date()
   const app = new Hono();
 
   app.get("/health", (c) => c.json({ ok: true }));
+
+  // Banco ocupado não é defeito: o evento não foi gravado (a transação falhou inteira) e repetir depois grava uma vez só.
+  app.onError((error, c) => {
+    if (isContention(error)) {
+      c.header("Retry-After", "1");
+      return c.json({ error: "database_busy", retryable: true, message: "o banco está ocupado; nada foi gravado, repita o envio" }, 503);
+    }
+    return c.json({ error: "internal_error" }, 500);
+  });
 
   app.post("/creators", async (c) => {
     const b = await c.req.json().catch(() => null);
@@ -86,6 +96,8 @@ export function createApp(db: DatabaseSync, now: () => string = () => new Date()
     }
     return c.json(listRefunds(db, { status, orderId: c.req.query("order_id") }));
   });
+
+  app.get("/reconciliation", (c) => c.json(reconciliation(db)));
 
   app.get("/creators/:id/sales", (c) => c.json(creatorSales(db, c.req.param("id"))));
 

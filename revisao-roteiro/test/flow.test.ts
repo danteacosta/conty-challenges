@@ -12,7 +12,7 @@ describe("fluxo inteiro, sem adivinhar o estado", () => {
 
     const requested = await t.requestChanges(id, { reason: "Abrir com o produto na mão", deadline_date: "2026-03-14" });
     expect(requested.status).toBe(201);
-    expect(requested.body).toMatchObject({ state: "changes_requested", allowed_actions: ["submit_version"] });
+    expect(requested.body).toMatchObject({ state: "changes_requested", allowed_actions: ["submit_version", "cancel_changes"] });
     expect(requested.body.change_requests).toMatchObject([
       { version_number: 1, reason: "Abrir com o produto na mão", deadline_date: "2026-03-14", answered_by_version: null },
     ]);
@@ -202,7 +202,7 @@ describe("regras de estado", () => {
     await t.requestChanges(body.id, { reason: "A", deadline_date: "2026-03-20" });
     const second = await t.requestChanges(body.id, { reason: "B", deadline_date: "2026-03-20" });
     expect(second.status).toBe(409);
-    expect(second.body).toMatchObject({ error: "invalid_state", state: "changes_requested", allowed_actions: ["submit_version"] });
+    expect(second.body).toMatchObject({ error: "invalid_state", state: "changes_requested", allowed_actions: ["submit_version", "cancel_changes"] });
   });
 
   it("não se manda versão nova sem pedido de alteração", async () => {

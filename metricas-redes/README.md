@@ -4,7 +4,7 @@ Serviço que, dada uma conexão **já autorizada** (token fictício), sincroniza
 
 ```bash
 npm install
-npm test            # 224 testes: retry, Retry-After, adapters, sync, cliente HTTP (inclusive corpo interrompido), configuração, e2e nas 4 redes, corrida
+npm test            # 239 testes: retry, Retry-After, adapters, sync, cliente HTTP (inclusive corpo interrompido), configuração, e2e nas 4 redes, corrida
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 
@@ -49,6 +49,11 @@ src/store.ts             PostSnapshot, ProviderError  (formato de cada rede)
 | `POST /connections/:id/sync` `{since, until}` | sincroniza os posts **publicados** entre `since` e `until` (ISO-8601 com fuso). 200 `succeeded`, 202 `deferred`, 502 `failed`. |
 | `GET /connections/:id/metrics` | o número atual de cada post, os totais, e **quando cada métrica foi buscada**. |
 | `GET /connections/:id/syncs` | o histórico de sincronizações (da mais nova para a mais antiga) com tentativas, esperas e resultado. |
+
+## Conflito de snapshot e `last_checked_at`
+
+- **Mesma identidade, contadores diferentes é conflito, não duplicata.** Se a conexão, o post e o `as_of` já existem mas views, likes, comments ou shares mudaram (100 e depois 999), o snapshot canônico (o primeiro) **não muda**, os totais não mudam e a divergência vai para `snapshot_conflicts`. Cada valor contraditório distinto é uma linha; repetir o mesmo valor só soma uma ocorrência, então a auditoria não cresce sem limite. Um conflito não interrompe o lote: os outros posts da página entram. A sync devolve `conflicts` (separado de `duplicates`) e `GET /connections/:id/metrics` traz `conflicts[]` com o canônico, o observado, as ocorrências e a primeira e a última vez. **Decisão aberta**: o provedor pode corrigir uma métrica com o mesmo `as_of`; eu não sobrescrevo nem acuso erro, só deixo visível; uma política de reconciliação (por exemplo, aceitar a correção do provedor) é decisão de produto.
+- **`last_checked_at`**: quando o post foi consultado com sucesso pela última vez, separado de `fetched_at` (quando o snapshot atual foi buscado) e de `as_of` (o horário da métrica no provedor), que mantêm o significado. Receber o mesmo snapshot de novo, ou um mais antigo, confirma a consulta e avança o campo; uma falha da sync e um post ausente da resposta não avançam; uma resposta com relógio anterior não o faz regredir (só `MAX`). O total em `last_checked_at` é o do post consultado mais recentemente.
 
 ## Como a idempotência funciona
 
@@ -118,8 +123,8 @@ A rede e as esperas acontecem fora das transações. Se a **segunda página** fa
 
 ## Verificação
 
-- 224 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): 615 de 641 (95,9%): `retry` 100%, `retry-after` 97,4%, `store` 98,3%, `sync` 98,5%, `instant` 98,3%, `adapters` 96,1%, `config` 95,7%, `http` 89,1%. Os vivos de `http.ts` são sobretudo o texto das mensagens de erro (os testes afirmam o tipo da falha, não a frase) e dois ramos equivalentes (`catch {}` do JSON e `typeof body` antes de ler `data`, que dão `invalid_payload` de qualquer jeito). Em `store.ts`, `>=` no lugar de `>` do `as_of` é equivalente: um snapshot com o mesmo `as_of` já foi barrado antes como duplicado.
+- 239 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
+- Mutação (Stryker): 649 de 677 (95,9%): `retry` 100%, `retry-after` 97,4%, `store` 98,3%, `sync` 98,5%, `instant` 98,3%, `adapters` 96,1%, `config` 95,7%, `http` 89,1%. Os vivos de `http.ts` são sobretudo o texto das mensagens de erro (os testes afirmam o tipo da falha, não a frase) e dois ramos equivalentes (`catch {}` do JSON e `typeof body` antes de ler `data`, que dão `invalid_payload` de qualquer jeito). Em `store.ts`, `>=` no lugar de `>` do `as_of` é equivalente: um snapshot com o mesmo `as_of` já foi barrado antes como duplicado.
 - Mutação manual nos pontos críticos, todos pegos: tentativas (`>`/`>=`), teto do `Retry-After`, backoff, erro do cliente repetido, data passada do `Retry-After`, unidade (ms), época em segundos, contador negativo, 500/408, cursor, leitura do cabeçalho errado, snapshot atrasado substituindo o atual, "sempre substitui", `retry_at` no passado, espera não registrada ou não feita, tentativas não contadas, cursor repetido, teto de páginas, erro inesperado, token devolvido, códigos 202/502 e janela invertida.
 - **`BEGIN IMMEDIATE` por `BEGIN` não é detectado, e é equivalente aqui**: toda transação deste projeto começa por uma escrita (`INSERT`/`UPDATE`), então o lock é tomado na primeira instrução de qualquer jeito. O `IMMEDIATE` fica como defesa para uma transação futura que leia antes de escrever. O que a corrida protege (e os testes provam) é a idempotência por chave: sem `ON CONFLICT` ou com "sempre substitui" o teste de concorrência falha.
 

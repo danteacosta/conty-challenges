@@ -24,7 +24,7 @@ type Terminal = { status: "succeeded" | "failed" | "deferred"; error: string | n
  */
 export async function syncConnection(db: DatabaseSync, deps: SyncDeps, connection: Connection, window: { since: string; until: string }) {
   const runId = startRun(db, connection.id, window, deps.now());
-  const counters: RunCounters = { attempts: 0, pages: 0, received: 0, new_snapshots: 0, duplicates: 0, stale: 0, invalid: 0, waits_ms: [] };
+  const counters: RunCounters = { attempts: 0, pages: 0, received: 0, new_snapshots: 0, duplicates: 0, stale: 0, conflicts: 0, invalid: 0, waits_ms: [] };
   let terminal: Terminal = { status: "succeeded", error: null, retryAt: null };
   let cursor: string | null = null;
   const seenCursors = new Set<string>();
@@ -77,6 +77,7 @@ export async function syncConnection(db: DatabaseSync, deps: SyncDeps, connectio
     counters.new_snapshots += stored.new_snapshots;
     counters.duplicates += stored.duplicates;
     counters.stale += stored.stale;
+    counters.conflicts += stored.conflicts;
 
     if (page.nextCursor === null) break;
     if (seenCursors.has(page.nextCursor)) {

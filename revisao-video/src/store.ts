@@ -17,9 +17,9 @@ type VersionRow = {
   submitted_at: string;
   decided_at: string | null;
 };
-type CommentRow = { id: number; version_id: number; second: number | null; text: string; author: string | null; created_at: string };
+type CommentRow = { id: number; version_id: number; second: number | null; text: string; author: string | null; created_at: string; copied_from_comment_id?: number | null };
 
-export type FailureCode = "not_found" | "version_superseded" | "version_not_pending" | "pieces_pending" | "validation_error";
+export type FailureCode = "not_found" | "version_superseded" | "version_not_pending" | "pieces_pending" | "validation_error" | "submission_conflict";
 export type Failure = { ok: false; code: FailureCode; [detail: string]: unknown };
 const fail = (code: FailureCode, detail: Record<string, unknown> = {}): Failure => ({ ok: false, code, ...detail });
 
@@ -168,11 +168,32 @@ function logEvent(db: DatabaseSync, deliveryId: string, kind: "approved" | "inva
   );
 }
 
-/** Uma versão nova vira a atual (a de maior número) e a anterior continua legível. Se desfaz a aprovação da entrega, isso vai para o log. */
-export function submitVersion(db: DatabaseSync, input: { deliveryId: string; piece: PieceType; url: string; durationSeconds: number | null }, now: () => Date) {
+/**
+ * Uma versão nova vira a atual (a de maior número) e a anterior continua legível. Se desfaz a aprovação da entrega, isso vai para
+ * o log. Com `submissionId`, repetir o mesmo envio (mesma URL e duração) devolve a versão original, em qualquer estado da
+ * entrega, sem criar outra nem reabrir a revisão; o mesmo id com outro conteúdo é `submission_conflict`.
+ */
+export function submitVersion(
+  db: DatabaseSync,
+  input: { deliveryId: string; piece: PieceType; url: string; durationSeconds: number | null; submissionId?: string },
+  now: () => Date,
+) {
   return inTransaction(db, () => {
     const delivery = findDelivery(db, input.deliveryId);
     if (!delivery) return fail("not_found", { what: "delivery" });
+
+    if (input.submissionId !== undefined) {
+      const previous = db
+        .prepare("SELECT url, duration_seconds, version_number FROM version_submissions WHERE delivery_id = ? AND piece_type = ? AND submission_id = ?")
+        .get(input.deliveryId, input.piece, input.submissionId) as { url: string; duration_seconds: number | null; version_number: number } | undefined;
+      if (previous) {
+        if (previous.url !== input.url || previous.duration_seconds !== input.durationSeconds) return fail("submission_conflict");
+        const row = findVersion(db, input.deliveryId, input.piece, previous.version_number) as VersionRow;
+        const commentsCount = (db.prepare("SELECT COUNT(*) AS n FROM comments WHERE version_id = ?").get(row.id) as { n: number }).n;
+        const isCurrent = previous.version_number === currentNumber(db, input.deliveryId, input.piece);
+        return { ok: true as const, version: versionView(row, isCurrent, commentsCount), deliveryStatus: statusOf(db, delivery), submission: { id: input.submissionId, replayed: true } };
+      }
+    }
 
     const before = statusOf(db, delivery);
     const number = (currentNumber(db, input.deliveryId, input.piece) ?? 0) + 1;
@@ -185,12 +206,27 @@ export function submitVersion(db: DatabaseSync, input: { deliveryId: string; pie
       input.durationSeconds,
       at.toISOString(),
     );
+    if (input.submissionId !== undefined) {
+      db.prepare("INSERT INTO version_submissions (delivery_id, piece_type, submission_id, url, duration_seconds, version_number) VALUES (?, ?, ?, ?, ?, ?)").run(
+        input.deliveryId,
+        input.piece,
+        input.submissionId,
+        input.url,
+        input.durationSeconds,
+        number,
+      );
+    }
     const after = statusOf(db, delivery);
     if (before === "approved" && after === "in_review") {
       logEvent(db, input.deliveryId, "invalidated", input.piece, number, { reason: "new_version_of_required_piece" }, at);
     }
     const row = findVersion(db, input.deliveryId, input.piece, number) as VersionRow;
-    return { ok: true as const, version: versionView(row, true, 0), deliveryStatus: after };
+    return {
+      ok: true as const,
+      version: versionView(row, true, 0),
+      deliveryStatus: after,
+      submission: input.submissionId === undefined ? undefined : { id: input.submissionId, replayed: false },
+    };
   });
 }
 
@@ -263,12 +299,20 @@ export function getVersion(db: DatabaseSync, deliveryId: string, piece: PieceTyp
     version: {
       ...versionView(version, number === currentNumber(db, deliveryId, piece), comments.length),
       piece,
-      comments: comments.map((c) => commentView(c, number)),
+      comments: comments.map((c) => commentView(c, number, c.copied_from_comment_id ? originVersionOf(db, c.copied_from_comment_id) : null)),
     },
   };
 }
 
-const commentView = (c: CommentRow, version: number) => ({ id: c.id, version, second: c.second, text: c.text, author: c.author, created_at: c.created_at });
+const commentView = (c: CommentRow, version: number, copiedFromVersion: number | null = null) => ({
+  id: c.id,
+  version,
+  second: c.second,
+  text: c.text,
+  author: c.author,
+  created_at: c.created_at,
+  ...(c.copied_from_comment_id ? { copied_from: { version: copiedFromVersion, comment_id: c.copied_from_comment_id } } : {}),
+});
 
 /** O comentário fica preso a UMA versão e, no vídeo, a um segundo dela. Nas outras peças vale para a peça toda. */
 export function addComment(
@@ -293,5 +337,64 @@ export function addComment(
     const at = now().toISOString();
     const result = db.prepare("INSERT INTO comments (version_id, second, text, author, created_at) VALUES (?, ?, ?, ?, ?)").run(version.id, input.second, input.text, input.author, at);
     return { ok: true as const, comment: commentView({ id: Number(result.lastInsertRowid), version_id: version.id, second: input.second, text: input.text, author: input.author, created_at: at }, input.number) };
+  });
+}
+
+const originVersionOf = (db: DatabaseSync, commentId: number): number | null =>
+  (db.prepare("SELECT v.number AS n FROM comments c JOIN piece_versions v ON v.id = c.version_id WHERE c.id = ?").get(commentId) as { n: number } | undefined)?.n ?? null;
+
+export const COPY_WARNING = "os comentários foram copiados com o mesmo segundo; o vídeo novo pode ter mudado, confira se a posição ainda faz sentido";
+
+/**
+ * Copia comentários escolhidos de outra versão da mesma peça para a versão `number`. É sempre uma ação explícita: nada migra
+ * sozinho. O original não muda; a cópia guarda de onde veio. Copiar de novo o mesmo comentário não duplica (vai para
+ * `already_copied`). Se algum segundo cai fora da duração do vídeo novo, a cópia inteira é recusada e os comentários listados.
+ */
+export function copyComments(
+  db: DatabaseSync,
+  input: { deliveryId: string; piece: PieceType; number: number; fromVersion: number; commentIds: number[] },
+  now: () => Date,
+) {
+  return inTransaction(db, () => {
+    if (!findDelivery(db, input.deliveryId)) return fail("not_found", { what: "delivery" });
+    const target = findVersion(db, input.deliveryId, input.piece, input.number);
+    if (!target) return fail("not_found", { what: "version" });
+    const source = findVersion(db, input.deliveryId, input.piece, input.fromVersion);
+    if (!source || source.number === target.number) {
+      return fail("validation_error", { field: "from_version", message: "from_version deve ser outra versão existente desta peça" });
+    }
+
+    const picked: CommentRow[] = [];
+    for (const id of input.commentIds) {
+      const row = db.prepare("SELECT * FROM comments WHERE id = ? AND version_id = ?").get(id, source.id) as CommentRow | undefined;
+      if (!row) return fail("validation_error", { field: "comment_ids", message: `o comentário ${id} não existe na versão ${source.number}` });
+      picked.push(row);
+    }
+
+    const already = new Set(
+      (db.prepare("SELECT copied_from_comment_id AS id FROM comments WHERE version_id = ? AND copied_from_comment_id IS NOT NULL").all(target.id) as Array<{ id: number }>).map((r) => r.id),
+    );
+    const fresh = picked.filter((c) => !already.has(c.id));
+    const outOfRange = fresh.filter((c) => c.second !== null && target.duration_seconds !== null && c.second > target.duration_seconds);
+    if (outOfRange.length > 0) {
+      return fail("validation_error", {
+        field: "comment_ids",
+        message: `há comentários em segundos que o vídeo da versão ${target.number} (${target.duration_seconds} s) não tem; nada foi copiado`,
+        out_of_range: outOfRange.map((c) => ({ comment_id: c.id, second: c.second, duration_seconds: target.duration_seconds })),
+      });
+    }
+
+    const at = now().toISOString();
+    const insert = db.prepare("INSERT INTO comments (version_id, second, text, author, created_at, copied_from_comment_id) VALUES (?, ?, ?, ?, ?, ?)");
+    const copied = fresh.map((c) => {
+      const result = insert.run(target.id, c.second, c.text, c.author, at, c.id);
+      return commentView({ id: Number(result.lastInsertRowid), version_id: target.id, second: c.second, text: c.text, author: c.author, created_at: at, copied_from_comment_id: c.id }, target.number, source.number);
+    });
+    return {
+      ok: true as const,
+      copied,
+      already_copied: picked.filter((c) => already.has(c.id)).map((c) => ({ comment_id: c.id })),
+      warning: COPY_WARNING,
+    };
   });
 }

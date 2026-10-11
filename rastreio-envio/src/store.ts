@@ -33,11 +33,25 @@ export function findShipment(db: DatabaseSync, code: string): ShipmentRow | unde
   return db.prepare("SELECT * FROM shipments WHERE tracking_code = ?").get(code) as ShipmentRow | undefined;
 }
 
+export type Links = { creatorId: string | null; campaignId: string | null };
+export type LinkConflict = { field: "creator_id" | "campaign_id"; stored: string | null; provided: string };
+
+/**
+ * Vínculos informados que divergem do cadastro. Campo omitido (null) não é atualização e nunca diverge; um valor informado
+ * diferente do guardado, inclusive de um campo que estava vazio, é conflito: o cadastro original não é reescrito por recadastro.
+ */
+export function linkConflicts(stored: { creator_id: string | null; campaign_id: string | null }, provided: Links): LinkConflict[] {
+  const conflicts: LinkConflict[] = [];
+  if (provided.creatorId !== null && provided.creatorId !== stored.creator_id) conflicts.push({ field: "creator_id", stored: stored.creator_id, provided: provided.creatorId });
+  if (provided.campaignId !== null && provided.campaignId !== stored.campaign_id) conflicts.push({ field: "campaign_id", stored: stored.campaign_id, provided: provided.campaignId });
+  return conflicts;
+}
+
 export function registerShipment(
   db: DatabaseSync,
   shipment: { code: string; carrier: string; creatorId: string | null; campaignId: string | null },
   now: () => Date,
-): "created" | "exists" | "conflict" {
+): "created" | "exists" | "conflict" | "link_conflict" {
   return inTransaction(db, () => {
     const inserted = db
       .prepare(
@@ -46,7 +60,9 @@ export function registerShipment(
       )
       .run(shipment.code, shipment.carrier, shipment.creatorId, shipment.campaignId, now().toISOString());
     if (inserted.changes === 1) return "created" as const;
-    return findShipment(db, shipment.code)?.carrier === shipment.carrier ? ("exists" as const) : ("conflict" as const);
+    const stored = findShipment(db, shipment.code) as ShipmentRow;
+    if (stored.carrier !== shipment.carrier) return "conflict" as const;
+    return linkConflicts(stored, shipment).length > 0 ? ("link_conflict" as const) : ("exists" as const);
   });
 }
 

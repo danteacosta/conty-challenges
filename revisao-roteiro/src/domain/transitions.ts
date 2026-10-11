@@ -3,11 +3,11 @@
  * `approved` não tem saída: aprovar encerra a revisão e a aprovação não reabre.
  */
 export type State = "awaiting_review" | "changes_requested" | "approved";
-export type Action = "request_changes" | "submit_version" | "approve";
+export type Action = "request_changes" | "submit_version" | "approve" | "cancel_changes";
 
 const TRANSITIONS: Record<State, Partial<Record<Action, State>>> = {
   awaiting_review: { request_changes: "changes_requested", approve: "approved" },
-  changes_requested: { submit_version: "awaiting_review" },
+  changes_requested: { submit_version: "awaiting_review", cancel_changes: "awaiting_review" },
   approved: {},
 };
 

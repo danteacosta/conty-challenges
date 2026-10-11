@@ -48,6 +48,17 @@ CREATE TABLE IF NOT EXISTS comments (
 );
 CREATE INDEX IF NOT EXISTS comments_version ON comments (version_id, second, id);
 
+-- Um envio com id: o retry do mesmo envio devolve a versão original em vez de criar outra.
+CREATE TABLE IF NOT EXISTS version_submissions (
+  delivery_id TEXT NOT NULL,
+  piece_type TEXT NOT NULL,
+  submission_id TEXT NOT NULL,
+  url TEXT NOT NULL,
+  duration_seconds INTEGER,
+  version_number INTEGER NOT NULL,
+  PRIMARY KEY (delivery_id, piece_type, submission_id)
+);
+
 -- Append-only: por que a entrega está como está (aprovada, desfeita por uma versão nova, restaurada).
 CREATE TABLE IF NOT EXISTS delivery_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,6 +77,10 @@ export function openDatabase(path = ":memory:"): DatabaseSync {
   db.exec("PRAGMA busy_timeout = 5000");
   if (path !== ":memory:") db.exec("PRAGMA journal_mode = WAL");
   db.exec(SCHEMA);
+  // Cópia de comentário (opcional, a pedido do revisor): guarda o comentário de origem e impede copiar duas vezes para a mesma versão.
+  const columns = db.prepare("PRAGMA table_info(comments)").all() as Array<{ name: string }>;
+  if (!columns.some((c) => c.name === "copied_from_comment_id")) db.exec("ALTER TABLE comments ADD COLUMN copied_from_comment_id INTEGER");
+  db.exec("CREATE UNIQUE INDEX IF NOT EXISTS comments_copy_once ON comments (version_id, copied_from_comment_id) WHERE copied_from_comment_id IS NOT NULL");
   return db;
 }
 

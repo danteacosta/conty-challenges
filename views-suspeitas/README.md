@@ -6,7 +6,7 @@ Os números de acerto abaixo são medidos **no meu dataset sintético**, gerado 
 
 ```bash
 npm install
-npm test               # 166 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
+npm test               # 174 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
 npm run typecheck
 npm run mutation       # Stryker (relatório em reports/)
 
@@ -149,6 +149,53 @@ Resumo das três taxas por parte (falso positivo / abstenção em legítimos / r
 | holdout | <!--m:holdout_fpr-->0,3%<!--/m--> | <!--m:holdout_abstain-->35,2%<!--/m--> | <!--m:holdout_recall-->55,3%<!--/m--> |
 | total | <!--m:overall_fpr-->0,2%<!--/m--> | <!--m:overall_abstain-->35,2%<!--/m--> | <!--m:overall_recall-->54,3%<!--/m--> |
 
+### Sensibilidade por volume e duração
+
+As taxas acima misturam volumes e durações. Este experimento mede cada faixa separadamente, com **outra semente** (`SENSITIVITY_SEED`), sem ter servido para ajustar nenhum limiar, e com a mesma regra de leitura: falso positivo, abstenção e recall juntos. Cada combinação de volume típico × duração é gerada com as 15 famílias que não fixam o próprio volume (`low_volume` fica de fora, porque o volume é o ponto dela), 4 casos por família. Continua sendo o meu dataset sintético, não tráfego real.
+
+<!-- sensitivity:start -->
+| Volume típico | Legítimos | Falsos positivos (FPR) | Abstenção em legítimos | Suspeitos | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| muito baixo (~10/h) | 160 | 0 (0,0%) | 100,0% | 80 | 18,8% |
+| baixo (~100/h) | 160 | 2 (1,3%) | 29,4% | 80 | 68,8% |
+| médio (~500/h) | 160 | 0 (0,0%) | 30,0% | 80 | 60,0% |
+| alto (~2.000/h) | 160 | 0 (0,0%) | 31,9% | 80 | 52,5% |
+| muito alto (~10.000/h) | 160 | 0 (0,0%) | 31,9% | 80 | 45,0% |
+
+| Duração da série | Legítimos | Falsos positivos (FPR) | Abstenção em legítimos | Suspeitos | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 3 dias (72 h) | 200 | 0 (0,0%) | 49,5% | 100 | 51,0% |
+| 7 dias (168 h) | 200 | 1 (0,5%) | 43,5% | 100 | 48,0% |
+| 30 dias (720 h) | 200 | 1 (0,5%) | 42,5% | 100 | 49,0% |
+| 60 dias (1.440 h) | 200 | 0 (0,0%) | 43,0% | 100 | 48,0% |
+
+| Volume × duração | Legítimos | Falsos positivos (FPR) | Abstenção em legítimos | Suspeitos | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| muito baixo (~10/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 100,0% | 20 | 20,0% |
+| muito baixo (~10/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 100,0% | 20 | 25,0% |
+| muito baixo (~10/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 100,0% | 20 | 15,0% |
+| muito baixo (~10/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 100,0% | 20 | 15,0% |
+| baixo (~100/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 35,0% | 20 | 70,0% |
+| baixo (~100/h) × 7 dias (168 h) | 40 | 1 (2,5%) | 27,5% | 20 | 60,0% |
+| baixo (~100/h) × 30 dias (720 h) | 40 | 1 (2,5%) | 27,5% | 20 | 75,0% |
+| baixo (~100/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 27,5% | 20 | 70,0% |
+| médio (~500/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 37,5% | 20 | 60,0% |
+| médio (~500/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 27,5% | 20 | 55,0% |
+| médio (~500/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 25,0% | 20 | 60,0% |
+| médio (~500/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 30,0% | 20 | 65,0% |
+| alto (~2.000/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 37,5% | 20 | 55,0% |
+| alto (~2.000/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 32,5% | 20 | 55,0% |
+| alto (~2.000/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 30,0% | 20 | 50,0% |
+| alto (~2.000/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 27,5% | 20 | 50,0% |
+| muito alto (~10.000/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 37,5% | 20 | 50,0% |
+| muito alto (~10.000/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 30,0% | 20 | 45,0% |
+| muito alto (~10.000/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 30,0% | 20 | 45,0% |
+| muito alto (~10.000/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 30,0% | 20 | 40,0% |
+<!-- sensitivity:end -->
+
+Como ler: cada célula do cruzamento tem só 40 legítimos e 20 suspeitos, então **um falso positivo a mais ou a menos muda a taxa em 2,5 pontos**; as faixas por volume e por duração (200 e 160 legítimos) são mais estáveis, mas nenhuma é uma estimativa precisa. O que a tabela mostra com clareza: (1) com volume muito baixo o classificador **abstém-se em todos os legítimos** (nada é acusado, e o recall cai para perto de um quinto: a maior parte da compra passa); (2) o recall **cai com o volume**: a regularidade é medida contra o ruído de contagem, e quanto maior o volume mais fácil é uma compra com jitter parecer tráfego real, então ela vira dúvida ou passa; (3) os dois falsos positivos são transmissões ao vivo geradas com volume ~100/h, com regularidade 1,08 e 1,38 (abaixo do limite de 1,5): em volume baixo o ruído de contagem é grande, e a variação de audiência de 4% a 10% que o gerador dá a uma transmissão fica perto dele; é o mesmo mecanismo do falso positivo do `holdout`. Isso não foi usado para recalibrar nada.
+
+
 **Estabilidade entre sementes.** O número do `holdout` não é uma semente de sorte: rodei o mesmo critério, sem mexer em nada, em seis outros pares de sementes (`test/stability.test.ts`). O falso positivo ficou entre 0% e 0,2% do total, a abstenção em legítimos entre 34% e 35% e o recall entre 56% e 60%. O teste exige falso positivo de no máximo 1%, abstenção entre 30% e 40% e recall entre 45% e 70% em cada uma.
 
 Dois pontos para ler esses números:
@@ -159,9 +206,9 @@ Dois pontos para ler esses números:
 ## Como foi verificado
 
 - **Testes primeiro**, vistos falhando pelo motivo certo (módulo inexistente) antes de qualquer código. Os casos óbvios usam séries **montadas à mão** (`test/series.ts`), não o gerador do dataset.
-- **Stryker** nos módulos de regra (`stats`, `signals`, `classify`, `evaluate`, `readme`): 881 de 935 mutantes mortos (94,2%). A primeira rodada deu 73%: os mutantes vivos apontaram testes que faltavam nas bordas de cada limiar e **um defeito real** (um pico menor logo depois de um pico maior reabria o grupo de horas já usado e gerava um sinal falso; corrigido em `findPeaks` e coberto por teste).
+- **Stryker** nos módulos de regra (`stats`, `signals`, `classify`, `evaluate`, `readme`): 868 de 935 mutantes mortos (92,8%, com `vitest.stryker.config.ts`, que deixa de fora os testes que sobem processos ou geram o dataset várias vezes: cli, sensibilidade e estabilidade). A primeira rodada deu 73%: os mutantes vivos apontaram testes que faltavam nas bordas de cada limiar e **um defeito real** (um pico menor logo depois de um pico maior reabria o grupo de horas já usado e gerava um sinal falso; corrigido em `findPeaks` e coberto por teste).
 - **Mutação manual dos limiares** de `criteria.ts` (cada um para cima e para baixo, 44 mutantes): todos morrem. Vários só morrem por causa da trava do README (mudar um limiar muda a taxa medida e o teste de sincronia falha), o que é uma função útil dela.
-- Os 54 mutantes vivos restantes são, pelo que olhei, de três tipos: bordas de laço (`i < n` contra `i <= n`, que só lê `series[n]` indefinido), igualdade exata de ponto flutuante em limiares (`<` contra `<=` com 1,5 de regularidade) e o texto de algumas frases. Não afirmo que todos são equivalentes: o relatório completo sai de `npm run mutation`.
+- Os 67 mutantes vivos restantes são, pelo que olhei, de três tipos: bordas de laço (`i < n` contra `i <= n`, que só lê `series[n]` indefinido), igualdade exata de ponto flutuante em limiares (`<` contra `<=` com 1,5 de regularidade) e o texto de algumas frases. Não afirmo que todos são equivalentes: o relatório completo sai de `npm run mutation`.
 
 ## Decisões
 

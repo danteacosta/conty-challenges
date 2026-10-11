@@ -4,7 +4,7 @@ import { allowedActions, nextState, type Action, type State } from "../src/domai
 describe("máquina de estados do roteiro", () => {
   it.each<[State, Action[]]>([
     ["awaiting_review", ["approve", "request_changes"]],
-    ["changes_requested", ["submit_version"]],
+    ["changes_requested", ["submit_version", "cancel_changes"]],
     ["approved", []],
   ])("em %s só se pode: %j", (state, actions) => {
     expect([...allowedActions(state)].sort()).toEqual([...actions].sort());
@@ -30,7 +30,7 @@ describe("máquina de estados do roteiro", () => {
   });
 
   it("aprovado é terminal: nenhuma ação leva para fora dele", () => {
-    for (const action of ["approve", "request_changes", "submit_version"] as Action[]) {
+    for (const action of ["approve", "request_changes", "submit_version", "cancel_changes"] as Action[]) {
       expect(nextState("approved", action)).toBeNull();
     }
   });

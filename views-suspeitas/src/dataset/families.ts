@@ -1,7 +1,9 @@
 import type { Rng } from "./rng.ts";
 
 export type FamilyLabel = "legit" | "suspicious";
-export type Family = { name: string; label: FamilyLabel; description: string; build: (rng: Rng) => number[] };
+/** Para o experimento de sensibilidade: fixa o volume típico e/ou a duração da série. Sem opções, o resultado é o de sempre. */
+export type BuildOptions = { level?: number; hours?: number };
+export type Family = { name: string; label: FamilyLabel; description: string; build: (rng: Rng, options?: BuildOptions) => number[] };
 
 // ---------- tráfego orgânico: média por hora + ruído de contagem + ruído de audiência
 
@@ -24,8 +26,8 @@ type Shape = {
   noise: number;
 };
 
-const randomShape = (rng: Rng, overrides: Partial<Shape> = {}): Shape => ({
-  level: rng.int(150, 4000),
+const randomShape = (rng: Rng, overrides: Partial<Shape> = {}, options?: BuildOptions): Shape => ({
+  level: options?.level ?? rng.int(150, 4000),
   diurnal: rng.between(0.2, 0.55),
   weekend: rng.between(0.85, 1.05),
   growth: 0,
@@ -73,46 +75,46 @@ const overwrite = (series: number[], start: number, values: number[]) => values.
 
 // ---------- legítimos
 
-const steadyDaily = (rng: Rng) => {
-  const hours = randomHours(rng);
-  return realize(rng, expectedViews(rng, hours, randomShape(rng)), randomShape(rng).noise);
+const steadyDaily = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  return realize(rng, expectedViews(rng, hours, randomShape(rng, {}, options)), randomShape(rng, {}, options).noise);
 };
 
-const weekendDip = (rng: Rng) => {
-  const hours = randomHours(rng, 14, 28);
-  const shape = randomShape(rng, { weekend: rng.between(0.45, 0.7), diurnal: rng.between(0.2, 0.4) });
+const weekendDip = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng, 14, 28);
+  const shape = randomShape(rng, { weekend: rng.between(0.45, 0.7), diurnal: rng.between(0.2, 0.4) }, options);
   return realize(rng, expectedViews(rng, hours, shape), shape.noise);
 };
 
-const slowGrowth = (rng: Rng) => {
-  const hours = randomHours(rng, 10, 20);
-  const shape = randomShape(rng, { growth: rng.between(0.5, 2) });
+const slowGrowth = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng, 10, 20);
+  const shape = randomShape(rng, { growth: rng.between(0.5, 2) }, options);
   return realize(rng, expectedViews(rng, hours, shape), shape.noise);
 };
 
-const globalAudience = (rng: Rng) => {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng, { diurnal: rng.between(0, 0.08), weekend: 1, noise: rng.between(0.03, 0.06) });
+const globalAudience = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, { diurnal: rng.between(0, 0.08), weekend: 1, noise: rng.between(0.03, 0.06) }, options);
   return realize(rng, expectedViews(rng, hours, shape), shape.noise);
 };
 
-const lowVolume = (rng: Rng) => {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng, { level: rng.int(1, 12), diurnal: rng.between(0.2, 0.5), noise: 0.1 });
+const lowVolume = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, { level: rng.int(1, 12), diurnal: rng.between(0.2, 0.5), noise: 0.1 }, options);
   return realize(rng, expectedViews(rng, hours, shape), shape.noise);
 };
 
-const organicViral = (rng: Rng) => {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng);
+const organicViral = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, {}, options);
   const expected = expectedViews(rng, hours, shape);
   addSpike(expected, startIn(rng, hours, 60), shape.level * rng.between(8, 40), rng.int(2, 5), rng.between(0.8, 0.93));
   return realize(rng, expected, shape.noise);
 };
 
-const newsDoubleSpike = (rng: Rng) => {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng);
+const newsDoubleSpike = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, {}, options);
   const expected = expectedViews(rng, hours, shape);
   const first = rng.int(30, Math.max(31, hours - 100));
   addSpike(expected, first, shape.level * rng.between(8, 30), rng.int(1, 3), rng.between(0.75, 0.9));
@@ -120,9 +122,9 @@ const newsDoubleSpike = (rng: Rng) => {
   return realize(rng, expected, shape.noise);
 };
 
-const premiere = (rng: Rng) => {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng);
+const premiere = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, {}, options);
   const expected = expectedViews(rng, hours, shape);
   const start = startIn(rng, hours, 60);
   addSpike(expected, start, shape.level * rng.between(10, 30), 1, rng.between(0.35, 0.6));
@@ -130,9 +132,9 @@ const premiere = (rng: Rng) => {
   return realize(rng, expected, shape.noise);
 };
 
-const liveStream = (rng: Rng) => {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng);
+const liveStream = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, {}, options);
   const expected = expectedViews(rng, hours, shape);
   const start = startIn(rng, hours, 40);
   const duration = rng.int(4, 10);
@@ -142,9 +144,9 @@ const liveStream = (rng: Rng) => {
   return realize(rng, expected, noise);
 };
 
-const viralInterrupted = (rng: Rng) => {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng);
+const viralInterrupted = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, {}, options);
   const expected = expectedViews(rng, hours, shape);
   const start = startIn(rng, hours, 40);
   const duration = rng.int(5, 12);
@@ -154,9 +156,9 @@ const viralInterrupted = (rng: Rng) => {
   return realize(rng, expected, noise);
 };
 
-const embedStep = (rng: Rng) => {
-  const hours = randomHours(rng, 9, 14);
-  const shape = randomShape(rng);
+const embedStep = (rng: Rng, options?: BuildOptions) => {
+  const hours = options?.hours ?? randomHours(rng, 9, 14);
+  const shape = randomShape(rng, {}, options);
   const expected = expectedViews(rng, hours, shape);
   const start = rng.int(48, hours - 60);
   const factor = rng.between(2.5, 6);
@@ -167,15 +169,15 @@ const embedStep = (rng: Rng) => {
 // ---------- suspeitos
 
 /** Série orgânica de fundo sobre a qual a compra é colada. */
-function backdrop(rng: Rng): { series: number[]; hours: number; level: number } {
-  const hours = randomHours(rng);
-  const shape = randomShape(rng);
+function backdrop(rng: Rng, options?: BuildOptions): { series: number[]; hours: number; level: number } {
+  const hours = options?.hours ?? randomHours(rng);
+  const shape = randomShape(rng, {}, options);
   const series = realize(rng, expectedViews(rng, hours, shape), shape.noise);
   return { series, hours, level: medianOf(series) };
 }
 
-const boughtPlateauWith = (jitter: [number, number]) => (rng: Rng) => {
-  const { series, hours, level } = backdrop(rng);
+const boughtPlateauWith = (jitter: [number, number]) => (rng: Rng, options?: BuildOptions) => {
+  const { series, hours, level } = backdrop(rng, options);
   const duration = rng.int(6, 36);
   const start = startIn(rng, hours, duration + 24);
   const target = level * rng.between(4, 20);
@@ -184,8 +186,8 @@ const boughtPlateauWith = (jitter: [number, number]) => (rng: Rng) => {
   return series;
 };
 
-const mechanicalRepeat = (rng: Rng) => {
-  const { series, hours, level } = backdrop(rng);
+const mechanicalRepeat = (rng: Rng, options?: BuildOptions) => {
+  const { series, hours, level } = backdrop(rng, options);
   const duration = rng.int(8, 30);
   const start = startIn(rng, hours, duration + 24);
   const kind = rng.pick(["identical", "progression", "cycle"] as const);
@@ -203,8 +205,8 @@ const mechanicalRepeat = (rng: Rng) => {
   return series;
 };
 
-const pulseWithoutDecay = (rng: Rng) => {
-  const { series, hours, level } = backdrop(rng);
+const pulseWithoutDecay = (rng: Rng, options?: BuildOptions) => {
+  const { series, hours, level } = backdrop(rng, options);
   const start = startIn(rng, hours, 30);
   const peak = level * rng.between(15, 60);
   overwrite(series, start, rng.chance(0.5) ? [peak] : [peak, peak * rng.between(0.3, 0.8)]);
@@ -212,8 +214,8 @@ const pulseWithoutDecay = (rng: Rng) => {
 };
 
 /** Compra que imita a forma orgânica: sobe devagar, segura com ruído natural e desce por degraus graduais. */
-const disguisedBuy = (rng: Rng) => {
-  const { series, hours, level } = backdrop(rng);
+const disguisedBuy = (rng: Rng, options?: BuildOptions) => {
+  const { series, hours, level } = backdrop(rng, options);
   const rise = rng.int(8, 16);
   const hold = rng.int(2, 3);
   const peak = level * rng.between(8, 20);

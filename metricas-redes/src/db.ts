@@ -59,6 +59,22 @@ CREATE TABLE IF NOT EXISTS sync_runs (
   finished_at TEXT
 );
 CREATE INDEX IF NOT EXISTS sync_runs_connection ON sync_runs (connection_id, id);
+
+-- Mesma identidade de snapshot (conexão + post + as_of) com contadores DIFERENTES do canônico. O canônico não muda; cada valor
+-- contraditório distinto vira uma linha, e repetir o mesmo valor só conta mais uma ocorrência (a auditoria não cresce sem limite).
+CREATE TABLE IF NOT EXISTS snapshot_conflicts (
+  connection_id TEXT NOT NULL,
+  post_id TEXT NOT NULL,
+  as_of TEXT NOT NULL,
+  views INTEGER NOT NULL,
+  likes INTEGER NOT NULL,
+  comments INTEGER NOT NULL,
+  shares INTEGER NOT NULL,
+  occurrences INTEGER NOT NULL,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at TEXT NOT NULL,
+  PRIMARY KEY (connection_id, post_id, as_of, views, likes, comments, shares)
+);
 `;
 
 export function openDatabase(path = ":memory:"): DatabaseSync {
@@ -66,7 +82,15 @@ export function openDatabase(path = ":memory:"): DatabaseSync {
   db.exec("PRAGMA busy_timeout = 5000");
   if (path !== ":memory:") db.exec("PRAGMA journal_mode = WAL");
   db.exec(SCHEMA);
+  addColumnIfMissing(db, "posts", "last_checked_at", "TEXT");
+  db.exec("UPDATE posts SET last_checked_at = fetched_at WHERE last_checked_at IS NULL");
+  addColumnIfMissing(db, "sync_runs", "conflicts", "INTEGER NOT NULL DEFAULT 0");
   return db;
+}
+
+function addColumnIfMissing(db: DatabaseSync, table: string, column: string, definition: string): void {
+  const columns = db.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>;
+  if (!columns.some((c) => c.name === column)) db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
 }
 
 /** Transação que já toma o lock de escrita (BEGIN IMMEDIATE). Nunca é mantida durante rede ou espera. */
