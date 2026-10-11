@@ -459,11 +459,11 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 - linha 8 · ConditionalExpression · Survived · `export const isPieceType = (value: unknown): value is PieceType => typeof value === "string" && (PIECE_TYPES a` → `true`
 
-## views-suspeitas: 868/935 (92.8%)
+## views-suspeitas: 862/930 (92.7%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
-| `src/dataset/readme.ts` | 101/102 | 99.0% |
+| `src/dataset/readme.ts` | 95/97 | 97.9% |
 | `src/domain/classify.ts` | 272/281 | 96.8% |
 | `src/domain/signals.ts` | 406/463 | 87.7% |
 | `src/dataset/evaluate.ts` | 55/55 | 100.0% |
@@ -473,7 +473,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/dataset/readme.ts`**
 
-- linha 63 · StringLiteral · Survived · `if (!region) problems.push('faltam os marcadores ${START} e ${END} da tabela de métricas');` → `''`
+- linha 28 · StringLiteral · NoCoverage · `return i ? '${formatPercent(i.low)}–${formatPercent(i.high)}' : "n/d";` → `""`
+- linha 79 · StringLiteral · Survived · `if (!region) problems.push('faltam os marcadores ${START} e ${END} da tabela de métricas');` → `''`
 
 **`src/domain/classify.ts`**
 
@@ -496,13 +497,13 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 36 · ArithmeticOperator · Survived · `while (j + 1 < n && series[j + 1] === series[i]) j += 1;` → `j - 1`
 - linha 42 · EqualityOperator · Survived · `for (let i = 0; i + 1 < n; ) {` → `i + 1 <= n`
 - linha 42 · ArithmeticOperator · Survived · `for (let i = 0; i + 1 < n; ) {` → `i - 1`
-- linha 45 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1]! - series[j]! === step) j += 1;` → `j + 1 <= n`
 - linha 45 · ConditionalExpression · Survived · `while (j + 1 < n && series[j + 1]! - series[j]! === step) j += 1;` → `true`
+- linha 45 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1]! - series[j]! === step) j += 1;` → `j + 1 <= n`
 - linha 45 · ArithmeticOperator · Survived · `while (j + 1 < n && series[j + 1]! - series[j]! === step) j += 1;` → `j - 1`
 - linha 46 · ConditionalExpression · Survived · `if (step !== 0 && j - i + 1 >= T.progression_min_run && series.slice(i, j + 1).every((v) => v >= min)) take({ ` → `true`
 - linha 46 · MethodExpression · Survived · `if (step !== 0 && j - i + 1 >= T.progression_min_run && series.slice(i, j + 1).every((v) => v >= min)) take({ ` → `series`
-- linha 47 · EqualityOperator · Survived · `i = step === 0 ? j + 1 : j;` → `step !== 0`
 - linha 47 · ConditionalExpression · Survived · `i = step === 0 ? j + 1 : j;` → `false`
+- linha 47 · EqualityOperator · Survived · `i = step === 0 ? j + 1 : j;` → `step !== 0`
 - linha 52 · EqualityOperator · Survived · `for (let i = p; i < n; ) {` → `i <= n`
 - linha 58 · ConditionalExpression · Survived · `while (j + 1 < n && series[j + 1] === series[j + 1 - p]) j += 1;` → `true`
 - linha 58 · EqualityOperator · Survived · `while (j + 1 < n && series[j + 1] === series[j + 1 - p]) j += 1;` → `j + 1 <= n`
@@ -520,8 +521,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 140 · EqualityOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from >= 0`
 - linha 140 · ArithmeticOperator · Survived · `while (from > 0 && !claimed.has(from - 1) && series[from - 1]! > tailThreshold) from -= 1;` → `from + 1`
 - linha 141 · ConditionalExpression · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `true`
-- linha 141 · LogicalOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to + 1 < series.length || !claimed.has(to + 1)`
 - linha 141 · ConditionalExpression · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `true`
+- linha 141 · LogicalOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to + 1 < series.length || !claimed.has(to + 1)`
 - linha 141 · EqualityOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to + 1 <= series.length`
 - linha 141 · ArithmeticOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to - 1`
 - linha 141 · ArithmeticOperator · Survived · `while (to + 1 < series.length && !claimed.has(to + 1) && series[to + 1]! > tailThreshold) to += 1;` → `to - 1`
@@ -536,8 +537,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 185 · ConditionalExpression · Survived · `if (h < 3 || h + 6 > n) continue;` → `false`
 - linha 185 · EqualityOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h + 6 >= n`
 - linha 185 · ArithmeticOperator · Survived · `if (h < 3 || h + 6 > n) continue;` → `h - 6`
-- linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `series[h - 1]! > mid`
 - linha 186 · ConditionalExpression · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `false`
+- linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `series[h - 1]! > mid`
 - linha 186 · EqualityOperator · Survived · `if (series[h - 1]! >= mid || !series.slice(h, h + 6).every((v) => v >= mid)) continue;` → `v > mid`
 - linha 187 · ConditionalExpression · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `false`
 - linha 187 · LogicalOperator · Survived · `if (series[h - 3]! > mid || series[h + 2]! < 0.8 * after) continue; // a subida tem de ser rápida` → `series[h - 3]! > mid && series[h + 2]! < 0.8 * aft`

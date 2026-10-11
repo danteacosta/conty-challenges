@@ -9,6 +9,9 @@ import { startSimulator } from "./sim.ts";
 
 let sim: Awaited<ReturnType<typeof startSimulator>>;
 let clock: FakeClock;
+// Generoso por padrão: com 150 ms, uma máquina carregada estourava o timeout de verdade num teste que não é o do timeout, a sync
+// repetia (+200 ms no relógio) e a asserção do horário falhava. Só o teste do timeout real usa um valor curto.
+let providerTimeoutMs = 3000;
 let call: (method: string, path: string, body?: unknown) => Promise<{ status: number; body: any }>;
 
 beforeAll(async () => {
@@ -16,12 +19,13 @@ beforeAll(async () => {
 });
 afterAll(() => sim.close());
 beforeEach(() => {
+  providerTimeoutMs = 3000;
   sim.state.reset();
   sim.state.now = new Date(START);
   clock = new FakeClock(START);
   const app = createApp({
     db: openDatabase(":memory:"),
-    providerFor: (connection) => new HttpMetricsProvider({ baseUrl: sim.baseUrl, network: connection.provider, timeoutMs: 150, now: clock.now }),
+    providerFor: (connection) => new HttpMetricsProvider({ baseUrl: sim.baseUrl, network: connection.provider, timeoutMs: providerTimeoutMs, now: clock.now }),
     now: clock.now,
     sleep: clock.sleep,
     policy: DEFAULT_POLICY,
@@ -67,6 +71,7 @@ describe("jornada completa, pela API e pelo provedor simulado por HTTP", () => {
   });
 
   it("timeout real do provedor: tenta de novo e conclui", async () => {
+    providerTimeoutMs = 150; // o provedor simulado demora 400 ms
     sim.state.setPosts("tiktok", "acc_1", posts);
     sim.state.behaviors = ["timeout"];
     sim.state.timeoutDelayMs = 400;

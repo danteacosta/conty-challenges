@@ -6,7 +6,7 @@ Os números de acerto abaixo são medidos **no meu dataset sintético**, gerado 
 
 ```bash
 npm install
-npm test               # 184 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
+npm test               # 195 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
 npm run typecheck
 npm run mutation       # Stryker (relatório em reports/)
 
@@ -113,9 +113,9 @@ São **16 famílias**, 11 legítimas e 5 suspeitas, 30 casos de cada em cada uma
 <!-- metrics:start -->
 | Parte | Legítimos | Falsos positivos (FPR) | Abstenções em legítimos | Suspeitos | Acusados (recall) | Suspeitos inconclusivos | Suspeitos tidos como orgânicos |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| dev (limiares ajustados aqui) | 330 | 0 (0,0%) | 116 (35,2%) | 150 | 80 (53,3%) | 38 | 32 |
-| holdout (número a citar) | 330 | 1 (0,3%) | 116 (35,2%) | 150 | 83 (55,3%) | 35 | 32 |
-| total | 660 | 1 (0,2%) | 232 (35,2%) | 300 | 163 (54,3%) | 73 | 64 |
+| dev (limiares ajustados aqui) | 330 | 0 de 330 (0,0%; IC 95% 0,0%–1,2%) | 116 de 330 (35,2%; IC 95% 30,2%–40,4%) | 150 | 80 de 150 (53,3%; IC 95% 45,4%–61,1%) | 38 | 32 |
+| holdout (número a citar) | 330 | 1 de 330 (0,3%; IC 95% 0,1%–1,7%) | 116 de 330 (35,2%; IC 95% 30,2%–40,4%) | 150 | 83 de 150 (55,3%; IC 95% 47,3%–63,1%) | 35 | 32 |
+| total | 660 | 1 de 660 (0,2%; IC 95% 0,0%–0,9%) | 232 de 660 (35,2%; IC 95% 31,6%–38,9%) | 300 | 163 de 300 (54,3%; IC 95% 48,7%–59,9%) | 73 | 64 |
 
 | Família | Rótulo | Casos | Orgânico | Inconclusivo | Suspeito |
 | --- | --- | ---: | ---: | ---: | ---: |
@@ -141,6 +141,13 @@ São **16 famílias**, 11 legítimas e 5 suspeitas, 30 casos de cada em cada uma
 - **Abstenção em legítimos: <!--m:holdout_abstain-->35,2%<!--/m-->**. Um classificador pode ter falso positivo baixo só deixando de acusar. Aqui as abstenções são deliberadas: transmissão ao vivo, viral cortado, degrau e canal pequeno viram `inconclusive`, não `suspicious`. É o preço do falso positivo baixo e está na tabela, família por família.
 - **Recall: <!--m:holdout_recall-->55,3%<!--/m-->** (<!--m:holdout_detected-->83<!--/m--> de <!--m:holdout_suspicious-->150<!--/m--> suspeitos acusados). Dos que escaparam, <!--m:holdout_susp_inconclusive-->35<!--/m--> ficaram inconclusivos (patamar com ruído natural) e <!--m:holdout_susp_missed-->32<!--/m--> foram tidos como orgânicos (a compra disfarçada, que ele não vê).
 
+**Incerteza das taxas.** Toda taxa das tabelas vem com a contagem, o denominador e um **intervalo de Wilson de 95%** (`IC 95%`), que se comporta bem com poucos casos e com zero acusações (um intervalo normal daria `[0, 0]` para "0 de 40"). No `holdout`, o falso positivo é <!--m:holdout_fp-->1<!--/m--> de <!--m:holdout_legit-->330<!--/m--> (<!--m:holdout_fpr-->0,3%<!--/m-->; IC 95% <!--m:holdout_fpr_ci-->0,1%–1,7%<!--/m-->), a abstenção em legítimos tem IC 95% <!--m:holdout_abstain_ci-->30,2%–40,4%<!--/m--> e o recall, <!--m:holdout_recall_ci-->47,3%–63,1%<!--/m-->. O que o intervalo é e o que não é:
+
+- É a incerteza de **amostragem** do que foi medido, supondo casos independentes. Com 330 legítimos, "zero acusações" só garante, com 95% de confiança, que a taxa verdadeira **no meu gerador** é de no máximo cerca de 1,2%; com 40 legítimos por célula (sensibilidade) ou por família (avaliação independente), o teto de "zero acusações" é cerca de 8,8%. Uma célula com 0 de 40 **não** mostra que o falso positivo ali é zero.
+- **Não** é incerteza sobre tráfego real. Os casos vêm de famílias que eu escrevi; se elas não representam o mundo, o intervalo não captura isso. E casos da mesma família não são independentes de verdade (mesma regra de geração), então o intervalo é otimista.
+- Comparar duas faixas pelos pontos médios engana. O que se sustenta: o recall de volume baixo (68,8%; IC 95% 57,9%–77,8%) e o de volume muito alto (45,0%; IC 34,6%–55,9%) **não se sobrepõem**, e a abstenção de volume muito baixo (100%, IC 97,7%–100%) é de outra ordem que a das demais. O que não se sustenta: entre faixas vizinhas (médio e alto, por exemplo) os intervalos se sobrepõem, e os 2 falsos positivos de volume baixo (1,3%; IC 0,3%–4,4%) são compatíveis com o 0 das outras faixas.
+- Os intervalos não fazem parte do critério e não foram usados para ajustar nada.
+
 Resumo das três taxas por parte (falso positivo / abstenção em legítimos / recall):
 
 | Parte | FPR | Abstenção | Recall |
@@ -156,41 +163,41 @@ As taxas acima misturam volumes e durações. Este experimento mede cada faixa s
 <!-- sensitivity:start -->
 | Volume típico | Legítimos | Falsos positivos (FPR) | Abstenção em legítimos | Suspeitos | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| muito baixo (~10/h) | 160 | 0 (0,0%) | 100,0% | 80 | 18,8% |
-| baixo (~100/h) | 160 | 2 (1,3%) | 29,4% | 80 | 68,8% |
-| médio (~500/h) | 160 | 0 (0,0%) | 30,0% | 80 | 60,0% |
-| alto (~2.000/h) | 160 | 0 (0,0%) | 31,9% | 80 | 52,5% |
-| muito alto (~10.000/h) | 160 | 0 (0,0%) | 31,9% | 80 | 45,0% |
+| muito baixo (~10/h) | 160 | 0 de 160 (0,0%; IC 95% 0,0%–2,3%) | 160 de 160 (100,0%; IC 95% 97,7%–100,0%) | 80 | 15 de 80 (18,8%; IC 95% 11,7%–28,7%) |
+| baixo (~100/h) | 160 | 2 de 160 (1,3%; IC 95% 0,3%–4,4%) | 47 de 160 (29,4%; IC 95% 22,9%–36,8%) | 80 | 55 de 80 (68,8%; IC 95% 57,9%–77,8%) |
+| médio (~500/h) | 160 | 0 de 160 (0,0%; IC 95% 0,0%–2,3%) | 48 de 160 (30,0%; IC 95% 23,4%–37,5%) | 80 | 48 de 80 (60,0%; IC 95% 49,0%–70,0%) |
+| alto (~2.000/h) | 160 | 0 de 160 (0,0%; IC 95% 0,0%–2,3%) | 51 de 160 (31,9%; IC 95% 25,2%–39,4%) | 80 | 42 de 80 (52,5%; IC 95% 41,7%–63,1%) |
+| muito alto (~10.000/h) | 160 | 0 de 160 (0,0%; IC 95% 0,0%–2,3%) | 51 de 160 (31,9%; IC 95% 25,2%–39,4%) | 80 | 36 de 80 (45,0%; IC 95% 34,6%–55,9%) |
 
 | Duração da série | Legítimos | Falsos positivos (FPR) | Abstenção em legítimos | Suspeitos | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| 3 dias (72 h) | 200 | 0 (0,0%) | 49,5% | 100 | 51,0% |
-| 7 dias (168 h) | 200 | 1 (0,5%) | 43,5% | 100 | 48,0% |
-| 30 dias (720 h) | 200 | 1 (0,5%) | 42,5% | 100 | 49,0% |
-| 60 dias (1.440 h) | 200 | 0 (0,0%) | 43,0% | 100 | 48,0% |
+| 3 dias (72 h) | 200 | 0 de 200 (0,0%; IC 95% 0,0%–1,9%) | 99 de 200 (49,5%; IC 95% 42,6%–56,4%) | 100 | 51 de 100 (51,0%; IC 95% 41,3%–60,6%) |
+| 7 dias (168 h) | 200 | 1 de 200 (0,5%; IC 95% 0,1%–2,8%) | 87 de 200 (43,5%; IC 95% 36,8%–50,4%) | 100 | 48 de 100 (48,0%; IC 95% 38,5%–57,7%) |
+| 30 dias (720 h) | 200 | 1 de 200 (0,5%; IC 95% 0,1%–2,8%) | 85 de 200 (42,5%; IC 95% 35,9%–49,4%) | 100 | 49 de 100 (49,0%; IC 95% 39,4%–58,7%) |
+| 60 dias (1.440 h) | 200 | 0 de 200 (0,0%; IC 95% 0,0%–1,9%) | 86 de 200 (43,0%; IC 95% 36,3%–49,9%) | 100 | 48 de 100 (48,0%; IC 95% 38,5%–57,7%) |
 
 | Volume × duração | Legítimos | Falsos positivos (FPR) | Abstenção em legítimos | Suspeitos | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| muito baixo (~10/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 100,0% | 20 | 20,0% |
-| muito baixo (~10/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 100,0% | 20 | 25,0% |
-| muito baixo (~10/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 100,0% | 20 | 15,0% |
-| muito baixo (~10/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 100,0% | 20 | 15,0% |
-| baixo (~100/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 35,0% | 20 | 70,0% |
-| baixo (~100/h) × 7 dias (168 h) | 40 | 1 (2,5%) | 27,5% | 20 | 60,0% |
-| baixo (~100/h) × 30 dias (720 h) | 40 | 1 (2,5%) | 27,5% | 20 | 75,0% |
-| baixo (~100/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 27,5% | 20 | 70,0% |
-| médio (~500/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 37,5% | 20 | 60,0% |
-| médio (~500/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 27,5% | 20 | 55,0% |
-| médio (~500/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 25,0% | 20 | 60,0% |
-| médio (~500/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 30,0% | 20 | 65,0% |
-| alto (~2.000/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 37,5% | 20 | 55,0% |
-| alto (~2.000/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 32,5% | 20 | 55,0% |
-| alto (~2.000/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 30,0% | 20 | 50,0% |
-| alto (~2.000/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 27,5% | 20 | 50,0% |
-| muito alto (~10.000/h) × 3 dias (72 h) | 40 | 0 (0,0%) | 37,5% | 20 | 50,0% |
-| muito alto (~10.000/h) × 7 dias (168 h) | 40 | 0 (0,0%) | 30,0% | 20 | 45,0% |
-| muito alto (~10.000/h) × 30 dias (720 h) | 40 | 0 (0,0%) | 30,0% | 20 | 45,0% |
-| muito alto (~10.000/h) × 60 dias (1.440 h) | 40 | 0 (0,0%) | 30,0% | 20 | 40,0% |
+| muito baixo (~10/h) × 3 dias (72 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 40 de 40 (100,0%; IC 95% 91,2%–100,0%) | 20 | 4 de 20 (20,0%; IC 95% 8,1%–41,6%) |
+| muito baixo (~10/h) × 7 dias (168 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 40 de 40 (100,0%; IC 95% 91,2%–100,0%) | 20 | 5 de 20 (25,0%; IC 95% 11,2%–46,9%) |
+| muito baixo (~10/h) × 30 dias (720 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 40 de 40 (100,0%; IC 95% 91,2%–100,0%) | 20 | 3 de 20 (15,0%; IC 95% 5,2%–36,0%) |
+| muito baixo (~10/h) × 60 dias (1.440 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 40 de 40 (100,0%; IC 95% 91,2%–100,0%) | 20 | 3 de 20 (15,0%; IC 95% 5,2%–36,0%) |
+| baixo (~100/h) × 3 dias (72 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 14 de 40 (35,0%; IC 95% 22,1%–50,5%) | 20 | 14 de 20 (70,0%; IC 95% 48,1%–85,5%) |
+| baixo (~100/h) × 7 dias (168 h) | 40 | 1 de 40 (2,5%; IC 95% 0,4%–12,9%) | 11 de 40 (27,5%; IC 95% 16,1%–42,8%) | 20 | 12 de 20 (60,0%; IC 95% 38,7%–78,1%) |
+| baixo (~100/h) × 30 dias (720 h) | 40 | 1 de 40 (2,5%; IC 95% 0,4%–12,9%) | 11 de 40 (27,5%; IC 95% 16,1%–42,8%) | 20 | 15 de 20 (75,0%; IC 95% 53,1%–88,8%) |
+| baixo (~100/h) × 60 dias (1.440 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 11 de 40 (27,5%; IC 95% 16,1%–42,8%) | 20 | 14 de 20 (70,0%; IC 95% 48,1%–85,5%) |
+| médio (~500/h) × 3 dias (72 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 15 de 40 (37,5%; IC 95% 24,2%–53,0%) | 20 | 12 de 20 (60,0%; IC 95% 38,7%–78,1%) |
+| médio (~500/h) × 7 dias (168 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 11 de 40 (27,5%; IC 95% 16,1%–42,8%) | 20 | 11 de 20 (55,0%; IC 95% 34,2%–74,2%) |
+| médio (~500/h) × 30 dias (720 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 10 de 40 (25,0%; IC 95% 14,2%–40,2%) | 20 | 12 de 20 (60,0%; IC 95% 38,7%–78,1%) |
+| médio (~500/h) × 60 dias (1.440 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 12 de 40 (30,0%; IC 95% 18,1%–45,4%) | 20 | 13 de 20 (65,0%; IC 95% 43,3%–81,9%) |
+| alto (~2.000/h) × 3 dias (72 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 15 de 40 (37,5%; IC 95% 24,2%–53,0%) | 20 | 11 de 20 (55,0%; IC 95% 34,2%–74,2%) |
+| alto (~2.000/h) × 7 dias (168 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 13 de 40 (32,5%; IC 95% 20,1%–48,0%) | 20 | 11 de 20 (55,0%; IC 95% 34,2%–74,2%) |
+| alto (~2.000/h) × 30 dias (720 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 12 de 40 (30,0%; IC 95% 18,1%–45,4%) | 20 | 10 de 20 (50,0%; IC 95% 29,9%–70,1%) |
+| alto (~2.000/h) × 60 dias (1.440 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 11 de 40 (27,5%; IC 95% 16,1%–42,8%) | 20 | 10 de 20 (50,0%; IC 95% 29,9%–70,1%) |
+| muito alto (~10.000/h) × 3 dias (72 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 15 de 40 (37,5%; IC 95% 24,2%–53,0%) | 20 | 10 de 20 (50,0%; IC 95% 29,9%–70,1%) |
+| muito alto (~10.000/h) × 7 dias (168 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 12 de 40 (30,0%; IC 95% 18,1%–45,4%) | 20 | 9 de 20 (45,0%; IC 95% 25,8%–65,8%) |
+| muito alto (~10.000/h) × 30 dias (720 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 12 de 40 (30,0%; IC 95% 18,1%–45,4%) | 20 | 9 de 20 (45,0%; IC 95% 25,8%–65,8%) |
+| muito alto (~10.000/h) × 60 dias (1.440 h) | 40 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 12 de 40 (30,0%; IC 95% 18,1%–45,4%) | 20 | 8 de 20 (40,0%; IC 95% 21,9%–61,3%) |
 <!-- sensitivity:end -->
 
 Como ler: cada célula do cruzamento tem só 40 legítimos e 20 suspeitos, então **um falso positivo a mais ou a menos muda a taxa em 2,5 pontos**; as faixas por volume e por duração (200 e 160 legítimos) são mais estáveis, mas nenhuma é uma estimativa precisa. O que a tabela mostra com clareza: (1) com volume muito baixo o classificador **abstém-se em todos os legítimos** (nada é acusado, e o recall cai para perto de um quinto: a maior parte da compra passa); (2) o recall **cai com o volume**: a regularidade é medida contra o ruído de contagem, e quanto maior o volume mais fácil é uma compra com jitter parecer tráfego real, então ela vira dúvida ou passa; (3) os dois falsos positivos são transmissões ao vivo geradas com volume ~100/h, com regularidade 1,08 e 1,38 (abaixo do limite de 1,5): em volume baixo o ruído de contagem é grande, e a variação de audiência de 4% a 10% que o gerador dá a uma transmissão fica perto dele; é o mesmo mecanismo do falso positivo do `holdout`. Isso não foi usado para recalibrar nada.
@@ -203,11 +210,11 @@ Sensibilidade variando volume e duração ainda usa as famílias do meu gerador.
 <!-- independent:start -->
 | Família | Casos | Orgânico | Inconclusivo | Acusado (falso positivo) | Abstenção |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| starts_at_peak | 40 | 40 | 0 | 0 (0,0%) | 0,0% |
-| zeros_before_publication | 40 | 7 | 33 | 0 (0,0%) | 82,5% |
-| short_ramp | 40 | 40 | 0 | 0 (0,0%) | 0,0% |
-| other_tail_model | 40 | 40 | 0 | 0 (0,0%) | 0,0% |
-| total | 160 | 127 | 33 | 0 (0,0%) | 20,6% |
+| starts_at_peak | 40 | 40 | 0 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) |
+| zeros_before_publication | 40 | 7 | 33 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 33 de 40 (82,5%; IC 95% 68,1%–91,3%) |
+| short_ramp | 40 | 40 | 0 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) |
+| other_tail_model | 40 | 40 | 0 | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) | 0 de 40 (0,0%; IC 95% 0,0%–8,8%) |
+| total | 160 | 127 | 33 | 0 de 160 (0,0%; IC 95% 0,0%–2,3%) | 33 de 160 (20,6%; IC 95% 15,1%–27,5%) |
 <!-- independent:end -->
 
 O que isso mostrou:
@@ -226,7 +233,7 @@ Dois pontos para ler esses números:
 ## Como foi verificado
 
 - **Testes primeiro**, vistos falhando pelo motivo certo (módulo inexistente) antes de qualquer código. Os casos óbvios usam séries **montadas à mão** (`test/series.ts`), não o gerador do dataset.
-- **Stryker** nos módulos de regra (`stats`, `signals`, `classify`, `evaluate`, `readme`): 868 de 935 mutantes mortos (92,8%, com `vitest.stryker.config.ts`, que deixa de fora os testes que sobem processos ou geram o dataset várias vezes: cli, sensibilidade e estabilidade). A primeira rodada deu 73%: os mutantes vivos apontaram testes que faltavam nas bordas de cada limiar e **um defeito real** (um pico menor logo depois de um pico maior reabria o grupo de horas já usado e gerava um sinal falso; corrigido em `findPeaks` e coberto por teste).
+- **Stryker** nos módulos de regra (`stats`, `signals`, `classify`, `evaluate`, `readme`): 862 de 930 mutantes mortos (92,7%, com `vitest.stryker.config.ts`, que deixa de fora os testes que sobem processos ou geram o dataset várias vezes: cli, sensibilidade e estabilidade). A primeira rodada deu 73%: os mutantes vivos apontaram testes que faltavam nas bordas de cada limiar e **um defeito real** (um pico menor logo depois de um pico maior reabria o grupo de horas já usado e gerava um sinal falso; corrigido em `findPeaks` e coberto por teste).
 - **Mutação manual dos limiares** de `criteria.ts` (cada um para cima e para baixo, 44 mutantes): todos morrem. Vários só morrem por causa da trava do README (mudar um limiar muda a taxa medida e o teste de sincronia falha), o que é uma função útil dela.
 - Os 67 mutantes vivos restantes são, pelo que olhei, de três tipos: bordas de laço (`i < n` contra `i <= n`, que só lê `series[n]` indefinido), igualdade exata de ponto flutuante em limiares (`<` contra `<=` com 1,5 de regularidade) e o texto de algumas frases. Não afirmo que todos são equivalentes: o relatório completo sai de `npm run mutation`.
 

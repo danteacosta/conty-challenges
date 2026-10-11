@@ -86,7 +86,7 @@ describe("o mapeamento do relatório para o README, com um relatório montado à
   it("as linhas da tabela seguem a ordem do cabeçalho", () => {
     const lines = renderMetricsTable(manual).split("\n");
     expect(lines[0]).toBe("| Parte | Legítimos | Falsos positivos (FPR) | Abstenções em legítimos | Suspeitos | Acusados (recall) | Suspeitos inconclusivos | Suspeitos tidos como orgânicos |");
-    expect(lines[3]).toBe("| holdout (número a citar) | 20 | 2 (10,0%) | 4 (20,0%) | 10 | 6 (60,0%) | 2 | 14 |");
+    expect(lines[3]).toBe("| holdout (número a citar) | 20 | 2 de 20 (10,0%; IC 95% 2,8%–30,1%) | 4 de 20 (20,0%; IC 95% 8,1%–41,6%) | 10 | 6 de 10 (60,0%; IC 95% 31,3%–83,2%) | 2 | 14 |");
     expect(lines.at(-1)).toBe("| a$&b | legítimo | 4 | 3 | 1 | 0 |");
   });
 

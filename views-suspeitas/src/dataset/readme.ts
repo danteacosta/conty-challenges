@@ -1,11 +1,11 @@
 import type { Metrics, Report } from "./evaluate.ts";
+import { formatCount, formatPercent, wilsonInterval } from "./intervals.ts";
 
 const START = "<!-- metrics:start -->";
 const END = "<!-- metrics:end -->";
 const REGION = /<!-- metrics:start -->[\s\S]*?<!-- metrics:end -->/;
 
-/** 0,045 vira "4,5%": vírgula decimal e uma casa, como no README. */
-export const formatPercent = (fraction: number): string => `${(fraction * 100).toFixed(1).replace(".", ",")}%`;
+export { formatPercent } from "./intervals.ts";
 
 /** Os números citados no texto do README, cada um preso a um marcador `<!--m:nome-->valor<!--/m-->`. */
 export function inlineMetrics(report: Report): Record<string, string> {
@@ -23,12 +23,28 @@ export function inlineMetrics(report: Report): Record<string, string> {
   out.holdout_suspicious = String(h.suspicious_total);
   out.holdout_susp_inconclusive = String(h.suspicious_inconclusive);
   out.holdout_susp_missed = String(h.suspicious_missed);
+  const range = (k: number, n: number) => {
+    const i = wilsonInterval(k, n);
+    return i ? `${formatPercent(i.low)}–${formatPercent(i.high)}` : "n/d";
+  };
+  out.holdout_fpr_ci = range(h.false_positive, h.legit_total);
+  out.holdout_abstain_ci = range(h.legit_inconclusive, h.legit_total);
+  out.holdout_recall_ci = range(h.detected, h.suspicious_total);
   return out;
 }
 
 const row = (cells: Array<string | number>) => `| ${cells.join(" | ")} |`;
 const metricsRow = (name: string, m: Metrics) =>
-  row([name, m.legit_total, `${m.false_positive} (${formatPercent(m.false_positive_rate)})`, `${m.legit_inconclusive} (${formatPercent(m.legit_inconclusive_rate)})`, m.suspicious_total, `${m.detected} (${formatPercent(m.recall)})`, `${m.suspicious_inconclusive}`, `${m.suspicious_missed}`]);
+  row([
+    name,
+    m.legit_total,
+    formatCount(m.false_positive, m.legit_total),
+    formatCount(m.legit_inconclusive, m.legit_total),
+    m.suspicious_total,
+    formatCount(m.detected, m.suspicious_total),
+    `${m.suspicious_inconclusive}`,
+    `${m.suspicious_missed}`,
+  ]);
 
 /** As duas tabelas do README: por parte do dataset e por família. */
 export function renderMetricsTable(report: Report): string {

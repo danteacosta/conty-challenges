@@ -3,7 +3,7 @@ import { evaluate, type Metrics, type Verdict } from "./evaluate.ts";
 import { FAMILIES, type FamilyLabel } from "./families.ts";
 import { type Case } from "./generate.ts";
 import { createRng, deriveSeed } from "./rng.ts";
-import { formatPercent } from "./readme.ts";
+import { formatCount } from "./intervals.ts";
 
 /**
  * Sensibilidade por volume e duração. É um experimento À PARTE do dev/holdout: usa outra semente e não serviu para ajustar
@@ -78,10 +78,10 @@ const REGION = /<!-- sensitivity:start -->[\s\S]*?<!-- sensitivity:end -->/;
 const row = (cells: Array<string | number>) => `| ${cells.join(" | ")} |`;
 const cell = (m: Metrics) => [
   m.legit_total,
-  `${m.false_positive} (${formatPercent(m.false_positive_rate)})`,
-  formatPercent(m.legit_inconclusive_rate),
+  formatCount(m.false_positive, m.legit_total),
+  formatCount(m.legit_inconclusive, m.legit_total),
   m.suspicious_total,
-  formatPercent(m.recall),
+  formatCount(m.detected, m.suspicious_total),
 ];
 const HEADER = ["Legítimos", "Falsos positivos (FPR)", "Abstenção em legítimos", "Suspeitos", "Recall"];
 

@@ -1,4 +1,4 @@
-data: 2026-10-11T13:28:12Z  repetições por projeto e versão: 6  logs completos em: LOG_DIR
+data: 2026-10-11T14:14:25Z  repetições por projeto e versão: 6  logs completos em: LOG_DIR
 
 == node v22.15.0 (/Users/dantecosta/.nvm/versions/node/v22.15.0/bin)
    vendas-shopify         Tests 127 passed (127) | typecheck ok
@@ -7,9 +7,9 @@ data: 2026-10-11T13:28:12Z  repetições por projeto e versão: 6  logs completo
    revisao-roteiro        Tests 160 passed (160) | typecheck ok
    metricas-redes         Tests 296 passed (296) | typecheck ok
    revisao-video          Tests 120 passed (120) | typecheck ok
-   views-suspeitas        Tests 184 passed (184) | typecheck ok
-   conty-challenge-debug  Tests 83 passed (83) | typecheck ok
-   conty-challenge-optimize Tests 34 passed (34) | typecheck ok
+   views-suspeitas        Tests 195 passed (195) | typecheck ok
+   conty-challenge-debug  Tests 82 passed (82) | typecheck ok
+   conty-challenge-optimize Tests 38 passed (38) | typecheck ok
    -> node v22.15.0: 54 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
 
 == node v24.7.0 (/opt/homebrew/bin)
@@ -19,9 +19,9 @@ data: 2026-10-11T13:28:12Z  repetições por projeto e versão: 6  logs completo
    revisao-roteiro        Tests 160 passed (160) | typecheck ok
    metricas-redes         Tests 296 passed (296) | typecheck ok
    revisao-video          Tests 120 passed (120) | typecheck ok
-   views-suspeitas        Tests 184 passed (184) | typecheck ok
-   conty-challenge-debug  Tests 83 passed (83) | typecheck ok
-   conty-challenge-optimize Tests 34 passed (34) | typecheck ok
+   views-suspeitas        Tests 195 passed (195) | typecheck ok
+   conty-challenge-debug  Tests 82 passed (82) | typecheck ok
+   conty-challenge-optimize Tests 38 passed (38) | typecheck ok
    -> node v24.7.0: 54 suítes completas, 0 com falha, 0 projeto(s) com erro de typecheck
 
 TOTAL: 108 execuções completas, 0 com falha, 0 erro(s) de typecheck

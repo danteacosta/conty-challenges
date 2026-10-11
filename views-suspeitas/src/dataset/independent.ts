@@ -1,7 +1,7 @@
 import { classify } from "../domain/classify.ts";
 import { evaluate, type Metrics, type Verdict } from "./evaluate.ts";
 import { type Case } from "./generate.ts";
-import { formatPercent } from "./readme.ts";
+import { formatCount } from "./intervals.ts";
 import { createRng, deriveSeed, type Rng } from "./rng.ts";
 
 /**
@@ -143,7 +143,7 @@ const row = (cells: Array<string | number>) => `| ${cells.join(" | ")} |`;
 
 export function renderIndependent(report: IndependentReport): string {
   const line = (name: string, f: { total: number; organic: number; inconclusive: number; suspicious: number }) =>
-    row([name, f.total, f.organic, f.inconclusive, `${f.suspicious} (${formatPercent(f.total === 0 ? 0 : f.suspicious / f.total)})`, formatPercent(f.total === 0 ? 0 : f.inconclusive / f.total)]);
+    row([name, f.total, f.organic, f.inconclusive, formatCount(f.suspicious, f.total), formatCount(f.inconclusive, f.total)]);
   const total = { total: report.overall.legit_total, organic: report.overall.legit_total - report.overall.false_positive - report.overall.legit_inconclusive, inconclusive: report.overall.legit_inconclusive, suspicious: report.overall.false_positive };
   return [
     row(["Família", "Casos", "Orgânico", "Inconclusivo", "Acusado (falso positivo)", "Abstenção"]),
