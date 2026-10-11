@@ -100,7 +100,7 @@ export function createApp(options: AppOptions) {
     });
   });
 
-  app.post("/jobs/check-delays", async (c) => c.json(await checkDelays(db, { now, thresholdHours, notifier })));
+  app.post("/jobs/check-delays", async (c) => c.json(await checkDelays(db, { now, thresholdHours, notifier, aggregator })));
 
   app.get("/alerts", (c) => c.json(listAlerts(db)));
 

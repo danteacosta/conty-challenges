@@ -5,17 +5,12 @@
  */
 export type Config = { port: number; dbPath: string; providerUrl: string; providerTimeoutMs: number; maxRetryAfterMs: number };
 
-/** A URL sem usuário, senha, query e hash: pode ser registrada em log e em mensagem de erro. */
-export function redactUrl(raw: string): string {
+/** Só a origem (protocolo, host e porta): é o que pode ir para o log. Usuário, senha, caminho, query e hash podem ter segredo. */
+export function originOf(raw: string): string {
   try {
-    const url = new URL(raw);
-    url.username = "";
-    url.password = "";
-    url.search = "";
-    url.hash = "";
-    return url.toString();
+    return new URL(raw).origin;
   } catch {
-    return raw.replace(/\/\/[^/@\s]*@/g, "//").replace(/[?#].*$/, "");
+    return "(URL inválida)";
   }
 }
 
@@ -59,7 +54,8 @@ export function loadConfig(env: Env): Config {
     const protocol = new URL(providerUrl).protocol;
     if (protocol !== "http:" && protocol !== "https:") throw new Error("protocolo");
   } catch {
-    problems.push(`PROVIDER_URL deve ser uma URL http ou https (recebido: ${JSON.stringify(redactUrl(providerUrl))})`);
+    // O valor recebido NÃO é repetido: uma URL mal escrita pode ter usuário, senha ou token no meio.
+    problems.push("PROVIDER_URL deve ser uma URL http ou https (o valor recebido não é repetido aqui por poder conter credenciais)");
   }
 
   if (problems.length > 0) throw new ConfigError(problems);

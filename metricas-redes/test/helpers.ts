@@ -1,3 +1,4 @@
+import type { DatabaseSync } from "node:sqlite";
 import { createApp } from "../src/app.ts";
 import { openDatabase } from "../src/db.ts";
 import type { Policy } from "../src/domain/retry.ts";
@@ -8,11 +9,12 @@ export const ALL = { since: "2026-01-01T00:00:00.000Z", until: "2026-12-31T23:59
 
 export const DEFAULT_POLICY: Policy = { maxAttempts: 4, baseDelayMs: 200, maxBackoffMs: 5000, maxRetryAfterMs: 30_000 };
 
-export function setup(options: { policy?: Partial<Policy>; maxPages?: number } = {}) {
-  const clock = new FakeClock(START);
+export function setup(options: { policy?: Partial<Policy>; maxPages?: number; db?: DatabaseSync; start?: string } = {}) {
+  const clock = new FakeClock(options.start ?? START);
+  const db = options.db ?? openDatabase(":memory:");
   const provider = new FakeProvider(clock);
   const app = createApp({
-    db: openDatabase(":memory:"),
+    db,
     providerFor: () => provider,
     now: clock.now,
     sleep: clock.sleep,
@@ -29,6 +31,7 @@ export function setup(options: { policy?: Partial<Policy>; maxPages?: number } =
   };
   return {
     app,
+    db,
     clock,
     provider,
     call,

@@ -4,7 +4,7 @@ API para a revisão de roteiro de uma missão: o criador manda **versões**, a m
 
 ```bash
 npm install
-npm test            # 143 testes: prazo, máquina de estados, fluxo, rodadas e retry de envio, e2e HTTP, corrida entre conexões
+npm test            # 160 testes: prazo, máquina de estados, fluxo, rodadas e retry de envio, e2e HTTP, corrida entre conexões
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 npm start           # http://127.0.0.1:3013   (DB_PATH=arquivo.db para persistir)
@@ -59,7 +59,9 @@ Não deduplico só pelo texto: conteúdo igual numa rodada nova pode ser intenci
 
 ## Decidir sobre a versão que se examinou (`expected_version`)
 
-Quem leu a v1 pode decidir depois que a v2 já nasceu: uma aprovação atrasada aprovaria uma versão que ela nunca examinou. Por isso `POST /scripts/:id/approve` e `POST /scripts/:id/change-requests` aceitam `expected_version` (inteiro positivo, opcional), **conferido dentro da transação**. Se não é a versão atual, a resposta é **409 `stale_version`** (com `expected_version` e `current_version`) e nada muda. O estado inválido tem precedência (`invalid_state`/`script_approved` antes da conferência). O retry de uma aprovação já feita continua inofensivo: com a versão que foi aprovada devolve 200 sem mudar a data; com outra versão é 409. **Compatibilidade**: o campo é opcional e clientes antigos, sem ele, continuam decidindo sobre a versão atual (o mesmo risco de antes, só que agora é uma escolha do cliente). `test/expected-version.test.ts` inclui o caso em que a v2 nasce depois da leitura e antes da gravação.
+Quem leu a v1 pode decidir depois que a v2 já nasceu: uma aprovação atrasada aprovaria uma versão que ela nunca examinou. Por isso `POST /scripts/:id/approve` e `POST /scripts/:id/change-requests` aceitam `expected_version` (inteiro positivo), **conferido dentro da transação**. Se não é a versão atual, a resposta é **409 `stale_version`** (com `expected_version` e `current_version`) e nada muda. O estado inválido tem precedência (`invalid_state`/`script_approved` antes da conferência, e a versão velha vence o prazo no passado); **uma exceção**: aprovar de novo um roteiro já aprovado com outra versão é `stale_version` (e a resposta traz `state: "approved"`), porque o retry da aprovação feita com a versão aprovada é inofensivo (200, sem mudar a data).
+
+**Compatibilidade, sem falhar aberto**: o campo é opcional e clientes antigos, sem ele, continuam decidindo sobre a versão atual. Mas o corpo da aprovação não deixa um erro virar aprovação: corpo ausente ou só de espaços é o cliente antigo; JSON truncado, texto que não é JSON, array, string, número, `null`, chave desconhecida (`expectedVersion`) e `"expected_version": null` são **400** e nada é aprovado. `{}` também é o cliente antigo. `test/expected-version.test.ts` inclui o caso em que a v2 nasce depois da leitura e antes da gravação.
 
 ## Cancelar um pedido de alteração
 
@@ -124,8 +126,8 @@ Aprovar: `{ "state": "approved", "allowed_actions": [], "approved": { "version":
 
 ## Verificação
 
-- 143 testes em Node 22.15.0 e 24.7.0. O relatório e o script para repetir estão em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): 390 de 436 (89,4%): `transitions` 100%, `store` 99,4%, `deadline.ts` 92,8%, `app.ts` 79,1% (a rota nova de cancelamento trouxe mensagens de erro). Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
+- 160 testes em Node 22.15.0 e 24.7.0. O relatório e o script para repetir estão em [`../verificacao`](../verificacao/README.md).
+- Mutação (Stryker): 433 de 486 (89,1%): `transitions` 100%, `store` 99,4%, `deadline.ts` 92,8%, `app.ts` 80,4% (a rota nova de cancelamento trouxe mensagens de erro). Os sobreviventes são o texto das mensagens de erro (os testes afirmam `error` e `field`, não a frase), `.catch(() => null)` (equivalente a `undefined`), a checagem de vazio de `required` (o chamador já recusa string vazia) e constantes de módulo de `deadline.ts` (o Stryker as mantém vivas, mas trocar o fuso à mão derruba 12 testes).
 - Mutação manual nos pontos críticos, todos pegos: dia em UTC, fuso UTC, `-03:00` fixo, `>=` e `<` no prazo, aprovado reabrindo (versão e pedido), aprovar com alteração pendente, `late` sempre/nunca, pedido que ignora o prazo, aprovação repetida virando erro, versão aprovada errada, pedido na versão errada, motivo sem aparar, data sem validar, mês de 31 dias, bissexto fixo e `BEGIN` no lugar de `BEGIN IMMEDIATE`.
 
 ## O que ficou de fora

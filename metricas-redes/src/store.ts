@@ -3,7 +3,7 @@ import { inTransaction } from "./db.ts";
 import type { PostSnapshot } from "./domain/types.ts";
 import type { Provider } from "./providers/adapters.ts";
 
-export type Connection = { id: string; provider: Provider; account_id: string; token: string; created_at: string };
+export type Connection = { id: string; provider: Provider; account_id: string; token: string; created_at: string; cooldown_until: string | null };
 
 export function createConnection(
   db: DatabaseSync,
@@ -15,11 +15,26 @@ export function createConnection(
     .prepare("INSERT INTO connections (id, provider, account_id, token, created_at) VALUES (?, ?, ?, ?, ?) ON CONFLICT(provider, account_id) DO NOTHING")
     .run(input.id, input.provider, input.accountId, input.token, createdAt);
   if (inserted.changes === 0) return { ok: false, code: "duplicate_connection" };
-  return { ok: true, connection: { id: input.id, provider: input.provider, account_id: input.accountId, token: input.token, created_at: createdAt } };
+  return { ok: true, connection: { id: input.id, provider: input.provider, account_id: input.accountId, token: input.token, created_at: createdAt, cooldown_until: null } };
 }
 
 export function getConnection(db: DatabaseSync, id: string): Connection | undefined {
   return db.prepare("SELECT * FROM connections WHERE id = ?").get(id) as Connection | undefined;
+}
+
+/**
+ * Estende o prazo (cooldown) de uma conexão depois de um Retry-After que adiou a sync. `MAX` dentro do próprio UPDATE: duas
+ * sincronizações adiadas ao mesmo tempo, de conexões ao banco diferentes, deixam o MAIOR prazo, e um prazo mais curto que chega
+ * depois nunca encurta o que já existe. Os instantes são ISO-8601 em UTC com milissegundos, que ordenam como texto.
+ */
+export function extendCooldown(db: DatabaseSync, connectionId: string, untilIso: string): void {
+  db.prepare("UPDATE connections SET cooldown_until = MAX(COALESCE(cooldown_until, ''), ?) WHERE id = ?").run(untilIso, connectionId);
+}
+
+/** O prazo em vigor (ainda no futuro), ou null. Lê do banco: outra conexão pode ter acabado de estendê-lo. */
+export function activeCooldown(db: DatabaseSync, connectionId: string, now: Date): string | null {
+  const row = db.prepare("SELECT cooldown_until FROM connections WHERE id = ?").get(connectionId) as { cooldown_until: string | null } | undefined;
+  return row?.cooldown_until && row.cooldown_until > now.toISOString() ? row.cooldown_until : null;
 }
 
 export type RunCounters = {
@@ -103,10 +118,29 @@ export function runView(row: RunRow) {
     invalid: row.invalid,
     waits_ms: JSON.parse(row.waits_json) as number[],
     retry_at: row.retry_at,
-    error: row.error,
+    error: normalizeStoredError(row.error),
     started_at: row.started_at,
     finished_at: row.finished_at,
   };
+}
+
+const SAFE_ERROR_FORMS = [
+  /^(timeout|network|server|rate_limited|client|invalid_payload)( \(\d{3}\))?(: [A-Za-z0-9_]{1,40})?$/,
+  /^unexpected: [A-Za-z]{1,40}$/,
+  /^rate_limited: o provedor pediu para esperar \d+ ms$/,
+  /^(too_many_pages|pagination_loop|cooldown_active)$/,
+];
+
+/**
+ * Linhas gravadas antes da correção de segurança podem ter texto livre (`unexpected: <mensagem>`, `server: <mensagem>`). Na
+ * leitura, o que não tem uma das formas seguras vira só a categoria (e o status, se houver) ou `unexpected: Error`.
+ */
+export function normalizeStoredError(error: string | null): string | null {
+  if (error === null || SAFE_ERROR_FORMS.some((form) => form.test(error))) return error;
+  const kind = /^(timeout|network|server|rate_limited|client|invalid_payload)\b/.exec(error)?.[1];
+  if (!kind) return "unexpected: Error";
+  const status = /\b([1-5]\d{2})\b/.exec(error)?.[1];
+  return status ? `${kind} (${status})` : kind;
 }
 
 export const getRun = (db: DatabaseSync, id: number) => runView(db.prepare("SELECT * FROM sync_runs WHERE id = ?").get(id) as RunRow);
@@ -179,7 +213,7 @@ export function ingestPage(
   });
 }
 
-export function metricsView(db: DatabaseSync, connection: Connection) {
+export function metricsView(db: DatabaseSync, connection: Connection, now: Date = new Date()) {
   const posts = db
     .prepare(
       `SELECT p.*, (SELECT COUNT(*) FROM metric_snapshots s WHERE s.connection_id = p.connection_id AND s.post_id = p.post_id) AS snapshots
@@ -211,6 +245,7 @@ export function metricsView(db: DatabaseSync, connection: Connection) {
     .all(connection.id) as Array<Record<string, string | number>>;
   return {
     connection: { id: connection.id, provider: connection.provider, account_id: connection.account_id },
+    cooldown_until: activeCooldown(db, connection.id, now),
     last_checked_at: posts.reduce<string | null>((latest, p) => (latest === null || p.last_checked_at > latest ? p.last_checked_at : latest), null),
     last_fetched_at: posts.reduce<string | null>((latest, p) => (latest === null || p.fetched_at > latest ? p.fetched_at : latest), null),
     totals,

@@ -18,11 +18,15 @@ export class ProviderError extends Error {
   /** Só em 429: o Retry-After em milissegundos, ou null se o provedor não mandou (ou mandou algo inválido). */
   readonly retryAfterMs: number | null;
 
-  constructor(kind: FailureKind, message: string, status?: number, retryAfterMs: number | null = null) {
+  /** De onde a falha veio, de uma lista fechada (ver `safe.ts`): é o que o histórico guarda além da categoria. */
+  readonly detail?: string;
+
+  constructor(kind: FailureKind, message: string, status?: number, retryAfterMs: number | null = null, detail?: string) {
     super(message);
     this.name = "ProviderError";
     this.kind = kind;
     if (status !== undefined) this.status = status;
     this.retryAfterMs = retryAfterMs;
+    if (detail !== undefined) this.detail = detail;
   }
 }

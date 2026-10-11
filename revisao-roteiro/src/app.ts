@@ -21,6 +21,11 @@ function optionalPositiveInteger(value: unknown): number | undefined | null {
   if (value === undefined || value === null) return undefined;
   return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;
 }
+/** `expected_version`: ausente é o cliente antigo; presente (inclusive `null`) tem de ser um inteiro seguro positivo, senão é erro. */
+function expectedVersionOf(value: unknown): number | undefined | null {
+  if (value === undefined) return undefined;
+  return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;
+}
 function optionalText(value: unknown, max: number): string | undefined | null {
   if (value === undefined || value === null) return undefined;
   return typeof value === "string" && value.length >= 1 && value.length <= max ? value : null;
@@ -77,7 +82,7 @@ export function createApp({ db, now }: AppOptions) {
     const deadlineDate = parseCalendarDate(body?.deadline_date);
     if (!reason) return invalid(c, "reason", "o motivo do pedido de alteração é obrigatório");
     if (!deadlineDate) return invalid(c, "deadline_date", "deadline_date é obrigatório, no formato YYYY-MM-DD e com uma data que existe");
-    const expectedVersion = optionalPositiveInteger(body?.expected_version);
+    const expectedVersion = expectedVersionOf(body?.expected_version);
     if (expectedVersion === null) return invalid(c, "expected_version", "expected_version deve ser o número inteiro positivo da versão examinada");
     return respond(c, requestChanges(db, { id: c.req.param("id"), reason, deadlineDate, ...(expectedVersion !== undefined ? { expectedVersion } : {}) }, now), 201);
   });
@@ -105,9 +110,25 @@ export function createApp({ db, now }: AppOptions) {
   });
 
   app.post("/scripts/:id/approve", async (c) => {
-    const body = await c.req.json().catch(() => null);
-    const expectedVersion = optionalPositiveInteger(body?.expected_version);
-    if (expectedVersion === null) return invalid(c, "expected_version", "expected_version deve ser o número inteiro positivo da versão examinada");
+    // O corpo é opcional, mas não "falha aberto": corpo ausente ou só de espaços é o cliente antigo (aprova a versão atual);
+    // qualquer coisa que não seja um objeto JSON com, no máximo, `expected_version` é 400. Um JSON truncado, uma chave escrita
+    // errada ou `null` não podem virar, em silêncio, a aprovação da versão atual que o cliente não examinou.
+    const raw = await c.req.text();
+    let expectedVersion: number | undefined;
+    if (raw.trim() !== "") {
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(raw);
+      } catch {
+        return invalid(c, "body", "o corpo, quando existe, deve ser um objeto JSON válido: { \"expected_version\": <inteiro> }");
+      }
+      if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return invalid(c, "body", "o corpo deve ser um objeto JSON: { \"expected_version\": <inteiro> }");
+      const unknown = Object.keys(parsed).filter((key) => key !== "expected_version");
+      if (unknown.length > 0) return invalid(c, "body", `campo desconhecido: ${unknown.slice(0, 3).join(", ")}; só expected_version é aceito`);
+      const value = expectedVersionOf((parsed as { expected_version?: unknown }).expected_version);
+      if (value === null) return invalid(c, "expected_version", "expected_version deve ser o número inteiro positivo da versão examinada");
+      expectedVersion = value;
+    }
     return respond(c, approve(db, { id: c.req.param("id"), ...(expectedVersion !== undefined ? { expectedVersion } : {}) }, now), 200);
   });
 

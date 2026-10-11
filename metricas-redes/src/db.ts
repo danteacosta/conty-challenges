@@ -85,6 +85,8 @@ export function openDatabase(path = ":memory:"): DatabaseSync {
   addColumnIfMissing(db, "posts", "last_checked_at", "TEXT");
   db.exec("UPDATE posts SET last_checked_at = fetched_at WHERE last_checked_at IS NULL");
   addColumnIfMissing(db, "sync_runs", "conflicts", "INTEGER NOT NULL DEFAULT 0");
+  // O prazo do último Retry-After que adiou uma sync. Só avança (MAX) e vale para a conta inteira, entre sincronizações.
+  addColumnIfMissing(db, "connections", "cooldown_until", "TEXT");
   return db;
 }
 

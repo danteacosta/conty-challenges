@@ -1,6 +1,6 @@
 import { serve } from "@hono/node-server";
 import { createApp } from "./app.ts";
-import { ConfigError, loadConfig, redactUrl } from "./config.ts";
+import { ConfigError, loadConfig, originOf } from "./config.ts";
 import { openDatabase } from "./db.ts";
 import { HttpMetricsProvider } from "./providers/http.ts";
 
@@ -23,4 +23,4 @@ const app = createApp({
   maxPages: 50,
 });
 serve({ fetch: app.fetch, port: config.port, hostname: "127.0.0.1" });
-console.log(`metricas-redes em http://127.0.0.1:${config.port} (provedor: ${redactUrl(providerUrl)})`);
+console.log(`metricas-redes em http://127.0.0.1:${config.port} (provedor: ${originOf(providerUrl)})`);

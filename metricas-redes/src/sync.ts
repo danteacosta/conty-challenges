@@ -1,7 +1,8 @@
 import type { DatabaseSync } from "node:sqlite";
 import { decide, type Failure, type Policy } from "./domain/retry.ts";
 import { ProviderError, type MetricsProvider } from "./providers/port.ts";
-import { finishRun, getRun, ingestPage, startRun, type Connection, type RunCounters } from "./store.ts";
+import { KNOWN_KINDS, isSafeDetail, isSafeStatus, safeName } from "./providers/safe.ts";
+import { activeCooldown, extendCooldown, finishRun, getRun, ingestPage, startRun, type Connection, type RunCounters } from "./store.ts";
 
 export type SyncDeps = {
   provider: MetricsProvider;
@@ -14,15 +15,18 @@ export type SyncDeps = {
 };
 
 /**
- * O que vai para a resposta e para o histórico persistido quando uma sync falha: a categoria e um contexto seguro (o status HTTP,
- * ou a classe do erro), nunca o texto da mensagem. Mensagens de erro de adapters, de bibliotecas e de rede podem carregar tokens,
- * URLs com credenciais e trechos de corpo.
+ * O que vai para a resposta e para o histórico persistido quando uma sync falha: a categoria e um contexto seguro (o status HTTP e
+ * de onde a falha veio, todos de listas fechadas), nunca o texto da mensagem. Mensagens de erro de adapters, de bibliotecas e de
+ * rede podem carregar tokens, URLs com credenciais e trechos de corpo.
  */
 export function safeFailure(error: unknown): string {
-  if (error instanceof ProviderError) return error.status === undefined ? error.kind : `${error.kind} (${error.status})`;
+  if (error instanceof ProviderError && KNOWN_KINDS.has(error.kind)) {
+    const status = isSafeStatus(error.status) ? ` (${error.status})` : "";
+    const detail = isSafeDetail(error.detail) ? `: ${error.detail}` : "";
+    return `${error.kind}${status}${detail}`;
+  }
   const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;
-  const simple = typeof name === "string" && /^[A-Za-z][A-Za-z0-9_]{0,40}$/.test(name) ? name : "Error";
-  return `unexpected: ${simple}`;
+  return `unexpected: ${safeName(name)}`;
 }
 
 type Terminal = { status: "succeeded" | "failed" | "deferred"; error: string | null; retryAt: string | null };
@@ -44,6 +48,14 @@ export async function syncConnection(db: DatabaseSync, deps: SyncDeps, connectio
   pages: while (true) {
     if (counters.pages >= deps.maxPages) {
       terminal = { status: "failed", error: "too_many_pages", retryAt: null };
+      break;
+    }
+
+    // O prazo de um Retry-After vale entre sincronizações, reinícios e conexões ao banco: lido do banco antes de cada página, então
+    // até uma sync que já começou para quando outra recebeu um 429.
+    const cooling = activeCooldown(db, connection.id, deps.now());
+    if (cooling) {
+      terminal = { status: "deferred", error: "cooldown_active", retryAt: cooling };
       break;
     }
 
@@ -70,11 +82,9 @@ export async function syncConnection(db: DatabaseSync, deps: SyncDeps, connectio
         if (decision.action === "defer") {
           // O provedor pediu um prazo que passa do teto de espera (ou as tentativas acabaram): não esperamos além do teto e
           // não tentamos antes do que ele pediu. A sync termina adiada, com a hora em que vale tentar de novo.
-          terminal = {
-            status: "deferred",
-            error: `rate_limited: o provedor pediu para esperar ${decision.retryAfterMs} ms`,
-            retryAt: new Date(deps.now().getTime() + decision.retryAfterMs).toISOString(),
-          };
+          const retryAt = new Date(deps.now().getTime() + decision.retryAfterMs).toISOString();
+          extendCooldown(db, connection.id, retryAt);
+          terminal = { status: "deferred", error: `rate_limited: o provedor pediu para esperar ${decision.retryAfterMs} ms`, retryAt };
           break pages;
         }
         terminal = { status: "failed", error: safeFailure(error), retryAt: null };

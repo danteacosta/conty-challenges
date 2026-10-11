@@ -17,12 +17,14 @@ export interface TrackingAggregator {
 export type AggregatorErrorKind = "http" | "timeout" | "network" | "invalid_payload";
 
 export class AggregatorError extends Error {
-  constructor(
-    readonly kind: AggregatorErrorKind,
-    message: string,
-    readonly status?: number,
-  ) {
+  readonly kind: AggregatorErrorKind;
+  readonly status?: number;
+
+  // Sem "parameter properties": este módulo é carregado por workers .ts em modo strip-only, que não as aceita.
+  constructor(kind: AggregatorErrorKind, message: string, status?: number) {
     super(message);
     this.name = "AggregatorError";
+    this.kind = kind;
+    if (status !== undefined) this.status = status;
   }
 }

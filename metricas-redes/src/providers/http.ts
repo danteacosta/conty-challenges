@@ -1,6 +1,7 @@
 import { parseRetryAfter } from "../domain/retry-after.ts";
 import { normalizeItem, type Provider } from "./adapters.ts";
 import { ProviderError, type FetchRequest, type FetchResult, type MetricsProvider } from "./port.ts";
+import { safeName, safeSystemCode } from "./safe.ts";
 
 export type HttpProviderOptions = {
   baseUrl: string;
@@ -12,14 +13,6 @@ export type HttpProviderOptions = {
 };
 
 const DEFAULT_TIMEOUT_MS = 5000;
-
-/** Contexto seguro de uma falha de transporte: a classe do erro e o código de sistema (ECONNREFUSED...), sem a mensagem, que pode ter URL e credenciais. */
-function transportContext(error: unknown): string {
-  const simple = (value: unknown, fallback: string) => (typeof value === "string" && /^[A-Za-z][A-Za-z0-9_]{0,40}$/.test(value) ? value : fallback);
-  const name = simple((error as { name?: unknown } | null)?.name, "Error");
-  const code = simple(((error as { cause?: { code?: unknown } } | null)?.cause?.code ?? (error as { code?: unknown } | null)?.code) as unknown, "");
-  return code ? `${name}, ${code}` : name;
-}
 
 /** Cliente HTTP de uma rede, atrás da interface MetricsProvider. Converte o que a rede diz em falhas tipadas. */
 export class HttpMetricsProvider implements MetricsProvider {
@@ -52,9 +45,9 @@ export class HttpMetricsProvider implements MetricsProvider {
       });
     } catch (error) {
       if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
-        throw new ProviderError("timeout", `o provedor não respondeu em ${this.timeoutMs} ms`);
+        throw new ProviderError("timeout", `o provedor não respondeu em ${this.timeoutMs} ms`, undefined, null, "headers");
       }
-      throw new ProviderError("network", `não foi possível falar com o provedor (${transportContext(error)})`);
+      throw new ProviderError("network", `não foi possível falar com o provedor (${safeName((error as { name?: unknown } | null)?.name)})`, undefined, null, safeSystemCode(error));
     }
 
     if (response.status === 429) {
@@ -71,22 +64,22 @@ export class HttpMetricsProvider implements MetricsProvider {
       text = await response.text();
     } catch (error) {
       if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
-        throw new ProviderError("timeout", `o provedor não terminou de enviar o corpo em ${this.timeoutMs} ms`);
+        throw new ProviderError("timeout", `o provedor não terminou de enviar o corpo em ${this.timeoutMs} ms`, undefined, null, "body");
       }
-      throw new ProviderError("network", `a conexão com o provedor caiu durante o corpo (${transportContext(error)})`);
+      throw new ProviderError("network", `a conexão com o provedor caiu durante o corpo (${safeName((error as { name?: unknown } | null)?.name)})`, undefined, null, safeSystemCode(error));
     }
     let body: unknown;
     try {
       body = JSON.parse(text);
     } catch {
-      throw new ProviderError("invalid_payload", "o provedor devolveu um corpo que não é JSON");
+      throw new ProviderError("invalid_payload", "o provedor devolveu um corpo que não é JSON", undefined, null, "body_not_json");
     }
     if (typeof body !== "object" || body === null || !Array.isArray((body as { data?: unknown }).data)) {
-      throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data");
+      throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data", undefined, null, "missing_data");
     }
     const { data, next_cursor: nextCursor } = body as { data: unknown[]; next_cursor?: unknown };
     if (nextCursor !== undefined && nextCursor !== null && typeof nextCursor !== "string") {
-      throw new ProviderError("invalid_payload", "next_cursor não é texto");
+      throw new ProviderError("invalid_payload", "next_cursor não é texto", undefined, null, "bad_cursor");
     }
 
     const items = [];

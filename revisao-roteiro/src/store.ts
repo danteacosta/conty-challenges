@@ -215,7 +215,7 @@ export function approve(db: DatabaseSync, input: { id: string; expectedVersion?:
     if (script.state === "approved") {
       // O retry de uma aprovação já feita é inofensivo; mas dirigido a OUTRA versão que não a aprovada, é conflito.
       const stale = staleVersion(input.expectedVersion, script.approved_version as number);
-      return stale ?? ({ ok: true, view: toView(db, script) } as const);
+      return stale ? { ...stale, state: "approved" as const, allowed_actions: [] } : ({ ok: true, view: toView(db, script) } as const);
     }
     const target = nextState(script.state, "approve");
     if (target === null) return stateFailure(script);

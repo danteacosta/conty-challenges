@@ -75,28 +75,75 @@ describe("a decisão da marca vale para a versão que ela examinou (expected_ver
     expect(res.body.change_requests[1]).toMatchObject({ version_number: 2, status: "open" });
   });
 
-  it("estado inválido continua tendo precedência: versão certa numa ação que o estado não permite é invalid_state", async () => {
+  it("estado inválido tem precedência sobre a conferência, mesmo com uma versão realmente velha", async () => {
     const { t, id } = await withSecondVersion();
-    await t.requestChanges(id, { reason: "x", deadline_date: "2026-03-25" }); // agora em changes_requested
-    const res = await approveWith(t, id, { expected_version: 2 });
-    expect(res.status).toBe(409);
-    expect(res.body.error).toBe("invalid_state");
+    await t.requestChanges(id, { reason: "x", deadline_date: "2026-03-25" }); // agora em changes_requested, current_version 2
+    const approve = await approveWith(t, id, { expected_version: 1 });
+    expect(approve.status).toBe(409);
+    expect(approve.body.error).toBe("invalid_state");
+    const request = await t.requestChanges(id, { reason: "y", deadline_date: "2026-03-26", expected_version: 1 });
+    expect(request.body.error).toBe("invalid_state");
   });
 
-  it.each([0, -1, 1.5, "2", null, 2 ** 53])("expected_version inválido (%j) na aprovação é 400", async (value) => {
+  it("pedido de alteração: versão velha (409) vence o prazo no passado (422); versão certa com prazo passado é 422", async () => {
+    const { t, id } = await withSecondVersion();
+    const stale = await t.requestChanges(id, { reason: "x", deadline_date: "2026-01-01", expected_version: 1 });
+    expect(stale.status).toBe(409);
+    expect(stale.body.error).toBe("stale_version");
+    const pastDeadline = await t.requestChanges(id, { reason: "x", deadline_date: "2026-01-01", expected_version: 2 });
+    expect(pastDeadline.status).toBe(422);
+  });
+
+  it("roteiro aprovado: o pedido de alteração é script_approved mesmo com versão velha; a aprovação com versão velha é stale_version e diz o estado", async () => {
+    const { t, id } = await withSecondVersion();
+    await approveWith(t, id, { expected_version: 2 });
+    const request = await t.requestChanges(id, { reason: "x", deadline_date: "2026-03-25", expected_version: 1 });
+    expect(request.body).toMatchObject({ error: "script_approved", state: "approved" });
+    const approve = await approveWith(t, id, { expected_version: 1 });
+    expect(approve.body).toMatchObject({ error: "stale_version", state: "approved", allowed_actions: [], expected_version: 1, current_version: 2 });
+  });
+
+  it.each([0, -1, 1.5, "2", null, 2 ** 53, true, [2]])("expected_version inválido (%j) na aprovação é 400; null explícito também (ausente é que vale para cliente antigo)", async (value) => {
     const { t, id } = await withSecondVersion();
     const res = await approveWith(t, id, { expected_version: value });
-    // null é "campo ausente": não é erro
-    if (value === null) expect(res.status).toBe(200);
-    else {
-      expect(res.status).toBe(400);
-      expect(res.body).toMatchObject({ error: "validation_error", field: "expected_version" });
+    expect(res.status).toBe(400);
+    expect(res.body).toMatchObject({ error: "validation_error", field: "expected_version" });
+    expect((await t.get(id)).body.state).toBe("awaiting_review"); // nada foi aprovado
+  });
+
+  it.each([
+    ["JSON truncado", '{"expected_version":1'],
+    ["texto que não é JSON", "not json"],
+    ["array", "[1]"],
+    ["string", '"1"'],
+    ["número", "1"],
+    ["null", "null"],
+    ["chave escrita errada (camelCase)", '{"expectedVersion":1}'],
+    ["chave desconhecida junto da certa", '{"expected_version":2,"extra":true}'],
+  ])("corpo da aprovação inválido (%s) é 400 e não aprova a versão atual", async (_name, raw) => {
+    const { t, id } = await withSecondVersion();
+    const res = await t.app.request(`/scripts/${id}/approve`, { method: "POST", headers: { "content-type": "application/json" }, body: raw });
+    expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({ error: "validation_error", field: "body" });
+    expect((await t.get(id)).body).toMatchObject({ state: "awaiting_review", approved: null });
+  });
+
+  it("sem corpo nenhum, ou corpo só de espaços, é o cliente antigo: aprova a versão atual", async () => {
+    for (const raw of [undefined, "", "   \n"]) {
+      const { t, id } = await withSecondVersion();
+      const res = await t.app.request(`/scripts/${id}/approve`, { method: "POST", headers: { "content-type": "application/json" }, ...(raw === undefined ? {} : { body: raw }) });
+      expect(res.status, JSON.stringify(raw)).toBe(200);
     }
   });
 
-  it("expected_version inválido no pedido de alteração é 400", async () => {
+  it("objeto vazio também é o cliente antigo", async () => {
     const { t, id } = await withSecondVersion();
-    const res = await t.requestChanges(id, { reason: "x", deadline_date: "2026-03-25", expected_version: "um" });
+    expect((await approveWith(t, id, {})).status).toBe(200);
+  });
+
+  it.each(["um", null, 0, 1.5])("expected_version inválido (%j) no pedido de alteração é 400", async (value) => {
+    const { t, id } = await withSecondVersion();
+    const res = await t.requestChanges(id, { reason: "x", deadline_date: "2026-03-25", expected_version: value });
     expect(res.status).toBe(400);
     expect(res.body.field).toBe("expected_version");
   });

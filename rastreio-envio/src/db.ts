@@ -42,6 +42,9 @@ CREATE TABLE IF NOT EXISTS alerts (
   -- Aviso que ficou obsoleto antes de ser enviado (ex.: a entrega, dentro do prazo, chegou depois): nunca é enviado.
   discarded_at TEXT,
   discard_reason TEXT,
+  -- Confirmação no agregador antes de avisar: quando o último contato falhou, o aviso fica "não confirmado" (só a categoria da falha).
+  unconfirmed_at TEXT,
+  unconfirmed_reason TEXT,
   UNIQUE (tracking_code, kind)
 );
 `;
@@ -74,7 +77,7 @@ export function inTransaction<T>(db: DatabaseSync, fn: () => T): T {
 /** Bancos criados antes das colunas de descarte (CREATE TABLE IF NOT EXISTS não as acrescenta). */
 function addMissingColumns(db: DatabaseSync): void {
   const columns = (db.prepare("PRAGMA table_info(alerts)").all() as Array<{ name: string }>).map((c) => c.name);
-  for (const column of ["discarded_at", "discard_reason"]) {
+  for (const column of ["discarded_at", "discard_reason", "unconfirmed_at", "unconfirmed_reason"]) {
     if (!columns.includes(column)) db.exec(`ALTER TABLE alerts ADD COLUMN ${column} TEXT`);
   }
 }

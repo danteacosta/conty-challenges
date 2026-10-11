@@ -4,6 +4,7 @@ import type { Policy } from "./domain/retry.ts";
 import { parseInstant } from "./instant.ts";
 import { PROVIDERS, type Provider } from "./providers/adapters.ts";
 import type { MetricsProvider } from "./providers/port.ts";
+import { safeName } from "./providers/safe.ts";
 import { createConnection, getConnection, listRuns, metricsView, type Connection } from "./store.ts";
 import { syncConnection } from "./sync.ts";
 
@@ -24,6 +25,12 @@ export function createApp(options: AppOptions) {
   const app = new Hono();
 
   app.get("/health", (c) => c.json({ ok: true }));
+
+  // Erro que escapou: a resposta não diz nada do erro e o log guarda só a classe (o texto pode ter credenciais).
+  app.onError((error, c) => {
+    console.error(`[erro] ${safeName((error as { name?: unknown } | null)?.name)} em ${c.req.method} ${c.req.path}`);
+    return c.json({ error: "internal_error" }, 500);
+  });
 
   app.post("/connections", async (c) => {
     const body = await c.req.json().catch(() => null);
@@ -59,7 +66,7 @@ export function createApp(options: AppOptions) {
 
   app.get("/connections/:id/metrics", (c) => {
     const connection = getConnection(db, c.req.param("id"));
-    return connection ? c.json(metricsView(db, connection)) : c.json({ error: "connection_not_found" }, 404);
+    return connection ? c.json(metricsView(db, connection, now())) : c.json({ error: "connection_not_found" }, 404);
   });
 
   app.get("/connections/:id/syncs", (c) => {

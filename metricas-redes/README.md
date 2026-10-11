@@ -4,7 +4,7 @@ Serviço que, dada uma conexão **já autorizada** (token fictício), sincroniza
 
 ```bash
 npm install
-npm test            # 254 testes: retry, Retry-After, adapters, sync, cliente HTTP (inclusive corpo interrompido), configuração, e2e nas 4 redes, corrida
+npm test            # 296 testes: retry, Retry-After, adapters, sync, cliente HTTP (inclusive corpo interrompido), configuração, e2e nas 4 redes, corrida
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 
@@ -57,7 +57,21 @@ src/store.ts             PostSnapshot, ProviderError  (formato de cada rede)
 
 ## Erros sem credenciais
 
-Mensagem de erro de adapter, de biblioteca ou de rede pode carregar um token, uma URL com credenciais ou um trecho de corpo. Por isso o que vai para a resposta e para o histórico persistido (`error` da sync) é **a categoria e um contexto seguro, nunca o texto da mensagem**: `server (503)`, `client (401)`, `network`, `timeout`, ou `unexpected: TypeError` (só a classe do erro, e só se for um identificador simples). O cliente HTTP também não copia a mensagem do erro de transporte para o `ProviderError`: guarda a classe e o código de sistema (`TypeError, ECONNREFUSED`). A URL do provedor sai sem usuário, senha, query e hash no log de inicialização e na mensagem de erro de configuração (`redactUrl`). Testado com um segredo sintético em todos esses caminhos (`test/error-safety.test.ts`). O diagnóstico detalhado de um erro inesperado precisa então de um log que o operador controle; ele não é mais devolvido ao cliente.
+Mensagem de erro de adapter, de biblioteca ou de rede pode carregar um token, uma URL com credenciais ou um trecho de corpo. O que vai para a resposta e para o histórico persistido (`error` da sync) é **a categoria e um contexto seguro de listas fechadas, nunca texto do erro**:
+
+| Forma | Quando |
+|---|---|
+| `server (503)`, `client (401)` | status HTTP (validado: 100 a 599) |
+| `network: ECONNREFUSED`, `network: UND_ERR_SOCKET` | falha de transporte, com o código de sistema se for um dos conhecidos |
+| `timeout: headers`, `timeout: body` | de onde veio o timeout |
+| `invalid_payload: body_not_json`, `missing_data`, `bad_cursor` | por que o corpo foi recusado |
+| `unexpected: TypeError` | erro que não é do provedor, com o nome só se for de uma classe conhecida (senão `Error`) |
+
+Uma regra "parece um identificador" deixaria passar um token alfanumérico curto, por isso nomes e códigos vêm de **listas fechadas** (`src/providers/safe.ts`). `kind` e `status` forjados por um adapter viram `unexpected: ProviderError`. Linhas gravadas antes desta correção, com texto livre, saem **normalizadas na leitura** (`server: o provedor respondeu 503 ...` vira `server (503)`). A URL do provedor não é repetida na mensagem de erro de configuração (podia ter usuário, senha ou token no meio) e o log de inicialização mostra só a **origem** (protocolo, host e porta). Um erro que escapa vira `500 {"error":"internal_error"}` e o log guarda só a classe. **Mudança de formato**: antes o texto era `kind: mensagem`; quem fazia parse dessa string precisa do novo formato (`error` da sync `deferred` por 429 continua `rate_limited: o provedor pediu para esperar N ms`, numérico). O diagnóstico detalhado de um erro inesperado precisa de um log do operador; ele não volta mais ao cliente. Testado com um segredo sintético em cada caminho (`test/error-safety.test.ts`).
+
+## Cooldown entre sincronizações
+
+Um 429 cujo `Retry-After` passa do teto de espera adia a sync com `retry_at`. Esse prazo agora é **persistido** (`connections.cooldown_until`) e vale para a conta inteira: uma nova sync, de qualquer janela, **não chama o provedor** antes do prazo e termina `deferred` (202) com `error: "cooldown_active"`, `attempts: 0` e o mesmo `retry_at`; ela fica no histórico. Vale depois de reiniciar o processo e por outra instância ou conexão ao mesmo banco. O prazo é lido do banco antes de **cada página**, então uma sync que já começou também para quando outra recebeu o 429 (guardando o que já tinha chegado). Só avança: a gravação é `MAX` dentro do próprio `UPDATE`, então duas syncs adiadas ao mesmo tempo deixam o maior prazo (teste com 4 conexões, 12 rodadas) e um prazo mais curto que chega depois não encurta o que existe. Um 429 que cabe no teto (esperou e deu certo) e uma falha comum não deixam cooldown. `GET /connections/:id/metrics` traz `cooldown_until` (null depois que passa).
 
 ## Como a idempotência funciona
 
@@ -127,8 +141,8 @@ A rede e as esperas acontecem fora das transações. Se a **segunda página** fa
 
 ## Verificação
 
-- 254 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): 701 de 735 (95,4%): `retry` 100%, `retry-after` 97,4%, `store` 98,3%, `sync` 98,5%, `instant` 98,3%, `adapters` 96,1%, `config` 95,7%, `http` 89,7%. Os vivos de `http.ts` são sobretudo o texto das mensagens de erro (os testes afirmam o tipo da falha, não a frase) e dois ramos equivalentes (`catch {}` do JSON e `typeof body` antes de ler `data`, que dão `invalid_payload` de qualquer jeito). Em `store.ts`, `>=` no lugar de `>` do `as_of` é equivalente: um snapshot com o mesmo `as_of` já foi barrado antes como duplicado.
+- 296 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
+- Mutação (Stryker): 720 de 759 (94,9%): `retry` 100%, `retry-after` 97,4%, `store` 98,3%, `sync` 98,5%, `instant` 98,3%, `adapters` 96,1%, `config` 95,7%, `http` 87,3%. Os vivos de `http.ts` são sobretudo o texto das mensagens de erro (os testes afirmam o tipo da falha, não a frase) e dois ramos equivalentes (`catch {}` do JSON e `typeof body` antes de ler `data`, que dão `invalid_payload` de qualquer jeito). Em `store.ts`, `>=` no lugar de `>` do `as_of` é equivalente: um snapshot com o mesmo `as_of` já foi barrado antes como duplicado.
 - Mutação manual nos pontos críticos, todos pegos: tentativas (`>`/`>=`), teto do `Retry-After`, backoff, erro do cliente repetido, data passada do `Retry-After`, unidade (ms), época em segundos, contador negativo, 500/408, cursor, leitura do cabeçalho errado, snapshot atrasado substituindo o atual, "sempre substitui", `retry_at` no passado, espera não registrada ou não feita, tentativas não contadas, cursor repetido, teto de páginas, erro inesperado, token devolvido, códigos 202/502 e janela invertida.
 - **`BEGIN IMMEDIATE` por `BEGIN` não é detectado, e é equivalente aqui**: toda transação deste projeto começa por uma escrita (`INSERT`/`UPDATE`), então o lock é tomado na primeira instrução de qualquer jeito. O `IMMEDIATE` fica como defesa para uma transação futura que leia antes de escrever. O que a corrida protege (e os testes provam) é a idempotência por chave: sem `ON CONFLICT` ou com "sempre substitui" o teste de concorrência falha.
 
