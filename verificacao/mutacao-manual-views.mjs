@@ -54,6 +54,9 @@ function run(label, files) {
     invalid(`${label}: relatório JSON ilegível`);
   }
   if (!Number.isInteger(report.numTotalTests) || report.numTotalTests <= 0) invalid(`${label}: nenhum teste foi executado`);
+  // numTotalTests inclui os pulados, pendentes e "todo": só passado + reprovado foi de fato executado
+  const executed = report.numPassedTests + report.numFailedTests;
+  if (executed !== report.numTotalTests) invalid(`${label}: ${report.numTotalTests - executed} de ${report.numTotalTests} testes não foram executados (pulados, pendentes ou todo)`);
   const failures = [];
   for (const suite of report.testResults ?? []) {
     const tests = suite.assertionResults ?? [];
@@ -68,6 +71,10 @@ function run(label, files) {
   }
   if (INFRA.test(text) && /ERR_IPC_CHANNEL_CLOSED|Channel closed|Unhandled/i.test(text)) invalid(`${label}: erro de infraestrutura na saída do runner`);
   if (report.numFailedTests !== failures.length) invalid(`${label}: contagem de falhas inconsistente (${report.numFailedTests} x ${failures.length})`);
+  // o código de saída conta junto do JSON: o vitest pode escrever JSON verde e sair com 1 (erro de teardown, de globalSetup...).
+  // Sem teste reprovado o código tem de ser 0; com teste reprovado, diferente de 0.
+  if (failures.length === 0 && result.status !== 0) invalid(`${label}: o relatório não tem teste reprovado, mas o processo saiu com ${result.status} (erro de runner, teardown ou globalSetup)`);
+  if (failures.length > 0 && result.status === 0) invalid(`${label}: o relatório tem ${failures.length} teste(s) reprovado(s), mas o processo saiu com 0`);
   return { total: report.numTotalTests, failed: failures.length, passed: report.numPassedTests, failures };
 }
 

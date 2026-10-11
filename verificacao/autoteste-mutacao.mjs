@@ -2,7 +2,7 @@
 // e runners falsos. Cada modo de infraestrutura tem de INVALIDAR a rodada (código 2, sem relatório); o modo "good" prova que um
 // resultado real é contado como deveria.
 //   node verificacao/autoteste-mutacao.mjs
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -38,13 +38,16 @@ else if (mode === "ipc") report = suite(failing("Error: Channel closed"));
 else if (mode === "timeout") report = suite(failing("Error: Test timed out in 5000ms."));
 else if (mode === "suitefail") report = { numTotalTests: 3, numPassedTests: 3, numFailedTests: 0, testResults: [{ name: "x.test.ts", status: "failed", assertionResults: [] }] };
 else if (mode === "fewer") report = suite(ok.slice(0, 2));
+else if (mode === "exit1green") report = suite(ok);
+else if (mode === "failexit0") report = suite(failing("AssertionError: x"));
+else if (mode === "skipped") report = { numTotalTests: 3, numPassedTests: 0, numFailedTests: 1, testResults: [{ name: "fake.test.ts", status: "failed", assertionResults: [{ fullName: "t1", status: "failed", failureMessages: ["AssertionError: x"] }, { fullName: "t2", status: "skipped", failureMessages: [] }, { fullName: "t3", status: "skipped", failureMessages: [] }] }] };
 else if (mode === "good") {
   if (criteria.includes("a: 6,")) report = suite(failing("AssertionError: expected 1 to be 2"));
   else if (criteria.includes("a: 4,") && files.length === 0) report = suite(failing("AssertionError: readme"));
   else report = suite(ok);
 } else throw new Error("modo desconhecido " + mode);
 if (mode !== "nojson") writeFileSync(out, JSON.stringify(report));
-process.exitCode = report.numFailedTests ? 1 : 0;
+process.exitCode = mode === "exit1green" ? 1 : mode === "failexit0" ? 0 : report.numFailedTests ? 1 : 0;
 `,
 );
 chmodSync(fake, 0o755);
@@ -72,9 +75,31 @@ for (const [mode, pattern] of [
   ["timeout", /infraestrutura/],
   ["suitefail", /sem teste reprovado/],
   ["fewer", /rodou 2 testes, a baseline 3/],
+  ["exit1green", /relatório não tem teste reprovado, mas o processo saiu com 1/],
+  ["skipped", /2 de 3 testes não foram executados/],
 ]) {
   const r = run(mode);
   check(`${mode}: rodada inválida (código 2), sem relatório`, r.status === 2 && r.report === null && pattern.test(r.stderr), `código ${r.status}: ${r.stderr.slice(0, 200)}`);
+}
+{
+  // mutante "reprovado" com código de saída 0: o JSON e o processo discordam
+  const r = run("failexit0");
+  check("falha no JSON com saída 0: rodada inválida", r.status === 2 && r.report === null, r.stderr.slice(0, 200));
+}
+{
+  // Vitest real: um teste passa, o teardown do globalSetup lança, o JSON sai verde e o processo sai com 1
+  const real = join(base, "vitest-real");
+  mkdirSync(join(real, "src/domain"), { recursive: true });
+  mkdirSync(join(real, "test"), { recursive: true });
+  writeFileSync(join(real, "src/domain/criteria.ts"), "export const THRESHOLDS = {\n  a: 5,\n} as const;\n");
+  writeFileSync(join(real, "test/a.test.ts"), 'import { it, expect } from "vitest";\nit("passa", () => expect(1).toBe(1));\n');
+  writeFileSync(join(real, "setup.ts"), 'export default function setup() {\n  return () => {\n    throw new Error("teardown completed unsuccessfully");\n  };\n}\n');
+  writeFileSync(join(real, "vitest.config.ts"), 'export default { test: { include: ["test/**/*.test.ts"], globalSetup: ["./setup.ts"] } };\n');
+  const modules = join(root, "views-suspeitas/node_modules");
+  if (existsSync(modules)) symlinkSync(modules, join(real, "node_modules"));
+  const out = join(base, "vitest-real.md");
+  const result = spawnSync("node", [script], { encoding: "utf8", env: { ...process.env, MUT_PROJECT: real, MUT_OUT: out, MUT_BEHAVIOR: "test/a.test.ts" } });
+  check("Vitest real, teardown que lança: JSON verde, saída 1, rodada inválida", existsSync(modules) && result.status === 2 && !existsSync(out) && /saiu com 1/.test(result.stderr), `código ${result.status}: ${result.stderr.slice(0, 300)}`);
 }
 {
   const r = run("good", { MUT_RUNNER: join(base, "nao-existe") });

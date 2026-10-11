@@ -38,7 +38,7 @@ node verificacao/mutacao-manual-views.mjs    # 68 mutantes, numa cópia; escreve
 node verificacao/autoteste-mutacao.mjs       # prova, com runners falsos, que IPC/timeout/sem testes/comando ausente invalidam a rodada
 ```
 
-Um mutante só conta como morto com resultado estruturado do vitest: mesma quantidade de testes da baseline e ao menos um teste reprovado por asserção. Nada disso é aceito como morte: saída sem testes, suíte que falha sem teste reprovado, timeout, `ERR_IPC_CHANNEL_CLOSED`, comando ausente ou sinal de processo.
+Um mutante só conta como morto com resultado estruturado do vitest **e** código de saída coerente: todos os testes executados (passados + reprovados = total, sem pulados, pendentes nem `todo`), a mesma quantidade da baseline, e ao menos um teste reprovado por asserção com saída diferente de 0. Nada disso é aceito: saída sem testes, suíte que falha sem teste reprovado, JSON verde com saída 1 (erro de teardown ou de globalSetup, reproduzido com o Vitest real no autoteste), JSON com reprovado e saída 0, testes pulados, timeout, `ERR_IPC_CHANNEL_CLOSED`, comando ausente ou sinal de processo.
 
 ## IPC no Node 22.15 / macOS
 
