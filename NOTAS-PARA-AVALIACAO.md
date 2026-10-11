@@ -115,7 +115,7 @@ A segunda rodada de revisão (Codex) confirmou as cinco correções e achou dois
 
 ## Entrega completa dos sete desafios com código
 
-Roteiro, métricas, vídeo e views foram adicionados depois da segunda auditoria. A matriz de Node foi rerodada com os sete projetos e o fork de debug: [`verificacao/matriz-node.log`](verificacao/matriz-node.log), 96 execuções completas (8 projetos × 6 repetições × 2 versões de Node), 0 falhas, `typecheck` limpo. Testes por projeto (depois dos complementos abaixo): vendas 127, origem 117, rastreio 257, roteiro 128, métricas 239, vídeo 120, views 174, debug 46, e 34 na otimização. **Revisão humana: ainda não feita.** As checklists dos READMEs seguem desmarcadas.
+Roteiro, métricas, vídeo e views foram adicionados depois da segunda auditoria. A matriz de Node foi rerodada com os sete projetos e o fork de debug: [`verificacao/matriz-node.log`](verificacao/matriz-node.log), 96 execuções completas (8 projetos × 6 repetições × 2 versões de Node), 0 falhas, `typecheck` limpo. Testes por projeto (depois dos complementos abaixo): vendas 127, origem 117, rastreio 257, roteiro 128, métricas 239, vídeo 120, views 184, debug 46, e 34 na otimização. **Revisão humana: ainda não feita.** As checklists dos READMEs seguem desmarcadas.
 
 ## Complementos depois de uma terceira pesquisa
 
@@ -171,3 +171,9 @@ Todas com teste escrito antes e visto falhando pelo motivo certo; cada projeto f
 - Mudanças de contrato desta rodada (todas aditivas ou com status novo): campos `conflicts` e `last_checked_at` em métricas, `exact` e `reconciliation` em vendas, `submission` e `copied_from` em vídeo, `status`/`cancellation` e `cancel_changes` em roteiro (`allowed_actions` em `changes_requested` ganhou um item e três testes foram atualizados), `latest_reach` na otimização passou a ser a soma exata arredondada.
 
 **Continua de fora**: métrica ausente ≠ zero (muda o contrato para campos `null` e precisa de decisão de compatibilidade), prorrogação de prazo, aprovar uma versão anterior, eventos de rastreio com data futura. **Revisão humana: ainda não feita.**
+
+## Sexta rodada: avaliação independente em views
+
+A sensibilidade ainda usava as famílias do meu gerador. Acrescentei [`src/dataset/independent.ts`](views-suspeitas/src/dataset/independent.ts): só conteúdo **orgânico**, em formas que o gerador canônico não produz (começa no pico e cai por lei de potência; zeros antes da publicação; rampa curta com queda linear; cauda lorentziana), semente própria, sem importar `families.ts`. Critérios do classificador mantidos, **nada recalibrado**, falso positivo zero não exigido, e cada caso problemático preservado com série, sinais e motivo em `data/independent-problems.json` (conferido por `npm run dataset:check`).
+
+Resultado (160 casos, 40 por forma): **0 acusados e 33 inconclusivos**, todos na forma "zeros antes da publicação" (33 de 40): o classificador lê a subida de zero para o nível normal como degrau (`step_without_return`, possível incorporação) e se abstém. Não é acusação, mas é uma limitação real: um canal que acabou de publicar fica inconclusivo. Ignorar as horas zeradas iniciais seria a correção óbvia, e foi deixada de fora de propósito porque seria recalibrar contra este conjunto; fica como melhoria. Views passa em Node 22.15 e 24.7 (3 repetições de 184 testes cada); a matriz completa de 108 execuções não foi rerodada depois desta mudança, que só tocou o projeto de views. **Revisão humana: ainda não feita.**

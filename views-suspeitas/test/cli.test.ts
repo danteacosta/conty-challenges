@@ -16,6 +16,7 @@ const copyOfProject = (name: string) => {
   mkdirSync(join(root, "data"), { recursive: true });
   cpSync(join(project, "README.md"), join(root, "README.md"));
   cpSync(join(project, "data", "dataset.sha256"), join(root, "data", "dataset.sha256"));
+  cpSync(join(project, "data", "independent-problems.json"), join(root, "data", "independent-problems.json"));
   return root;
 };
 const runDataset = (root: string, ...args: string[]) => {
@@ -50,6 +51,14 @@ describe("npm run dataset:check (o comando de verdade, sobre uma cópia)", () =>
     const result = runDataset(root, "--check");
     expect(result.code).toBe(1);
     expect(result.err).toMatch(/dataset\.sha256/);
+  }, 60_000);
+
+  it("os casos problemáticos preservados fora de sincronia também derrubam o --check", () => {
+    const root = copyOfProject("problems");
+    writeFileSync(join(root, "data", "independent-problems.json"), "[]\n");
+    const result = runDataset(root, "--check");
+    expect(result.code).toBe(1);
+    expect(result.err).toMatch(/independent-problems/);
   }, 60_000);
 
   it("sem --check, grava o dataset, o hash e conserta o README", () => {

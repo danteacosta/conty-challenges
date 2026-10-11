@@ -6,7 +6,7 @@ Os números de acerto abaixo são medidos **no meu dataset sintético**, gerado 
 
 ```bash
 npm install
-npm test               # 174 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
+npm test               # 184 testes: casos óbvios à mão, bordas de cada limiar, API, servidor e comando de verdade, dataset, avaliação e a trava do README
 npm run typecheck
 npm run mutation       # Stryker (relatório em reports/)
 
@@ -195,6 +195,26 @@ As taxas acima misturam volumes e durações. Este experimento mede cada faixa s
 
 Como ler: cada célula do cruzamento tem só 40 legítimos e 20 suspeitos, então **um falso positivo a mais ou a menos muda a taxa em 2,5 pontos**; as faixas por volume e por duração (200 e 160 legítimos) são mais estáveis, mas nenhuma é uma estimativa precisa. O que a tabela mostra com clareza: (1) com volume muito baixo o classificador **abstém-se em todos os legítimos** (nada é acusado, e o recall cai para perto de um quinto: a maior parte da compra passa); (2) o recall **cai com o volume**: a regularidade é medida contra o ruído de contagem, e quanto maior o volume mais fácil é uma compra com jitter parecer tráfego real, então ela vira dúvida ou passa; (3) os dois falsos positivos são transmissões ao vivo geradas com volume ~100/h, com regularidade 1,08 e 1,38 (abaixo do limite de 1,5): em volume baixo o ruído de contagem é grande, e a variação de audiência de 4% a 10% que o gerador dá a uma transmissão fica perto dele; é o mesmo mecanismo do falso positivo do `holdout`. Isso não foi usado para recalibrar nada.
 
+
+### Avaliação independente: conteúdo orgânico fora do gerador canônico
+
+Sensibilidade variando volume e duração ainda usa as famílias do meu gerador. Para ver se o resultado depende das formas dele, `src/dataset/independent.ts` gera **só conteúdo orgânico em formas que o gerador canônico não produz**, com outro modelo de queda e de ruído (não importa `families.ts`), com semente própria: conteúdo que **já nasce no pico** e cai por lei de potência; **zeros antes da publicação**; **rampas curtas** de 1 a 2 horas com queda linear; e **caudas lorentzianas**. Regras do experimento: os critérios ficam como estão, **nada é recalibrado** contra este conjunto, falso positivo zero não é exigido, e cada caso problemático (acusado ou inconclusivo) é **preservado** com a série, os sinais e o motivo em [`data/independent-problems.json`](data/independent-problems.json). Continua sendo dado sintético escrito por quem escreveu o classificador.
+
+<!-- independent:start -->
+| Família | Casos | Orgânico | Inconclusivo | Acusado (falso positivo) | Abstenção |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| starts_at_peak | 40 | 40 | 0 | 0 (0,0%) | 0,0% |
+| zeros_before_publication | 40 | 7 | 33 | 0 (0,0%) | 82,5% |
+| short_ramp | 40 | 40 | 0 | 0 (0,0%) | 0,0% |
+| other_tail_model | 40 | 40 | 0 | 0 (0,0%) | 0,0% |
+| total | 160 | 127 | 33 | 0 (0,0%) | 20,6% |
+<!-- independent:end -->
+
+O que isso mostrou:
+
+- **Nenhum falso positivo** nas quatro formas, mas o resultado vale para estas formas, não para tráfego real.
+- **Zeros antes da publicação são lidos como degrau**: a série "sobe de 0 para o nível normal", o detector de degrau a reconhece e o classificador se abstém (`step_without_return`, dúvida de incorporação), em 33 dos 40 casos. Não é acusação, mas é uma **limitação real**: um canal que acabou de publicar fica inconclusivo em vez de orgânico. Uma correção óbvia (ignorar as horas zeradas antes da primeira view) seria recalibrar contra este conjunto, então **não a fiz**; está registrada como melhoria possível e os 33 casos estão preservados.
+- As outras três formas ficam todas orgânicas, inclusive a que já nasce no pico, onde não há subida para o detector de cauda medir.
 
 **Estabilidade entre sementes.** O número do `holdout` não é uma semente de sorte: rodei o mesmo critério, sem mexer em nada, em seis outros pares de sementes (`test/stability.test.ts`). O falso positivo ficou entre 0% e 0,2% do total, a abstenção em legítimos entre 34% e 35% e o recall entre 56% e 60%. O teste exige falso positivo de no máximo 1%, abstenção entre 30% e 40% e recall entre 45% e 70% em cada uma.
 
