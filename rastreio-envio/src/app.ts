@@ -38,7 +38,8 @@ export function createApp(options: AppOptions) {
 
   app.onError((error, c) => {
     if (error instanceof AggregatorError) {
-      return c.json({ error: "aggregator_unavailable", kind: error.kind, message: error.message }, 502);
+      // A mensagem do erro (feita no cliente, mas que pode refletir o que a rede devolveu) não vai para a resposta: só a categoria.
+      return c.json({ error: "aggregator_unavailable", kind: error.kind, ...(error.status !== undefined ? { status: error.status } : {}) }, 502);
     }
     throw error;
   });

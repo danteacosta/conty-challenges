@@ -110,13 +110,13 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 30 · ConditionalExpression · Survived · `if (zone !== "Z") {` → `true`
 - linha 30 · StringLiteral · Survived · `if (zone !== "Z") {` → `""`
 
-## rastreio-envio: 563/594 (94.8%)
+## rastreio-envio: 568/599 (94.8%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
-| `src/alerts.ts` | 90/106 | 84.9% |
+| `src/alerts.ts` | 94/110 | 85.5% |
 | `src/aggregator/trackhub/mapper.ts` | 78/78 | 100.0% |
-| `src/config.ts` | 93/95 | 97.9% |
+| `src/config.ts` | 94/96 | 97.9% |
 | `src/domain/delay.ts` | 27/27 | 100.0% |
 | `src/domain/dialects.ts` | 24/24 | 100.0% |
 | `src/domain/normalize.ts` | 18/19 | 94.7% |
@@ -133,9 +133,9 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 61 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
 - linha 62 · ConditionalExpression · Survived · `return 'unexpected: ${typeof name === "string" && KNOWN_ERROR_NAMES.has(name) ? name : "Error"}';` → `true`
 - linha 115 · ConditionalExpression · Survived · `if (!shipment) continue;` → `false`
-- linha 140 · OptionalChaining · Survived · `discard.run(nowIso, shipment?.status === "delivered" ? "delivered" : "within_threshold", row.id);` → `shipment.status`
-- linha 139 · ConditionalExpression · Survived · `if (!shipment || !delay || !delay.delayed) {` → `false`
-- linha 139 · LogicalOperator · Survived · `if (!shipment || !delay || !delay.delayed) {` → `!shipment && !delay`
+- linha 146 · OptionalChaining · Survived · `discard.run(nowIso, shipment?.status === "delivered" ? "delivered" : "within_threshold", row.id);` → `shipment.status`
+- linha 145 · ConditionalExpression · Survived · `if (!shipment || !delay || !delay.delayed) {` → `false`
+- linha 145 · LogicalOperator · Survived · `if (!shipment || !delay || !delay.delayed) {` → `!shipment && !delay`
 - linha 56 · StringLiteral · Survived · `const KNOWN_ERROR_NAMES = new Set(["Error", "TypeError", "RangeError", "SyntaxError", "ReferenceError", "Aggre` → `""`
 - linha 56 · StringLiteral · Survived · `const KNOWN_ERROR_NAMES = new Set(["Error", "TypeError", "RangeError", "SyntaxError", "ReferenceError", "Aggre` → `""`
 - linha 56 · StringLiteral · Survived · `const KNOWN_ERROR_NAMES = new Set(["Error", "TypeError", "RangeError", "SyntaxError", "ReferenceError", "Aggre` → `""`
@@ -147,8 +147,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/config.ts`**
 
-- linha 16 · StringLiteral · Survived · `super('Configuração inválida:\n${problems.map((problem) => '- ${problem}').join("\n")}');` → `""`
-- linha 55 · StringLiteral · Survived · `if (protocol !== "http:" && protocol !== "https:") throw new Error("protocolo");` → `""`
+- linha 18 · StringLiteral · Survived · `super('Configuração inválida:\n${problems.map((problem) => '- ${problem}').join("\n")}');` → `""`
+- linha 58 · StringLiteral · Survived · `if (protocol !== "http:" && protocol !== "https:") throw new Error("protocolo");` → `""`
 
 **`src/domain/normalize.ts`**
 
@@ -157,14 +157,14 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 **`src/domain/status.ts`**
 
 - linha 41 · ConditionalExpression · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `true`
-- linha 41 · ConditionalExpression · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `true`
-- linha 41 · ConditionalExpression · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `false`
 - linha 41 · ConditionalExpression · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `false`
 - linha 41 · EqualityOperator · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `a.dedupeKey <= b.dedupeKey`
+- linha 41 · EqualityOperator · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `a.dedupeKey >= b.dedupeKey`
+- linha 41 · ConditionalExpression · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `true`
+- linha 41 · ConditionalExpression · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `false`
 - linha 41 · UnaryOperator · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `+1`
 - linha 41 · EqualityOperator · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `a.dedupeKey >= b.dedupeKey`
 - linha 41 · EqualityOperator · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `a.dedupeKey <= b.dedupeKey`
-- linha 41 · EqualityOperator · Survived · `(a.dedupeKey < b.dedupeKey ? -1 : a.dedupeKey > b.dedupeKey ? 1 : 0)` → `a.dedupeKey >= b.dedupeKey`
 - linha 15 · ObjectLiteral · Survived · `const TIE_PRIORITY: Record<Status, number> = {` → `{}`
 
 **`src/instant.ts`**
@@ -245,7 +245,7 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 - linha 202 · ConditionalExpression · Survived · `if (target === null) return stateFailure(script);` → `false`
 
-## metricas-redes: 720/759 (94.9%)
+## metricas-redes: 743/780 (95.3%)
 
 | arquivo | mortos / total | % |
 |---|---|---|
@@ -255,8 +255,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 | `src/instant.ts` | 114/116 | 98.3% |
 | `src/providers/adapters.ts` | 124/129 | 96.1% |
 | `src/providers/http.ts` | 110/126 | 87.3% |
-| `src/store.ts` | 136/143 | 95.1% |
-| `src/sync.ts` | 84/89 | 94.4% |
+| `src/store.ts` | 147/151 | 97.4% |
+| `src/sync.ts` | 96/102 | 94.1% |
 
 Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos são equivalentes):
 
@@ -272,8 +272,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/instant.ts`**
 
-- linha 30 · StringLiteral · Survived · `if (zone !== "Z") {` → `""`
 - linha 30 · ConditionalExpression · Survived · `if (zone !== "Z") {` → `true`
+- linha 30 · StringLiteral · Survived · `if (zone !== "Z") {` → `""`
 
 **`src/providers/adapters.ts`**
 
@@ -293,8 +293,8 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 - linha 58 · StringLiteral · Survived · `if (response.status >= 500) throw new ProviderError("server", 'o provedor respondeu ${response.status}', respo` → `''`
 - linha 59 · StringLiteral · Survived · `if (!response.ok) throw new ProviderError("client", 'o provedor respondeu ${response.status}', response.status` → `''`
 - linha 67 · StringLiteral · Survived · `throw new ProviderError("timeout", 'o provedor não terminou de enviar o corpo em ${this.timeoutMs} ms', undefi` → `''`
-- linha 69 · StringLiteral · Survived · `throw new ProviderError("network", 'a conexão com o provedor caiu durante o corpo (${safeName((error as { name` → `''`
 - linha 69 · OptionalChaining · Survived · `throw new ProviderError("network", 'a conexão com o provedor caiu durante o corpo (${safeName((error as { name` → `(error as {   name?: unknown; } | null).name`
+- linha 69 · StringLiteral · Survived · `throw new ProviderError("network", 'a conexão com o provedor caiu durante o corpo (${safeName((error as { name` → `''`
 - linha 75 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o provedor devolveu um corpo que não é JSON", undefined, null, "bo` → `""`
 - linha 78 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data", undefined, null, "missi` → `""`
 - linha 78 · StringLiteral · Survived · `throw new ProviderError("invalid_payload", "o corpo do provedor não tem a lista data", undefined, null, "missi` → `""`
@@ -304,21 +304,19 @@ Mutantes vivos (cada um precisa ser avaliado por módulo; não assumo que todos 
 
 **`src/store.ts`**
 
-- linha 249 · ConditionalExpression · Survived · `last_checked_at: posts.reduce<string | null>((latest, p) => (latest === null || p.last_checked_at > latest ? p` → `true`
-- linha 249 · EqualityOperator · Survived · `last_checked_at: posts.reduce<string | null>((latest, p) => (latest === null || p.last_checked_at > latest ? p` → `p.last_checked_at >= latest`
-- linha 250 · EqualityOperator · Survived · `last_fetched_at: posts.reduce<string | null>((latest, p) => (latest === null || p.fetched_at > latest ? p.fetc` → `p.fetched_at >= latest`
-- linha 128 · Regex · Survived · `/^(timeout|network|server|rate_limited|client|invalid_payload)( \(\d{3}\))?(: [A-Za-z0-9_]{1,40})?$/,` → `/(timeout|network|server|rate_limited|client|inval`
-- linha 128 · Regex · Survived · `/^(timeout|network|server|rate_limited|client|invalid_payload)( \(\d{3}\))?(: [A-Za-z0-9_]{1,40})?$/,` → `/^(timeout|network|server|rate_limited|client|inva`
-- linha 128 · Regex · Survived · `/^(timeout|network|server|rate_limited|client|invalid_payload)( \(\d{3}\))?(: [A-Za-z0-9_]{1,40})?$/,` → `/^(timeout|network|server|rate_limited|client|inva`
-- linha 131 · Regex · Survived · `/^(too_many_pages|pagination_loop|cooldown_active)$/,` → `/(too_many_pages|pagination_loop|cooldown_active)$`
+- linha 257 · ConditionalExpression · Survived · `last_checked_at: posts.reduce<string | null>((latest, p) => (latest === null || p.last_checked_at > latest ? p` → `true`
+- linha 257 · EqualityOperator · Survived · `last_checked_at: posts.reduce<string | null>((latest, p) => (latest === null || p.last_checked_at > latest ? p` → `p.last_checked_at >= latest`
+- linha 258 · EqualityOperator · Survived · `last_fetched_at: posts.reduce<string | null>((latest, p) => (latest === null || p.fetched_at > latest ? p.fetc` → `p.fetched_at >= latest`
+- linha 131 · Regex · Survived · `const STATIC_FORMS = [/^rate_limited: o provedor pediu para esperar \d+ ms$/, /^(too_many_pages|pagination_loo` → `/(too_many_pages|pagination_loop|cooldown_active)$`
 
 **`src/sync.ts`**
 
-- linha 28 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
-- linha 28 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
-- linha 28 · LogicalOperator · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `typeof error === "object" || error !== null`
-- linha 28 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
-- linha 87 · StringLiteral · Survived · `terminal = { status: "deferred", error: 'rate_limited: o provedor pediu para esperar ${decision.retryAfterMs} ` → `''`
+- linha 26 · StringLiteral · Survived · `return "unexpected: Error"; // um erro cujo próprio acesso a name/kind lança não pode derrubar o registro da f` → `""`
+- linha 36 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
+- linha 36 · LogicalOperator · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `typeof error === "object" || error !== null`
+- linha 36 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
+- linha 36 · ConditionalExpression · Survived · `const name = typeof error === "object" && error !== null ? (error as { name?: unknown }).name : undefined;` → `true`
+- linha 101 · StringLiteral · Survived · `terminal = { status: "deferred", error: 'rate_limited: o provedor pediu para esperar ${waitMs} ms', retryAt: e` → `''`
 
 ## revisao-video: 605/723 (83.7%)
 

@@ -5,8 +5,9 @@ import { afterAll, describe, expect, it } from "vitest";
 import { openDatabase } from "../src/db.ts";
 import { extendCooldown, getConnection } from "../src/store.ts";
 import { tsWorker } from "./spawn-worker.ts";
-import { limited, snap } from "./fakes.ts";
-import { setup } from "./helpers.ts";
+import { createApp } from "../src/app.ts";
+import { FakeClock, FakeProvider, limited, snap, timeout } from "./fakes.ts";
+import { ALL, DEFAULT_POLICY, setup } from "./helpers.ts";
 
 const dir = mkdtempSync(join(tmpdir(), "metricas-cooldown-"));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
@@ -187,4 +188,107 @@ describe("o prazo não regride", () => {
       check.close();
     }
   }, 60_000);
+});
+
+describe("casos extremos do prazo", () => {
+  const DAY = 24 * 60 * 60 * 1000;
+
+  it("Retry-After absurdo (ano 9999+) é limitado a 7 dias: a sync termina adiada, não fica presa em 'running', e o cooldown vale", async () => {
+    const t = setup();
+    t.provider.posts = [snap("p1", P1, T1, 1000)];
+    const id = await t.connect();
+    t.provider.failNext(limited(9_000_000_000_000_000));
+    const run = await t.sync(id);
+    expect(run.status).toBe(202);
+    expect(run.body).toMatchObject({ status: "deferred", retry_at: new Date(Date.parse(START) + 7 * DAY).toISOString() });
+    expect(run.body.finished_at).not.toBeNull();
+    const blocked = await t.sync(id);
+    expect(blocked.body).toMatchObject({ error: "cooldown_active" });
+    expect((await t.runs(id)).body.every((r: any) => r.status !== "running")).toBe(true);
+  });
+
+  it("Retry-After de 300 bilhões de ms (ano 11533) também vira 7 dias e bloqueia de verdade", async () => {
+    const t = setup();
+    t.provider.posts = [snap("p1", P1, T1, 1000)];
+    const id = await t.connect();
+    t.provider.failNext(limited(300_000_000_000));
+    await t.sync(id);
+    expect((await t.sync(id)).body.error).toBe("cooldown_active");
+    expect(t.provider.calls).toHaveLength(1);
+  });
+
+  it("uma exceção no meio da sync não deixa a execução em 'running': termina 'failed' com a classe do erro", async () => {
+    const t = setup();
+    const id = await t.connect();
+    const hostile = { get name(): string { throw new Error("getter hostil"); } } as unknown as Error;
+    t.provider.failNext(hostile);
+    const run = await t.sync(id);
+    expect(run.status).toBe(502);
+    expect(run.body).toMatchObject({ status: "failed", error: "unexpected: Error" });
+    expect((await t.runs(id)).body[0].status).toBe("failed");
+  });
+
+  it("o retry_at devolvido é o cooldown efetivo (o maior), mesmo que outra sync tenha estendido o prazo no meio", async () => {
+    const t = setup();
+    t.provider.posts = [snap("p1", P1, T1, 1000)];
+    const id = await t.connect();
+    const original = t.provider.fetchPosts.bind(t.provider);
+    t.provider.fetchPosts = async (request) => {
+      extendCooldown(t.db, id, "2026-06-01T12:10:00.000Z"); // outra sync, com Retry-After maior, terminou antes
+      return original(request);
+    };
+    t.provider.failNext(limited(120_000));
+    const run = await t.sync(id);
+    expect(run.body).toMatchObject({ status: "deferred", retry_at: "2026-06-01T12:10:00.000Z" });
+  });
+
+  it("extendCooldown normaliza o formato: sem milissegundos ou com offset não derruba a comparação", async () => {
+    const t = setup();
+    const id = await t.connect();
+    extendCooldown(t.db, id, "2026-06-01T12:02:00.000Z");
+    extendCooldown(t.db, id, "2026-06-01T12:01:00Z"); // formato sem milissegundos, mais cedo
+    expect(getConnection(t.db, id)!.cooldown_until).toBe("2026-06-01T12:02:00.000Z");
+    extendCooldown(t.db, id, "2026-06-01T10:03:00-03:00"); // 13:03Z, mais tarde
+    expect(getConnection(t.db, id)!.cooldown_until).toBe("2026-06-01T13:03:00.000Z");
+    expect(() => extendCooldown(t.db, id, "não é data")).toThrow();
+  });
+});
+
+describe("token da conexão", () => {
+  it.each([["com caractere fora do ASCII imprimível", "tok☃"], ["com quebra de linha", "tok\nx"], ["com espaço no meio", "tok x"]])("%s é 400 no cadastro", async (_name, token) => {
+    const t = setup();
+    const res = await t.call("POST", "/connections", { provider: "instagram", account_id: "acc_9", token });
+    expect(res.status).toBe(400);
+    expect(res.body).toMatchObject({ error: "validation_error", field: "token" });
+  });
+});
+
+
+describe("falha inesperada dentro da sync", () => {
+  it("um erro fora do provedor (aqui, o sleep) não deixa a execução em running e só registra a classe", async () => {
+    const clock = new FakeClock(START);
+    const db = openDatabase(":memory:");
+    const provider = new FakeProvider(clock);
+    provider.posts = [snap("p1", P1, T1, 1000)];
+    const app = createApp({
+      db,
+      providerFor: () => provider,
+      now: clock.now,
+      sleep: async () => {
+        throw new TypeError("segredo-no-texto tok-super-secreto");
+      },
+      policy: DEFAULT_POLICY,
+      maxPages: 50,
+    });
+    const post = (path: string, body: unknown) =>
+      app.request(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    const created = (await (await post("/connections", { provider: "instagram", account_id: "acc_1", token: "tok-super-secreto" })).json()) as any;
+    provider.failNext(timeout());
+    const res = await post(`/connections/${created.id}/sync`, ALL);
+    const run = (await res.json()) as any;
+    expect(run.status).toBe("failed");
+    expect(run.error).toBe("unexpected: TypeError");
+    expect(run.finished_at).not.toBeNull();
+    expect(JSON.stringify(run)).not.toContain("segredo");
+  });
 });

@@ -12,7 +12,11 @@ export class HttpTrackHubClient implements TrackingAggregator {
   private readonly timeoutMs: number;
   private readonly doFetch: typeof fetch;
 
-  constructor(private readonly options: TrackHubOptions) {
+  // Sem "parameter properties": este módulo pode ser carregado por workers .ts em modo strip-only, que não as aceitam.
+  private readonly options: TrackHubOptions;
+
+  constructor(options: TrackHubOptions) {
+    this.options = options;
     this.baseUrl = options.baseUrl.replace(/\/+$/, "");
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this.doFetch = options.fetch ?? fetch;
@@ -49,7 +53,9 @@ export class HttpTrackHubClient implements TrackingAggregator {
     if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
       return new AggregatorError("timeout", `o TrackHub não respondeu em ${this.timeoutMs} ms`);
     }
-    return new AggregatorError("network", `não foi possível falar com o TrackHub: ${(error as Error).message}`);
+    // Só a classe do erro: a mensagem de um erro de rede pode trazer a URL, o cabeçalho de autorização ou o corpo.
+    const name = error instanceof Error && ["Error", "TypeError", "RangeError", "SyntaxError", "DOMException"].includes(error.name) ? error.name : "Error";
+    return new AggregatorError("network", `não foi possível falar com o TrackHub (${name})`);
   }
 
   private async request(method: string, path: string, body?: unknown, acceptedStatuses: number[] = []): Promise<Response> {

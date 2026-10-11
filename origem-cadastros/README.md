@@ -6,7 +6,7 @@ Contrato de atribuição de origem: o que viaja no link, o que o app grava no pr
 npm install
 npm test            # 117 testes: regra, política, datas, API, conflito de cadastro, propriedades, concorrência, e2e HTTP
 npm run typecheck
-npm run mutation    # Stryker em decide-origin, link e store (relatório em reports/)
+npm run mutation    # Stryker em decide-origin, link, instant e store (relatório em reports/)
 npm start           # http://127.0.0.1:3011 (DB_PATH=arquivo.db para persistir)
 ```
 

@@ -45,7 +45,7 @@ Um **log append-only** (`events`) explica cada mudança: `approved` (com as vers
 | `POST …/versions/:n/comments` `{second, text, author?}` | comenta. No vídeo o `second` é obrigatório (inteiro ≥ 0 e ≤ `duration_seconds`, se houver); nas outras peças o comentário vale para a peça toda e `second` é recusado. |
 | `POST /deliveries/:id/approve` | aprova a entrega (409 `pieces_pending` se faltar peça; repetir é inofensivo). |
 
-Erros: `400 validation_error` (com `field`), `404 not_found` (com `what`: campanha, entrega ou versão) e `unknown_piece`, `409 pieces_pending` / `version_superseded` / `version_not_pending`.
+Erros: `400 validation_error` (com `field`), `404 not_found` (com `what`: `campaign`, `delivery` ou `version`) e `unknown_piece`, `409 pieces_pending` / `version_superseded` / `version_not_pending` / `submission_conflict`. Também existe `GET /campaigns/:id` (a campanha com as peças exigidas).
 
 ## Exemplo
 

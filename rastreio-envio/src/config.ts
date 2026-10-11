@@ -12,9 +12,12 @@ export type Config = {
 };
 
 export class ConfigError extends Error {
-  constructor(readonly problems: string[]) {
+  readonly problems: string[];
+
+  constructor(problems: string[]) {
     super(`Configuração inválida:\n${problems.map((problem) => `- ${problem}`).join("\n")}`);
     this.name = "ConfigError";
+    this.problems = problems;
   }
 }
 

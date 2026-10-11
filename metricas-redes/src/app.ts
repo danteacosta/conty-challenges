@@ -39,7 +39,8 @@ export function createApp(options: AppOptions) {
     const token = text(body?.token);
     if (!provider || !(PROVIDERS as readonly string[]).includes(provider)) return c.json({ error: "validation_error", field: "provider", supported: PROVIDERS }, 400);
     if (!accountId) return c.json({ error: "validation_error", field: "account_id" }, 400);
-    if (!token) return c.json({ error: "validation_error", field: "token" }, 400);
+    // Vai num cabeçalho Authorization: caractere fora do ASCII imprimível (ou espaço) faria o fetch lançar e viraria "network" repetido.
+    if (!token || !/^[\x21-\x7E]{1,2000}$/.test(token)) return c.json({ error: "validation_error", field: "token", message: "token deve ter só caracteres ASCII imprimíveis, sem espaço" }, 400);
 
     const created = createConnection(db, { id: crypto.randomUUID(), provider: provider as Provider, accountId, token }, now);
     if (!created.ok) return c.json({ error: created.code }, 409);

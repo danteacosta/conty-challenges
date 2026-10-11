@@ -212,6 +212,20 @@ describe("normalização do que já estava gravado", () => {
     expect(normalizeStoredError(input)).toBe(expected);
   });
 
+  it.each([
+    ["unexpected: tokSECRETfa", "unexpected: Error"],
+    ["unexpected: TypeError", "unexpected: TypeError"],
+    ["server: tok_SECRET_9f3a", "server"],
+    ["client: sk_live_abcDEF123", "client"],
+    ["rate_limited: tok123", "rate_limited"],
+    ["network: ECONNREFUSED", "network: ECONNREFUSED"],
+    ["network: ECONNREFUSED_x", "network"],
+    ["timeout: body", "timeout: body"],
+    ["timeout: bodyx", "timeout"],
+  ])("a forma só é aceita com valores de listas fechadas: %j → %j", (input, expected) => {
+    expect(normalizeStoredError(input)).toBe(expected);
+  });
+
   it("cooldown de conexão que não existe é nulo", () => {
     expect(activeCooldown(openDatabase(":memory:"), "nao-existe", new Date())).toBeNull();
   });

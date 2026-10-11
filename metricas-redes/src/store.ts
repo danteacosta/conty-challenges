@@ -2,6 +2,7 @@ import type { DatabaseSync } from "node:sqlite";
 import { inTransaction } from "./db.ts";
 import type { PostSnapshot } from "./domain/types.ts";
 import type { Provider } from "./providers/adapters.ts";
+import { isSafeDetail, safeName } from "./providers/safe.ts";
 
 export type Connection = { id: string; provider: Provider; account_id: string; token: string; created_at: string; cooldown_until: string | null };
 
@@ -27,8 +28,10 @@ export function getConnection(db: DatabaseSync, id: string): Connection | undefi
  * sincronizações adiadas ao mesmo tempo, de conexões ao banco diferentes, deixam o MAIOR prazo, e um prazo mais curto que chega
  * depois nunca encurta o que já existe. Os instantes são ISO-8601 em UTC com milissegundos, que ordenam como texto.
  */
-export function extendCooldown(db: DatabaseSync, connectionId: string, untilIso: string): void {
-  db.prepare("UPDATE connections SET cooldown_until = MAX(COALESCE(cooldown_until, ''), ?) WHERE id = ?").run(untilIso, connectionId);
+export function extendCooldown(db: DatabaseSync, connectionId: string, until: string): void {
+  // Sempre o formato canônico (UTC, com milissegundos): a comparação do MAX é de texto, e "…:00Z" ordena depois de "…:00.000Z".
+  const normalized = new Date(until).toISOString();
+  db.prepare("UPDATE connections SET cooldown_until = MAX(COALESCE(cooldown_until, ''), ?) WHERE id = ?").run(normalized, connectionId);
 }
 
 /** O prazo em vigor (ainda no futuro), ou null. Lê do banco: outra conexão pode ter acabado de estendê-lo. */
@@ -124,20 +127,25 @@ export function runView(row: RunRow) {
   };
 }
 
-const SAFE_ERROR_FORMS = [
-  /^(timeout|network|server|rate_limited|client|invalid_payload)( \(\d{3}\))?(: [A-Za-z0-9_]{1,40})?$/,
-  /^unexpected: [A-Za-z]{1,40}$/,
-  /^rate_limited: o provedor pediu para esperar \d+ ms$/,
-  /^(too_many_pages|pagination_loop|cooldown_active)$/,
-];
+const KINDS_PATTERN = "timeout|network|server|rate_limited|client|invalid_payload";
+const STATIC_FORMS = [/^rate_limited: o provedor pediu para esperar \d+ ms$/, /^(too_many_pages|pagination_loop|cooldown_active)$/];
 
 /**
  * Linhas gravadas antes da correção de segurança podem ter texto livre (`unexpected: <mensagem>`, `server: <mensagem>`). Na
- * leitura, o que não tem uma das formas seguras vira só a categoria (e o status, se houver) ou `unexpected: Error`.
+ * leitura só sobrevive uma forma cujos valores estejam nas listas fechadas de `safe.ts`: a classe de erro conhecida, o status
+ * entre 100 e 599 e o detalhe conhecido. O resto vira a categoria (e o status, se houver) ou `unexpected: Error`.
  */
 export function normalizeStoredError(error: string | null): string | null {
-  if (error === null || SAFE_ERROR_FORMS.some((form) => form.test(error))) return error;
-  const kind = /^(timeout|network|server|rate_limited|client|invalid_payload)\b/.exec(error)?.[1];
+  if (error === null) return null;
+  if (STATIC_FORMS.some((form) => form.test(error))) return error;
+  const unexpected = /^unexpected: (\w{1,60})$/.exec(error);
+  if (unexpected) return `unexpected: ${safeName(unexpected[1])}`;
+  const structured = new RegExp(`^(${KINDS_PATTERN})(?: \\((\\d{3})\\))?(?:: (\\w{1,60}))?$`).exec(error);
+  if (structured) {
+    const [, kind, status, detail] = structured as unknown as [string, string, string | undefined, string | undefined];
+    return `${kind}${status ? ` (${status})` : ""}${detail && isSafeDetail(detail) ? `: ${detail}` : ""}`;
+  }
+  const kind = new RegExp(`^(${KINDS_PATTERN})\\b`).exec(error)?.[1];
   if (!kind) return "unexpected: Error";
   const status = /\b([1-5]\d{2})\b/.exec(error)?.[1];
   return status ? `${kind} (${status})` : kind;

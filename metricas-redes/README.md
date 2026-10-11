@@ -4,7 +4,7 @@ Serviço que, dada uma conexão **já autorizada** (token fictício), sincroniza
 
 ```bash
 npm install
-npm test            # 296 testes: retry, Retry-After, adapters, sync, cliente HTTP (inclusive corpo interrompido), configuração, e2e nas 4 redes, corrida
+npm test            # 314 testes: retry, Retry-After, adapters, sync, cliente HTTP (inclusive corpo interrompido), configuração, e2e nas 4 redes, corrida
 npm run typecheck
 npm run mutation    # Stryker (relatório em reports/)
 
@@ -67,7 +67,7 @@ Mensagem de erro de adapter, de biblioteca ou de rede pode carregar um token, um
 | `invalid_payload: body_not_json`, `missing_data`, `bad_cursor` | por que o corpo foi recusado |
 | `unexpected: TypeError` | erro que não é do provedor, com o nome só se for de uma classe conhecida (senão `Error`) |
 
-Uma regra "parece um identificador" deixaria passar um token alfanumérico curto, por isso nomes e códigos vêm de **listas fechadas** (`src/providers/safe.ts`). `kind` e `status` forjados por um adapter viram `unexpected: ProviderError`. Linhas gravadas antes desta correção, com texto livre, saem **normalizadas na leitura** (`server: o provedor respondeu 503 ...` vira `server (503)`). A URL do provedor não é repetida na mensagem de erro de configuração (podia ter usuário, senha ou token no meio) e o log de inicialização mostra só a **origem** (protocolo, host e porta). Um erro que escapa vira `500 {"error":"internal_error"}` e o log guarda só a classe. **Mudança de formato**: antes o texto era `kind: mensagem`; quem fazia parse dessa string precisa do novo formato (`error` da sync `deferred` por 429 continua `rate_limited: o provedor pediu para esperar N ms`, numérico). O diagnóstico detalhado de um erro inesperado precisa de um log do operador; ele não volta mais ao cliente. Testado com um segredo sintético em cada caminho (`test/error-safety.test.ts`).
+Uma regra "parece um identificador" deixaria passar um token alfanumérico curto, por isso nomes e códigos vêm de **listas fechadas** (`src/providers/safe.ts`). `kind` e `status` forjados por um adapter viram `unexpected: ProviderError`. Linhas gravadas antes desta correção, com texto livre, saem **normalizadas na leitura** (`server: o provedor respondeu 503 ...` vira `server (503)`). A URL do provedor não é repetida na mensagem de erro de configuração (podia ter usuário, senha ou token no meio) e o log de inicialização mostra só a **origem** (protocolo, host e porta). Um erro que escapa vira `500 {"error":"internal_error"}` e o log guarda só a classe. **Mudança de formato**: antes o texto era `kind: mensagem`; quem fazia parse dessa string precisa do novo formato (`error` da sync `deferred` por 429 e o `retry_at` são limitados a 7 dias; `error` da sync `deferred` por 429 continua `rate_limited: o provedor pediu para esperar N ms`, numérico). O diagnóstico detalhado de um erro inesperado precisa de um log do operador; ele não volta mais ao cliente. Testado com um segredo sintético em cada caminho (`test/error-safety.test.ts`).
 
 ## Cooldown entre sincronizações
 
@@ -102,14 +102,19 @@ POST /connections/59896ddd-…/sync
 { "since": "2026-05-24T00:00:00Z", "until": "2026-05-31T00:00:00Z" }
 ```
 ```json
-{ "run_id": 2, "status": "succeeded", "attempts": 1, "pages": 1, "received": 2, "new_snapshots": 1, "duplicates": 1, "stale": 0, "invalid": 0, "waits_ms": [], "retry_at": null, "error": null }
+{ "run_id": 2, "status": "succeeded", "attempts": 1, "pages": 1, "received": 2, "new_snapshots": 1, "duplicates": 1, "stale": 0, "conflicts": 0, "invalid": 0, "waits_ms": [], "retry_at": null, "error": null }
 ```
 ```json
 {
+  "connection": { "id": "59896ddd-…", "provider": "instagram", "account_id": "demo" },
+  "cooldown_until": null,
+  "last_checked_at": "2026-10-09T19:08:24.064Z",
   "last_fetched_at": "2026-10-09T19:08:24.064Z",
   "totals": { "posts": 3, "views": 7400, "likes": 555, "comments": 43, "shares": 22 },
   "posts": [{ "post_id": "instagram_2", "published_at": "2026-05-25T10:00:00.000Z", "as_of": "2026-10-09T19:08:22.006Z",
-              "fetched_at": "2026-10-09T19:08:24.022Z", "snapshots": 1, "metrics": { "views": 5400, "likes": 410, "comments": 32, "shares": 18 } }]
+              "fetched_at": "2026-10-09T19:08:24.022Z", "last_checked_at": "2026-10-09T19:08:24.064Z", "snapshots": 1,
+              "metrics": { "views": 5400, "likes": 410, "comments": 32, "shares": 18 } }],
+  "conflicts": []
 }
 ```
 
@@ -141,8 +146,8 @@ A rede e as esperas acontecem fora das transações. Se a **segunda página** fa
 
 ## Verificação
 
-- 296 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
-- Mutação (Stryker): 720 de 759 (94,9%): `retry` 100%, `retry-after` 97,4%, `store` 98,3%, `sync` 98,5%, `instant` 98,3%, `adapters` 96,1%, `config` 95,7%, `http` 87,3%. Os vivos de `http.ts` são sobretudo o texto das mensagens de erro (os testes afirmam o tipo da falha, não a frase) e dois ramos equivalentes (`catch {}` do JSON e `typeof body` antes de ler `data`, que dão `invalid_payload` de qualquer jeito). Em `store.ts`, `>=` no lugar de `>` do `as_of` é equivalente: um snapshot com o mesmo `as_of` já foi barrado antes como duplicado.
+- 314 testes em Node 22.15.0 e 24.7.0. Relatório e script para repetir em [`../verificacao`](../verificacao/README.md).
+- Mutação (Stryker): 743 de 780 (95,3%): `retry` 100%, `retry-after` 97,4%, `store` 97,4%, `sync` 94,1%, `instant` 98,3%, `adapters` 96,1%, `config` 95,9%, `http` 87,3%. A queda de `sync` e `store` em relação à rodada anterior vem do código novo (prazo máximo do cooldown, `catch` externo, normalização do histórico), com mais casos de borda; os vivos de `sync.ts` são o texto de `unexpected:` e o filtro de `typeof error` dentro de `safeFailure` (o mesmo resultado cai em `Error`). Os vivos de `http.ts` são sobretudo o texto das mensagens de erro (os testes afirmam o tipo da falha, não a frase) e dois ramos equivalentes (`catch {}` do JSON e `typeof body` antes de ler `data`, que dão `invalid_payload` de qualquer jeito). Em `store.ts`, `>=` no lugar de `>` do `as_of` é equivalente: um snapshot com o mesmo `as_of` já foi barrado antes como duplicado.
 - Mutação manual nos pontos críticos, todos pegos: tentativas (`>`/`>=`), teto do `Retry-After`, backoff, erro do cliente repetido, data passada do `Retry-After`, unidade (ms), época em segundos, contador negativo, 500/408, cursor, leitura do cabeçalho errado, snapshot atrasado substituindo o atual, "sempre substitui", `retry_at` no passado, espera não registrada ou não feita, tentativas não contadas, cursor repetido, teto de páginas, erro inesperado, token devolvido, códigos 202/502 e janela invertida.
 - **`BEGIN IMMEDIATE` por `BEGIN` não é detectado, e é equivalente aqui**: toda transação deste projeto começa por uma escrita (`INSERT`/`UPDATE`), então o lock é tomado na primeira instrução de qualquer jeito. O `IMMEDIATE` fica como defesa para uma transação futura que leia antes de escrever. O que a corrida protege (e os testes provam) é a idempotência por chave: sem `ON CONFLICT` ou com "sempre substitui" o teste de concorrência falha.
 
@@ -150,8 +155,8 @@ A rede e as esperas acontecem fora das transações. Se a **segunda página** fa
 
 - **A janela é de publicação.** `since`/`until` filtram posts pela data em que foram publicados (no provedor). Uma janela por `as_of` mudaria quais posts voltam.
 - **Retry-After acima do teto adia em vez de esperar o teto e tentar.** Tentar antes do que o provedor pediu arrisca outro 429 e contraria o pedido dele. O custo: a sync fica incompleta até `retry_at`, e **o agendamento dessa nova tentativa não existe aqui** (quem chama usa o `retry_at`).
-- **Mesmo `as_of` com contadores diferentes**: vale o primeiro. É o mesmo snapshot pela chave; se um provedor republicar números diferentes com o mesmo `as_of`, o segundo é descartado.
-- **Sem cooldown persistente**: o `retry_at` de uma sync adiada não impede outra sync de tentar antes (ela mesma receberia outro 429). Um cooldown por conexão, guardado no banco, é o próximo passo.
+- **Mesmo `as_of` com contadores diferentes**: vale o primeiro (o canônico) e a divergência fica registrada como conflito, sem sobrescrever; se o provedor corrige números com o mesmo `as_of`, reconciliar é decisão de produto (ver "Conflito de snapshot").
+- **Cooldown por conta, com limites declarados**: o prazo do `Retry-After` fica no banco e vale entre sincronizações, mas (1) duas syncs que começam ao mesmo tempo, de conexões ao banco diferentes, podem ambas chamar o provedor antes de qualquer uma gravar o prazo (a checagem e a chamada de rede não são atômicas, de propósito: a rede fica fora de transação); (2) um `Retry-After` que cabe no teto de espera, e portanto é esperado dentro da sync, não publica cooldown, então outra sync no mesmo período pode levar outro 429; (3) um `Retry-After` acima de 7 dias é limitado a 7 dias.
 - **Sem orçamento total de espera por sync**: o teto é por espera e as tentativas são por página, então uma sync de muitas páginas pode demorar. Um orçamento total é o próximo passo.
 - Sem OAuth real, renovação de token, autenticação das rotas, agendamento das sincronizações nem métricas por vídeo/story. O token é guardado em texto no SQLite, o que só é aceitável porque é fictício.
 - O `parseInstant` está copiado em outros projetos da pasta: cada um é independente.

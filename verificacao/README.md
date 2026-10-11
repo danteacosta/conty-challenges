@@ -7,14 +7,16 @@ Tudo aqui pode ser rodado de novo; nada depende de confiar no meu relato.
 ```bash
 N22_BIN=~/.nvm/versions/node/v22.15.0/bin \
 N24_BIN=/opt/homebrew/bin \
-DEBUG_REPO=/caminho/para/o/clone/do/fork-de-debug \       # opcional
-OPTIMIZE_REPO=/caminho/para/o/clone/do/fork-de-otimizacao \ # opcional
+DEBUG_REPO=/caminho/para/o/clone/do/fork-de-debug \
+OPTIMIZE_REPO=/caminho/para/o/clone/do/fork-de-otimizacao \
 ./verificacao/matriz-node.sh 6
 ```
 
+`DEBUG_REPO` e `OPTIMIZE_REPO` são opcionais: sem eles, a matriz roda só os sete projetos deste repositório.
+
 A matriz falha fechado: o resultado vem do código de saída de cada `vitest` e de cada `typecheck`, e saída sem a linha "Tests" conta como falha. `./verificacao/autoteste-matriz.sh` prova isso com executáveis falsos.
 
-Roda `npm run typecheck` e `vitest run` completo de cada projeto, `N` vezes (padrão 6) em cada versão de Node, e sai com código ≠ 0 se houver falha. A saída da minha rodada de 09/10/2026 está em [`matriz-node.log`](matriz-node.log): 108 execuções completas, com a matriz falhando fechado (vendas 127, origem 117, rastreio 271, roteiro 160, métricas 296, vídeo 120, views 195, debug 82 e otimização 38 testes; 6 repetições em Node 22.15.0 e em 24.7.0), 0 falhas e 0 erros de typecheck. As repetições existem porque parte da suíte é concorrente e baseada em propriedades. O fast-check usa uma semente aleatória a cada execução; quando uma propriedade falha, o vitest imprime a semente e o caminho, e o replay de um caso real da auditoria (`seed: 559970327`) está fixado em `rastreio-envio/test/status.test.ts`.
+Roda `npm run typecheck` e `vitest run` completo de cada projeto, `N` vezes (padrão 6) em cada versão de Node, e sai com código ≠ 0 se houver falha. A saída da minha rodada de 11/10/2026 está em [`matriz-node.log`](matriz-node.log): 108 execuções completas, **1 com falha** e 0 erros de typecheck (vendas 127, origem 117, rastreio 274, roteiro 160, métricas 314, vídeo 120, views 195, debug 94 e otimização 43 testes; 6 repetições em Node 22.15.0 e em 24.7.0). A falha foi `ERR_IPC_CHANNEL_CLOSED` no runner do vitest (roteiro, Node 22.15.0, repetição 1; todos os 160 testes passam nas demais): é a terceira ocorrência do mesmo sintoma, a causa continua desconhecida e não adicionei retry para escondê-la. Depois da matriz, rodei a suíte do roteiro mais 8 vezes em 22.15.0 (160 testes, sem falha), como evidência complementar e não como substituição do resultado. As repetições existem porque parte da suíte é concorrente e baseada em propriedades. O fast-check usa uma semente aleatória a cada execução; quando uma propriedade falha, o vitest imprime a semente e o caminho, e o replay de um caso real da auditoria (`seed: 559970327`) está fixado em `rastreio-envio/test/status.test.ts`.
 
 ## Mutação (Stryker)
 

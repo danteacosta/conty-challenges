@@ -66,7 +66,7 @@ O **crédito** da venda nasce no primeiro evento pago do pedido (`paid`, `partia
 ## Banco ocupado, reconciliação e leitura consistente
 
 - **Contenção do SQLite é 503, não 500.** `SQLITE_BUSY` e `SQLITE_LOCKED` (o `errcode` real do erro, com os 8 bits baixos do código estendido) viram **503 `database_busy`** com `Retry-After: 1`. A transação falhou inteira, então nada foi gravado, e repetir o evento depois do bloqueio grava exatamente uma vez. Qualquer outro erro de SQL continua sendo 500 `internal_error`. `openDatabase` aceita `busyTimeoutMs` (padrão 5000) para os testes não esperarem 5 s.
-- **`GET /reconciliation`**: total da loja = atribuído a criadores + sem criador, contando cada pedido creditado e cada estorno aplicado uma vez, tudo no mesmo retrato do banco e com o contrato dos valores exatos (`gross_cents`/`refunded_cents`/`net_cents` em número enquanto exato, `null` acima de 2^53, `exact` sempre em texto, BigInt). Traz `attributed.creators[]` (cada um bate com `/creators/:id/sales`), `unattributed` e `reconciles`. Pedido pendente fica fora; estorno que chegou antes do pedido pago só entra quando o crédito nasce.
+- **`GET /reconciliation`**: total da loja = atribuído a criadores + sem criador, contando cada pedido creditado e cada estorno aplicado uma vez, tudo no mesmo retrato do banco e com o contrato dos valores exatos (`gross_cents`/`refunded_cents`/`net_cents` em número enquanto exato, `null` acima de 2^53 − 1, `exact` sempre em texto, BigInt). Traz `attributed.creators[]` (cada um bate com `/creators/:id/sales`), `unattributed` e `reconciles`. Pedido pendente fica fora; estorno que chegou antes do pedido pago só entra quando o crédito nasce.
 
 ## Concorrência
 

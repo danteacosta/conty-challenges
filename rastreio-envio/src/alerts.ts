@@ -113,6 +113,12 @@ export async function checkDelays(
     }
     const shipment = findShipment(db, code);
     if (!shipment) continue;
+    // O que já se sabe localmente não precisa de consulta: entrega registrada (terminal) ou envio que já não está atrasado. A
+    // reavaliação abaixo descarta o aviso; consultar o agregador aqui só atrasaria o descarte e dependeria de ele estar no ar.
+    if (!assess(shipment, now, options.thresholdHours).delayed) {
+      confirmed.add(code);
+      continue;
+    }
     try {
       const events = await options.aggregator.fetchEvents(code, shipment.carrier);
       ingestEvents(db, code, events, options.now);
@@ -120,7 +126,7 @@ export async function checkDelays(
       db.prepare("UPDATE alerts SET unconfirmed_at = NULL, unconfirmed_reason = NULL WHERE tracking_code = ? AND kind = 'transit_delay'").run(code);
     } catch (error) {
       unconfirmed += 1;
-      db.prepare("UPDATE alerts SET unconfirmed_at = ?, unconfirmed_reason = ? WHERE tracking_code = ? AND kind = 'transit_delay'").run(nowIso, safeReason(error), code);
+      db.prepare("UPDATE alerts SET unconfirmed_at = ?, unconfirmed_reason = ? WHERE tracking_code = ? AND kind = 'transit_delay' AND notified_at IS NULL AND discarded_at IS NULL").run(nowIso, safeReason(error), code);
     }
   }
 

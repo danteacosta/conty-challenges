@@ -139,3 +139,74 @@ describe("o motivo de 'não confirmado' só tem valores seguros", () => {
     expect(safeReason(thrown)).toBe("unexpected: Error");
   });
 });
+
+describe("o que o agregador devolve de ruim não vaza para a resposta HTTP", () => {
+  it("falha de rede com o segredo na mensagem do fetch: 502 com a categoria, sem o texto", async () => {
+    const { HttpTrackHubClient } = await import("../src/aggregator/trackhub/client.ts");
+    const client = new HttpTrackHubClient({
+      baseUrl: "http://trackhub.invalido",
+      apiKey: SECRET,
+      // o cadastro (primeira chamada) funciona; a consulta seguinte cai com o segredo na mensagem
+      fetch: (async (_url: unknown, init?: { method?: string }) =>
+        init?.method === "POST" ? new Response("{}", { status: 200 }) : Promise.reject(new TypeError(`fetch failed for Bearer ${SECRET}`))) as typeof fetch,
+    });
+    const t = setup({ aggregator: client as never });
+    await t.app.request("/shipments", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ tracking_code: "BR1", carrier: "via-rapida" }) });
+    const res = await t.refresh("BR1");
+    expect(res.status).toBe(502);
+    expect(JSON.stringify(res.body)).not.toContain(SECRET);
+    expect(res.body).toMatchObject({ error: "aggregator_unavailable", kind: "network" });
+  });
+});
+
+describe("o job confirma só o que ainda precisa de confirmação", () => {
+  it("aviso pendente de um envio que depois ficou entregue: descartado localmente, sem consulta, com o agregador fora", async () => {
+    const t = setup({ thresholdHours: 72 });
+    await t.register("BR1", "via-rapida");
+    t.aggregator.script("BR1", [viaRapida(POSTED, 0)]);
+    await t.refresh("BR1");
+    t.setNow(100 * H);
+    t.aggregator.failWith(new AggregatorError("timeout", "fora")); // o aviso nasce "não confirmado"
+    expect((await t.checkDelays()).body).toMatchObject({ newly_alerted: 1, unconfirmed: 1 });
+    // a entrega chega por outro caminho (o agregador volta, o refresh grava) e o job roda com o agregador fora outra vez
+    t.aggregator.failWith(null);
+    t.aggregator.script("BR1", [viaRapida(POSTED, 0), viaRapida(DELIVERED, 60 * H)]);
+    await t.refresh("BR1");
+    t.aggregator.failWith(new AggregatorError("timeout", "fora"));
+    let fetched = 0;
+    const original = t.aggregator.fetchEvents.bind(t.aggregator);
+    t.aggregator.fetchEvents = async (code, carrier) => {
+      fetched += 1;
+      return original(code, carrier);
+    };
+    const res = await t.checkDelays();
+    expect(res.body).toMatchObject({ discarded: 1, notified: 0, unconfirmed: 0 });
+    expect(fetched).toBe(0);
+    expect((await t.alerts()).body[0]).toMatchObject({ status: "discarded", discard_reason: "delivered" });
+  });
+});
+
+describe("corrida entre jobs: 'não confirmado' não é escrito em cima de um aviso já notificado ou descartado", () => {
+  it("o job lento que falha depois de outro ter notificado não marca o aviso como não confirmado", async () => {
+    const t = await stuckLocally([viaRapida(POSTED, 0), viaRapida(IN_TRANSIT, 60 * H)]);
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => (release = resolve));
+    const original = t.aggregator.fetchEvents.bind(t.aggregator);
+    let calls = 0;
+    t.aggregator.fetchEvents = async (code, carrier) => {
+      calls += 1;
+      if (calls === 1) {
+        await gate; // o primeiro job fica esperando e depois falha
+        throw new AggregatorError("timeout", "lento");
+      }
+      return original(code, carrier);
+    };
+    const slow = t.checkDelays();
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    const fast = await t.checkDelays(); // o segundo job confirma e notifica
+    expect(fast.body).toMatchObject({ notified: 1 });
+    release();
+    await slow;
+    expect((await t.alerts()).body[0]).toMatchObject({ status: "notified", confirmation: "confirmed" });
+  });
+});

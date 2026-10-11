@@ -17,7 +17,7 @@ Node 22.13+ (verificado em 22.15 e 24.7). Sem autenticação: qualquer chamador 
 | Estado | Significa | Ações possíveis |
 |---|---|---|
 | `awaiting_review` | há uma versão para a marca revisar | `approve`, `request_changes` |
-| `changes_requested` | a marca pediu alteração; a vez é do criador | `submit_version` |
+| `changes_requested` | a marca pediu alteração; a vez é do criador | `submit_version`, `cancel_changes` |
 | `approved` | **terminal**: a revisão acabou e não reabre | nenhuma |
 
 Toda resposta traz `state` e `allowed_actions`, então dá para seguir o fluxo sem adivinhar. A tabela de transições é dado, num arquivo só: [`src/domain/transitions.ts`](src/domain/transitions.ts).
@@ -30,9 +30,10 @@ Toda resposta traz `state` e `allowed_actions`, então dá para seguir o fluxo s
 | `GET /scripts/:id` | estado, ações possíveis, **todas** as versões e **todos** os pedidos de alteração. |
 | `POST /scripts/:id/change-requests` `{reason, deadline_date}` | a marca pede alteração (só em `awaiting_review`). `reason` e `deadline_date` (`YYYY-MM-DD`) são obrigatórios. |
 | `POST /scripts/:id/versions` `{content, change_request_id?, submission_id?}` | o criador responde com uma versão nova (só em `changes_requested`). Os dois campos opcionais protegem contra retry atrasado, ver "Qual rodada o envio responde". |
-| `POST /scripts/:id/approve` | a marca aprova a versão atual (só em `awaiting_review`). |
+| `POST /scripts/:id/approve` `{expected_version?}` | a marca aprova a versão atual (só em `awaiting_review`); com `expected_version`, só se for a atual. |
+| `POST /scripts/:id/change-requests/:requestId/cancel` `{reason, cancelled_by}` | a marca cancela um pedido de alteração em aberto, com histórico (ver "Cancelar um pedido de alteração"). |
 
-Erros: `400 validation_error` (com o `field`), `404 not_found`, `409 invalid_state` / `script_approved` / `mission_already_has_script` (com `state` e `allowed_actions`), `422 deadline_in_past`.
+Erros: `400 validation_error` (com o `field`), `404 not_found`, `409` com `error` = `invalid_state` / `script_approved` / `mission_already_has_script` (com `state` e `allowed_actions`), `stale_round` (com `open_change_request_id`), `round_cancelled`, `submission_conflict`, `stale_version` (com `expected_version` e `current_version`) ou `request_not_open`, e `422 deadline_in_past`.
 
 ## O prazo
 
@@ -97,11 +98,12 @@ POST /scripts/8b574650-…/change-requests
 ```json
 {
   "state": "changes_requested",
-  "allowed_actions": ["submit_version"],
+  "allowed_actions": ["submit_version", "cancel_changes"],
   "current_version": 1,
   "change_requests": [
     { "id": 1, "version_number": 1, "reason": "Abrir com o produto na mão e tirar o preço",
-      "deadline_date": "2026-10-12", "created_at": "2026-10-09T18:30:37.608Z", "answered_by_version": null }
+      "deadline_date": "2026-10-12", "created_at": "2026-10-09T18:30:37.608Z", "answered_by_version": null,
+      "status": "open", "cancellation": null }
   ]
 }
 ```
@@ -133,7 +135,7 @@ Aprovar: `{ "state": "approved", "allowed_actions": [], "approved": { "version":
 ## O que ficou de fora
 
 - **Autenticação e papéis.** Hoje qualquer chamador faz qualquer ação; não há "marca" nem "criador" no sistema.
-- Notificações, vídeo, upload, interface, paginação, cancelar ou editar um pedido de alteração.
+- Notificações, vídeo, upload, interface, paginação e editar um pedido de alteração (cancelar existe).
 - Diferença entre versões (`diff`); o conteúdo é só texto.
 
 ## Decisões que eu deixaria diferentes com mais tempo
@@ -142,7 +144,7 @@ Aprovar: `{ "state": "approved", "allowed_actions": [], "approved": { "version":
 2. **Versão tardia é aceita e marcada `late`.** Foi uma escolha minha: perder o trabalho do criador por um dia parece pior do que sinalizar. Mas "pedido com prazo que já passou não vale" poderia também significar que o pedido expira e a marca precisa abrir outro. Eu confirmaria com o produto e talvez deixasse configurável.
 3. **Aprovar de novo devolve 200 sem mudar nada**, em vez de 409. É mais amigável a retry, mas esconde um erro de quem acha que está aprovando uma versão nova. Com mais tempo eu devolveria a versão aprovada na resposta para o cliente conferir.
 4. **O prazo é só uma data.** Não há horário nem fuso por marca; o fuso é fixo em São Paulo. Uma marca em outro fuso precisaria de um campo.
-5. **Um pedido por versão, sem cancelar.** Se a marca errar o prazo, hoje não há como corrigir; eu permitiria cancelar o pedido em aberto.
+5. **Um pedido por versão; corrigir é cancelar e pedir de novo.** Cancelar o pedido em aberto existe (com histórico), mas não há edição do prazo: a marca que errou a data cancela e abre outro pedido.
 6. **Só aprovo a partir de `awaiting_review`.** Com um pedido pendente, a marca não consegue "desistir e aprovar a versão atual". Seria um quarto caminho a decidir com o produto.
 7. **`mission_id` único.** Uma missão tem um roteiro só; uma campanha com refação completa precisaria de outro desenho.
 
